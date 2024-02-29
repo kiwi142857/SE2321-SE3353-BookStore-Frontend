@@ -11,22 +11,26 @@ import useMessage from "antd/es/message/useMessage";
 import { handleBaseApiResponse } from "../utils/message";
 import { useState } from "react";
 import ChangePasswordModal from "./change_password_modal";
+
+
 export default function NavBar({ user }) {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const parts = location.pathname.split('/');
-    const selectedKey = '/' + parts[parts.length - 1];
-    const navItems = [
-        { label: "首页", value: "/" },
-        { label: "购物车", value: "/cart" },
-        { label: "订单", value: "/order" },
-        { label: "排行", value: "/rank" },
-        { label: "后端 API 文档", value: "/api-docs" }
+    const selectedKey = '/' + parts[parts.length - 1]; // The last part of the path
+
+    const navItems = [  // Items in the navigation bar
+        { label: "Homepage", value: "/" },
+        { label: "Cart", value: "/cart" },
+        { label: "Order", value: "/order" },
+        { label: "Rank", value: "/rank" },
     ];
+
+
     const navMenuItems = navItems.map(item => ({
         key: item.value,
-        label: <Link to={item.value}>{item.label}</Link>
+        label: <Link className="navbar-font" to={item.value}>{item.label}</Link>
     }));
     const [messageApi, contextHolder] = useMessage();
 
@@ -76,7 +80,7 @@ export default function NavBar({ user }) {
         <Row className="navbar" justify="start">
             {contextHolder}
             <Col>
-                <Link to="/">Book Store</Link>
+                <Link className="title-font" to="/">Book store</Link>
             </Col>
             <Col flex="auto">
                 <Menu mode="horizontal"

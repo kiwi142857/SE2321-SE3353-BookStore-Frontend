@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BasicLayout } from "../components/layout";
 import { login } from "../service/login";
 import { handleBaseApiResponse } from "../utils/message";
+import '../css/global.css';
 
 const LoginPage = () => {
     const [messageApi, contextHolder] = useMessage();
@@ -27,14 +28,15 @@ const LoginPage = () => {
         <BasicLayout>
             {contextHolder}
             <LoginFormPage
-                backgroundImageUrl={process.env.PUBLIC_URL + 'login.png'}
+                backgroundImageUrl={process.env.PUBLIC_URL + 'loginBackground.png'}
                 logo={process.env.PUBLIC_URL + '/logo.webp'}
                 title="Book Store"
-                subTitle="电子书城"
+                subTitle="SJTU"
                 onFinish={onSubmit}
                 style={{ height: "80vh" }}
             >
                 <ProFormText
+                    className="form-opacity"
                     name="username"
                     fieldProps={{
                         size: 'large',
@@ -67,15 +69,10 @@ const LoginPage = () => {
                         marginBlockEnd: 24,
                     }}
                 >
-                    <Link to='/register'>新账号？前往注册</Link>
-                    <a
-                        style={{
-                            float: 'right',
-                        }}
-                        href="#/"
-                    >
-                        忘记密码
-                    </a>
+                    <Link className="login-form-info" to='/register'>新账号？前往注册</Link>
+                    <Link className="login-form-info" style={{
+                        float: 'right',
+                    }} to='/forget'>忘记密码？</Link>
                 </div>
             </LoginFormPage>
         </BasicLayout>

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMe } from "../service/user";
 import { UserContext } from "../lib/context";
+import '../css/global.css';
 
 export function BasicLayout({ children }) {
     return (
@@ -15,12 +16,16 @@ export function BasicLayout({ children }) {
             </Content>
             <Footer className="footer">
                 <Space direction="vertical">
-                    <Link target="_blank" to="https://github.com/Okabe-Rintarou-0">关于作者</Link>
-                    <div>电子书城 REINS 2024</div>
+                    <div>
+                        <Link className="link-font" target="_blank" to="https://github.com/kiwi142857">关于作者</Link>
+                        {'|'}
+                        <Link className="link-font" target="_blank" to="https://kiwi142857.github.io/kiwi142857.githhub.io/">作者博客</Link>
+                    </div>
+                    <div>电子书城 Demo</div>
                 </Space>
             </Footer>
         </Layout>
-    )
+    );
 }
 
 export function PrivateLayout({ children }) {
@@ -34,7 +39,7 @@ export function PrivateLayout({ children }) {
         } else {
             setUser(me);
         }
-    }
+    };
 
     useEffect(() => {
         checkLogin();
@@ -48,10 +53,10 @@ export function PrivateLayout({ children }) {
             </Content>
             <Footer className="footer">
                 <Space direction="vertical">
-                    <Link target="_blank" to="https://github.com/Okabe-Rintarou-0">关于作者</Link>
+                    <Link target="_blank" to="https://github.com/kiwi142857">关于作者</Link>
                     <div>电子书城 REINS 2024</div>
                 </Space>
             </Footer>
         </Layout>
-    )
+    );
 }

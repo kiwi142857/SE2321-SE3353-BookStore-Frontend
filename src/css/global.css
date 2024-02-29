@@ -10,6 +10,13 @@
     padding: 0 50px;
 }
 
+body {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    color: #000000;
+    background-color: #f5f5f5;
+}
+
 svg {
     vertical-align: baseline;
 }
@@ -24,4 +31,43 @@ svg {
 
 .card-container {
     margin: 20px;
+}
+
+.form-opacity {
+    background-color: rgba(223, 226, 232, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.link-font {
+    font-size: 14px;
+    font-family: 'Lora', serif;
+}
+
+
+.title-font {
+    font-size: 24px;
+    font-family: 'Playfair Display SC', serif;
+    font-weight: 600;
+    color: #000000;
+}
+
+.navbar-font {
+    font-size: 16px;
+    font-family: 'Lora', serif;
+    font: 50;
+    font-weight: 200;
+    
+}
+
+.login-form-info {
+    font-size: 16px;
+    font-family: 'Lora', serif;
+    font-weight: 200;
+    color: #1890ff
+}
+
+.login-form-position {
+    margin-top: 20px;
+    float: left;
 }
