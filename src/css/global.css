@@ -23,6 +23,7 @@ svg {
 
 .footer {
     text-align: center;
+    color: #bae7ff;
 }
 
 .basic-layout {
@@ -39,11 +40,15 @@ svg {
     border-radius: 10px;
 }
 
-.link-font {
-    font-size: 14px;
+.bottom-link-font {
+    font-size: 16px;
     font-family: 'Lora', serif;
+    color: #1890ff;
 }
 
+.bottom-link-font:hover {
+    color: #003a8c;
+}
 
 .title-font {
     font-size: 24px;
@@ -61,13 +66,18 @@ svg {
 }
 
 .login-form-info {
-    font-size: 16px;
+    font-size: 13px;
     font-family: 'Lora', serif;
-    font-weight: 200;
+    font-weight: 10;
     color: #1890ff
 }
 
 .login-form-position {
     margin-top: 20px;
     float: left;
+}
+
+.navbar {
+    background-color: white;
+    padding: auto;
 }

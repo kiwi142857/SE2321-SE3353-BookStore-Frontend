@@ -1,10 +1,10 @@
 import React from "react";
-
+import { Button, theme } from 'antd';
 import {
     LockOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { LoginFormPage, ProFormText } from '@ant-design/pro-components';
+import { LoginFormPage, ProFormText, LoginForm } from '@ant-design/pro-components';
 import useMessage from "antd/es/message/useMessage";
 import { Link, useNavigate } from "react-router-dom";
 import { BasicLayout } from "../components/layout";
@@ -24,17 +24,43 @@ const LoginPage = () => {
         handleBaseApiResponse(res, messageApi, () => navigate("/"));
     };
 
+    const { token } = theme.useToken();
     return (
         <BasicLayout>
             {contextHolder}
             <LoginFormPage
-                backgroundImageUrl={process.env.PUBLIC_URL + 'loginBackground.png'}
-                logo={process.env.PUBLIC_URL + '/logo.webp'}
+                backgroundVideoUrl={process.env.PUBLIC_URL + 'loginBackGroundVideo.mov'}
+                logo={process.env.PUBLIC_URL + 'icon.svg'}
                 title="Book Store"
-                subTitle="SJTU"
+                subTitle="             --SJTU"
                 onFinish={onSubmit}
                 style={{ height: "80vh" }}
+                activityConfig={{
+                    style: {
+                      boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
+                      color: token.colorTextHeading,
+                      borderRadius: 8,
+                      backgroundColor: 'rgba(255,255,255,0.25)',
+                      backdropFilter: 'blur(4px)',
+                    },
+                    title: '开学季新书促销',
+                    subTitle: 'SJTU教材促销活动正在进行中，快来选购吧！',
+                    action: (
+                      <Button
+                        size="large"
+                        style={{
+                          borderRadius: 20,
+                          background: token.colorBgElevated,
+                          color: token.colorPrimary,
+                          width: 120,
+                        }}
+                      >
+                        <Link to="/activity">去看看</Link>
+                      </Button>
+                    ),
+                  }}
             >
+                
                 <ProFormText
                     className="form-opacity"
                     name="username"
@@ -42,11 +68,11 @@ const LoginPage = () => {
                         size: 'large',
                         prefix: <UserOutlined className={'prefixIcon'} />,
                     }}
-                    placeholder={'请输入用户名'}
+                    placeholder={'Username'}
                     rules={[
                         {
                             required: true,
-                            message: '请输入用户名!',
+                            message: 'Please input your username!',
                         },
                     ]}
                 />
@@ -56,11 +82,11 @@ const LoginPage = () => {
                         size: 'large',
                         prefix: <LockOutlined className={'prefixIcon'} />,
                     }}
-                    placeholder={'密码'}
+                    placeholder={'Password'}
                     rules={[
                         {
                             required: true,
-                            message: '请输入密码！',
+                            message: 'Please input your password!',
                         },
                     ]}
                 />
@@ -69,10 +95,10 @@ const LoginPage = () => {
                         marginBlockEnd: 24,
                     }}
                 >
-                    <Link className="login-form-info" to='/register'>新账号？前往注册</Link>
+                    <Link className="login-form-info" to='/register'>Create a new account</Link>
                     <Link className="login-form-info" style={{
                         float: 'right',
-                    }} to='/forget'>忘记密码？</Link>
+                    }} to='/forget'>Forget your password</Link>
                 </div>
             </LoginFormPage>
         </BasicLayout>

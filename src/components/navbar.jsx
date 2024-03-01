@@ -21,7 +21,7 @@ export default function NavBar({ user }) {
     const selectedKey = '/' + parts[parts.length - 1]; // The last part of the path
 
     const navItems = [  // Items in the navigation bar
-        { label: "Homepage", value: "/" },
+        { label: "Home", value: "/" },
         { label: "Cart", value: "/cart" },
         { label: "Order", value: "/order" },
         { label: "Rank", value: "/rank" },
@@ -36,11 +36,11 @@ export default function NavBar({ user }) {
 
     const handleOpenModal = () => {
         setShowModal(true);
-    }
+    };
 
     const handleCloseModal = () => {
         setShowModal(false);
-    }
+    };
 
     const handleMenuClick = async (e) => {
         if (e.key === "/logout") {
@@ -79,10 +79,20 @@ export default function NavBar({ user }) {
     return (
         <Row className="navbar" justify="start">
             {contextHolder}
-            <Col>
+            <Col flex='0.2'>
+                <Link to='/'>
+                    <div style={{ paddingTop: '10px' }}>
+                        <img
+                            style={{ width: '45px', height: '45px' }}
+                            src={process.env.PUBLIC_URL + 'icon.svg'}
+                        />
+                    </div>
+                </Link>
+            </Col>
+            <Col flex={navItems.length-1 < 4 ? navItems.length-1 :4} style={{marginRight:'3em', marginLeft:'0em'}}>
                 <Link className="title-font" to="/">Book store</Link>
             </Col>
-            <Col flex="auto">
+            <Col flex="1" style={{ textAlign: 'right' }}>
                 <Menu mode="horizontal"
                     defaultSelectedKeys={[selectedKey]}
                     items={navMenuItems}
