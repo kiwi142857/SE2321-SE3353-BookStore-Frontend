@@ -152,7 +152,7 @@ const LoginPage = () => {
                     <>
                         <Row>
                             <Col span={12}>
-                                <JAccountQR url="https://graphql.sjtu.edu.cn/v1" />
+                                <JAccountQR url="https://my.sjtu.edu.cn/ui/app/" />
                             </Col>
                             <Col span={12}>
                                 <Flex gap="middle" vertical>
