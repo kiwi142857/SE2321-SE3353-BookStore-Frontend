@@ -7,8 +7,6 @@ import { LoginFormPage, ProFormText } from '@ant-design/pro-components';
 import { Tabs } from "antd";
 import { useState } from 'react';
 import { BasicLayout } from "../components/layout";
-//import { login } from "../service/login";
-//import { handleBaseApiResponse } from "../utils/message";
 import JAccountLogin from "../components/jaccountLogin";
 import RegisterForm from "../components/registerForm";
 import '../css/global.css';
@@ -23,19 +21,11 @@ const LoginPage = () => {
             if (values.captcha !== captcha[captchaIndex]) {
                 messageApi.error('Captcha is wrong!');
             } else {
-                //let email = values['username'];
-                //let password = values['password'];
- 
-                //let res = await login(email, password);
-                //handleBaseApiResponse(res, messageApi, () => navigate("/"));
+                
             };
         }
         else {  // log in
-            //let email = values['username'];
-            //let password = values['password'];
- 
-            //let res = await login(email, password);
-            //handleBaseApiResponse(res, messageApi, () => navigate("/"));
+            
             setIsFormVisible(false);
         }
     };

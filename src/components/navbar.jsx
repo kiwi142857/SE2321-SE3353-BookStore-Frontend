@@ -21,7 +21,7 @@ export default function NavBar({ user }) {
     const selectedKey = '/' + parts[parts.length - 1]; // The last part of the path
 
     const navItems = [  // Items in the navigation bar
-        { label: "Home", value: "/" },
+        { label: "Home", value: "/home" },
         { label: "Cart", value: "/cart" },
         { label: "Order", value: "/order" },
         { label: "Rank", value: "/rank" },
@@ -80,18 +80,18 @@ export default function NavBar({ user }) {
         <Row className="navbar" justify="start">
             {contextHolder}
             <Col flex='0.2'>
-                <Link to='/'>
+                <Link to='./home'>
                     <div style={{ paddingTop: '10px' }}>
                         <img
                             style={{ width: '45px', height: '45px' }}
-                            src={process.env.PUBLIC_URL + 'icon.svg'}
+                            src={process.env.PUBLIC_URL + '/icon.svg'}
                             alt="icon"
                         />
                     </div>
                 </Link>
             </Col>
             <Col flex={navItems.length < 4 ? navItems.length :4} style={{marginRight:'3em', marginLeft:'0em'}}>
-                <Link className="title-font" to="/">Book store</Link>
+                <Link className="title-font" to="./home">Book store</Link>
             </Col>
             <Col flex="1" style={{ textAlign: 'right' }}>
                 <Menu mode="horizontal"

@@ -3,11 +3,8 @@ import { Content, Footer, Header } from "antd/es/layout/layout";
 import NavBar from "./navbar";
 import { Link } from "react-router-dom";
 import '../css/global.css';
-import { getMe } from "../service/user";
-import { UserContext } from "../lib/context";
-import { useCallback, useState } from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
+
 
 function PageFooter() {
     return (
@@ -41,27 +38,15 @@ export function BasicLayout({ children }) {
 
 
 export function PrivateLayout({ children }) {
-    const [user, setUser] = useState(null);
-    const navigate = useNavigate();
+    const user = null;
 
-    const checkLogin =  useCallback(async() => {
-        let me = await getMe();
-        if (!me) {
-            navigate("/login");
-        } else {
-            setUser(me);
-        }
-    }, [navigate]);
 
-    useEffect(() => {
-        checkLogin();
-    }, [checkLogin]);
 
     return (
         <Layout className="basic-layout">
             <Header className="header"><NavBar user={user} /></Header>
             <Content>
-                <UserContext.Provider value={user}>{user && children}</UserContext.Provider>
+                {children}
             </Content>
             <PageFooter />
         </Layout>
