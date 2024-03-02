@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Book Store Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+作者：陈启炜
 
-## Available Scripts
+## 项目结构
 
-In the project directory, you can run:
+```
+D:\bookStore_frontend\bookstore
+├── developMD.md
+├── package-lock.json
+├── package.json
+├── public
+├── README.md
+└── src 
+    ├── App.css
+    ├── App.js
+    ├── App.test.js
+    ├── components
+    ├── css
+    ├── image
+    ├── index.css
+    ├── index.js
+    ├── lib
+    ├── logo.svg
+    ├── page
+        ├── book.jsx
+        ├── cart.jsx
+        ├── home.jsx
+        ├── login.jsx
+        ├── order.jsx
+        ├── rank.jsx
+        └── router.jsx
+    ├── reportWebVitals.js
+    ├── service
+    ├── setupTests.js
+    └── utils
+```
 
-### `npm start`
+本项目结构学习TA项目 [参考项目](https://github.com/Okabe-Rintarou-0/BookStore-Frontend "参考项目")
+目前完成loginPage的前端工程。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 项目使用工具
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**框架**：React框架，使用``create-react-app``作为脚手架
+**组件库**：``Ant Design``和``Ant Design Pro``组件库
 
-### `npm test`
+## 项目情况简介
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. 完成``LoginPage``的前端构建。
+    - 完成``用户名``和``密码``登入
+    - 增添``验证码``功能，但是未接入后端，因此目前验证码为三张照片循环。
+    - 设置``Account``和``JAccount``两种登入方式，但未接入甲亢登入的API，因此目前做成模拟界面，二维码导向``www.sjtu.edu.cn``网站。
+    - ``loginPage``底部的链接为作者``Github``主页与作者博客地址。
+    - 完成``Create a new account``表单，信息为``UserName``，``Email``，``Passport``，但未接入后端，故仅保存数据，未对表单内容处理。
+2. 项目展示图
+    ![LoginPage](./readmeSource/LoginPage.png)
+    ![LoginForm](./readmeSource/LoginForm.png)
+    ![JaccountLogin](./readmeSource/JaccountLogin.png)
+    ![CreateNewCount](./readmeSource/CreateNewCount.png)

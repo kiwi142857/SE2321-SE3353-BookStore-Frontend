@@ -19,8 +19,8 @@ export default function AppRouter() {
             <Route path="/order" element={<OrderPage />} />
             <Route path="/rank" element={<RankPage />} />
             <Route path="/api-docs" element={<ApiPage />} />
-            
-*/ }
+            */
+            }
         </Routes>
-    </BrowserRouter>
+    </BrowserRouter>;
 }

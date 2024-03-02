@@ -10,13 +10,13 @@ import RankPage from "./rank";
 export default function AppRouter() {
     return <BrowserRouter>
         <Routes>
-            <Route index element={<HomePage />} />
+            <Route index element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/book/:id" element={<BookPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/order" element={<OrderPage />} />
             <Route path="/rank" element={<RankPage />} />
-            // <Route path="/api-docs" element={<ApiPage />} />
+            <Route path="/api-docs" element={<ApiPage />} />
             <Route path="/*" element={<HomePage />} />
         </Routes>
     </BrowserRouter>

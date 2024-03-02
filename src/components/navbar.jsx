@@ -85,11 +85,12 @@ export default function NavBar({ user }) {
                         <img
                             style={{ width: '45px', height: '45px' }}
                             src={process.env.PUBLIC_URL + 'icon.svg'}
+                            alt="icon"
                         />
                     </div>
                 </Link>
             </Col>
-            <Col flex={navItems.length-1 < 4 ? navItems.length-1 :4} style={{marginRight:'3em', marginLeft:'0em'}}>
+            <Col flex={navItems.length < 4 ? navItems.length :4} style={{marginRight:'3em', marginLeft:'0em'}}>
                 <Link className="title-font" to="/">Book store</Link>
             </Col>
             <Col flex="1" style={{ textAlign: 'right' }}>

@@ -1,43 +1,54 @@
 import React from "react";
-import { Button, Col, Row, theme, Form, Input } from 'antd';
-import {
-    LockOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
-import { LoginFormPage, ProFormText } from '@ant-design/pro-components';
 import useMessage from "antd/es/message/useMessage";
-import { Tabs } from "antd";
-import { Flex } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import { Button, theme, Form, Input } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginFormPage, ProFormText } from '@ant-design/pro-components';
+import { Tabs } from "antd";
 import { useState } from 'react';
-import JAccountQR from "../components/jaccountQR";
 import { BasicLayout } from "../components/layout";
 import { login } from "../service/login";
 import { handleBaseApiResponse } from "../utils/message";
+import JAccountLogin from "../components/jaccountLogin";
+import RegisterForm from "../components/registerForm";
 import '../css/global.css';
 
-
+// Login page
 const LoginPage = () => {
     const [messageApi, contextHolder] = useMessage();
     const navigate = useNavigate();
 
     const onSubmit = async (values) => {
-        if (values.captcha !== captcha[captchaIndex]) {
-            alert('Captcha is incorrect!');
-        } else {
+        if (!isFormVisible) {  // create a new account
+            if (values.captcha !== captcha[captchaIndex]) {
+                messageApi.error('Captcha is wrong!');
+            } else {
+                let email = values['username'];
+                let password = values['password'];
+
+                let res = await login(email, password);
+                handleBaseApiResponse(res, messageApi, () => navigate("/"));
+            };
+        }
+        else {  // log in
             let email = values['username'];
             let password = values['password'];
 
             let res = await login(email, password);
             handleBaseApiResponse(res, messageApi, () => navigate("/"));
-        };
+            setIsFormVisible(false);
+        }
     };
+
     const [loginType, setLoginType] = useState('account');
 
     const captcha = ['wbusk', 'amvo', 'qhxxx'];
     const [captchaIndex, setCaptchaIndex] = useState(0);
     const [userCaptcha, setUserCaptcha] = useState('');
     const { token } = theme.useToken();
+
+    const [isFormVisible, setIsFormVisible] = useState(false);
+    const JacProps = { captcha, captchaIndex, setCaptchaIndex, userCaptcha, setUserCaptcha };
     return (
         <BasicLayout>
             {contextHolder}
@@ -48,7 +59,7 @@ const LoginPage = () => {
                 subTitle="Welcome to the Book Store"
                 onFinish={onSubmit}
                 style={{ height: "85vh" }}
-                activityConfig={{
+                activityConfig={{   // activity of bookstore
                     style: {
                         boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
                         color: token.colorTextHeading,
@@ -74,145 +85,101 @@ const LoginPage = () => {
                     ),
                 }}
             >
-
-                <Tabs
-                    centered
-                    activeKey={loginType}
-                    onChange={(activeKey) => setLoginType(activeKey)}
-                >
-                    <Tabs.TabPane key={'account'} tab={'Account'} />
-                    <Tabs.TabPane key={'jaccount'} tab={'JAccount'} />
-                </Tabs>
-                {loginType === 'account' && <>
-                    <ProFormText
-                        className="form-opacity"
-                        name="username"
-                        fieldProps={{
-                            size: 'large',
-                            prefix: <UserOutlined className={'prefixIcon'} />,
-                        }}
-                        placeholder={'Username'}
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your username!',
-                            },
-                        ]}
-                    />
-                    <ProFormText.Password
-                        name="password"
-                        fieldProps={{
-                            size: 'large',
-                            prefix: <LockOutlined className={'prefixIcon'} />,
-                        }}
-                        placeholder={'Password'}
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your password!',
-                            },
-                        ]}
-                    />
-
-                    <Form.Item
-                        name="captcha"
-                        rules={[{ required: true, message: 'Please input your captcha!' }]}
-                    >
-                        <Input
-                            addonAfter={
-                                <button
-                                    style={{ border: 'none' }}
-                                    onClick={(event) => {
-                                        event.preventDefault();
-                                        setCaptchaIndex((prevIndex) => (prevIndex + 1) % 3);
-                                    }}
-                                >
-                                    <img src={process.env.PUBLIC_URL + 'cap_' + captcha[captchaIndex] + '.png'} alt="Captcha" />
-                                </button>}
-                            prefix={<LockOutlined className="site-form-item-icon" />}
-                            type="text"
-                            placeholder="Captcha"
-                            value={userCaptcha}
-                            onChange={(e) => setUserCaptcha(e.target.value)}
-                        />
-                    </Form.Item>
-                    <div
-                        style={{
-                            marginBlockEnd: 24,
-                        }}
-                    >
-                        <Link className="login-form-info" to='/register'>Create a new account</Link>
-                        <Link className="login-form-info" style={{
-                            float: 'right',
-                        }} to='/forget'>Forget your password</Link>
-                    </div>
-                </>
-                }
-                {loginType === 'jaccount' &&
+                {isFormVisible && (  // if create a new account
                     <>
-                        <Row>
-                            <Col span={12}>
-                                <JAccountQR url="https://my.sjtu.edu.cn/ui/app/" />
-                            </Col>
-                            <Col span={12}>
-                                <Flex gap="middle" vertical>
-                                    {contextHolder}
-                                    <ProFormText
-                                        className="form-opacity"
-                                        name="username"
-                                        fieldProps={{
-                                            size: 'large',
-                                            prefix: <UserOutlined className={'prefixIcon'} />,
-                                        }}
-                                        placeholder={'Username'}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input your username!',
-                                            },
-                                        ]}
-                                    />
-                                    <ProFormText.Password
-                                        name="password"
-                                        fieldProps={{
-                                            size: 'large',
-                                            prefix: <LockOutlined className={'prefixIcon'} />,
-                                        }}
-                                        placeholder={'Password'}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input your password!',
-                                            },
-                                        ]}
-                                    />
-                                    <button
-                                        style={{ border: 'none' }}
-                                        onClick={(event) => {
-                                            event.preventDefault();
-                                            setCaptchaIndex((prevIndex) => (prevIndex + 1) % 3);
-                                        }}
-                                    >
-                                        <img src={process.env.PUBLIC_URL + 'cap_' + captcha[captchaIndex] + '.png'} alt="Captcha" />
-                                    </button>
-                                    <Form.Item
-                                        name="captcha"
-                                        rules={[{ required: true, message: 'Please input your captcha!' }]}
-                                    >
-                                        <Input
-                                            prefix={<LockOutlined className="site-form-item-icon" />}
-                                            type="text"
-                                            placeholder="Captcha"
-                                            value={userCaptcha}
-                                            onChange={(e) => setUserCaptcha(e.target.value)}
-                                        />
-                                    </Form.Item>
-                                </Flex>
-                            </Col>
-                        </Row>
+                        <Tabs
+                            centered
+                            activeKey={loginType}
+                            onChange={(activeKey) => setIsFormVisible(activeKey === 'logIn' ? false : true)}
+                        >
+                            <Tabs.TabPane key={'logIn'} tab={'Log in'} />
+                            <Tabs.TabPane key={'signUp'} tab={'Sign up'} />
+                        </Tabs>
+                        <RegisterForm />
                     </>
-                }
+                )}
+                {(!isFormVisible) && ( // if log in
+                    <>
+                        <Tabs    // switch between account and JAccount
+                            centered
+                            activeKey={loginType}
+                            onChange={(activeKey) => setLoginType(activeKey)}
+                        >
+                            <Tabs.TabPane key={'account'} tab={'Account'} />
+                            <Tabs.TabPane key={'jaccount'} tab={'JAccount'} />
+                        </Tabs>
+                        {loginType === 'account' && <>
+                            <ProFormText
+                                className="form-opacity"
+                                name="username"
+                                fieldProps={{
+                                    size: 'large',
+                                    prefix: <UserOutlined className={'prefixIcon'} />,
+                                }}
+                                placeholder={'Username'}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input your username!',
+                                    },
+                                ]}
+                            />
+                            <ProFormText.Password
+                                name="password"
+                                fieldProps={{
+                                    size: 'large',
+                                    prefix: <LockOutlined className={'prefixIcon'} />,
+                                }}
+                                placeholder={'Password'}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input your password!',
+                                    },
+                                ]}
+                            />
 
+                            <Form.Item
+                                name="captcha"
+                                rules={[{ required: true, message: 'Please input your captcha!' }]}
+                            >
+                                <Input
+                                    addonAfter={
+                                        <button
+                                            style={{ border: 'none' }}
+                                            onClick={(event) => {
+                                                event.preventDefault();
+                                                setCaptchaIndex((prevIndex) => (prevIndex + 1) % 3);
+                                            }}
+                                        >
+                                            <img src={process.env.PUBLIC_URL + 'cap_' + captcha[captchaIndex] + '.png'} alt="Captcha" />
+                                        </button>}
+                                    prefix={<LockOutlined className="site-form-item-icon" />}
+                                    type="text"
+                                    placeholder="Captcha"
+                                    value={userCaptcha}
+                                    onChange={(e) => setUserCaptcha(e.target.value)}
+                                />
+                            </Form.Item>
+                            <div
+                                style={{
+                                    marginBlockEnd: 24,
+                                }}
+                            >
+                                <Button className="login-form-info" onClick={(event) => {
+                                    event.preventDefault();
+                                    setIsFormVisible(true);
+                                }} backgroundColor='none'>Create a new account</Button>
+                                <Button className="login-form-info" style={{
+                                    float: 'right',
+                                }}>Forget your password</Button>
+                            </div>
+                        </>
+                        }
+                        {loginType === 'jaccount' &&
+                            < JAccountLogin {...JacProps} />  // JAccount login
+                        }
+                    </>)}
             </LoginFormPage>
         </BasicLayout >
     );
