@@ -1,14 +1,14 @@
 import React from "react";
 import useMessage from "antd/es/message/useMessage";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, theme, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginFormPage, ProFormText } from '@ant-design/pro-components';
 import { Tabs } from "antd";
 import { useState } from 'react';
 import { BasicLayout } from "../components/layout";
-import { login } from "../service/login";
-import { handleBaseApiResponse } from "../utils/message";
+//import { login } from "../service/login";
+//import { handleBaseApiResponse } from "../utils/message";
 import JAccountLogin from "../components/jaccountLogin";
 import RegisterForm from "../components/registerForm";
 import '../css/global.css';
@@ -16,26 +16,26 @@ import '../css/global.css';
 // Login page
 const LoginPage = () => {
     const [messageApi, contextHolder] = useMessage();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const onSubmit = async (values) => {
         if (!isFormVisible) {  // create a new account
             if (values.captcha !== captcha[captchaIndex]) {
                 messageApi.error('Captcha is wrong!');
             } else {
-                let email = values['username'];
-                let password = values['password'];
-
-                let res = await login(email, password);
-                handleBaseApiResponse(res, messageApi, () => navigate("/"));
+                //let email = values['username'];
+                //let password = values['password'];
+ 
+                //let res = await login(email, password);
+                //handleBaseApiResponse(res, messageApi, () => navigate("/"));
             };
         }
         else {  // log in
-            let email = values['username'];
-            let password = values['password'];
-
-            let res = await login(email, password);
-            handleBaseApiResponse(res, messageApi, () => navigate("/"));
+            //let email = values['username'];
+            //let password = values['password'];
+ 
+            //let res = await login(email, password);
+            //handleBaseApiResponse(res, messageApi, () => navigate("/"));
             setIsFormVisible(false);
         }
     };
