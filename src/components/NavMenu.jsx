@@ -1,0 +1,101 @@
+import React from 'react';
+import { BookTwoTone } from '@ant-design/icons';
+import { Menu } from 'antd';
+
+function getItem(label, key, icon, children, type) {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    };
+}
+const items = [
+    getItem('理科', 'sub1', <BookTwoTone />, [
+        getItem('数学', '1'),
+        getItem('物理', '2'),
+        getItem('化学', '3'),
+        getItem('生物', '4'),
+    ]),
+    getItem('工科', 'sub2', <BookTwoTone />, [
+        getItem('计算机', '5'),
+        getItem('电子', '6'),
+        getItem('机械', '7'),
+        getItem('土木', '8'),
+    ]),
+    getItem('社科', 'sub3', <BookTwoTone />, [
+        getItem('媒体与传播', '9'),
+        getItem('社会学', '10'),
+        getItem('心理学', '11'),
+        getItem('法学', '12'),
+    ]),
+    getItem('文科', 'sub4', <BookTwoTone />, [
+        getItem('语言学', '13'),
+        getItem('文学', '14'),
+        getItem('历史', '15'),
+        getItem('哲学', '16'),
+    ]),
+    getItem('商科', 'sub5', <BookTwoTone />, [
+        getItem('管理', '17'),
+        getItem('会计', '18'),
+        getItem('金融', '19'),
+        getItem('市场营销', '20'),
+    ]),
+    getItem('医学', 'sub6', <BookTwoTone />, [
+        getItem('临床医学', '21'),
+        getItem('药学', '22'),
+        getItem('护理学', '23'),
+        getItem('公共卫生', '24'),
+    ]),
+    getItem('艺术', 'sub7',<BookTwoTone />, [
+        getItem('音乐', '25'),
+        getItem('美术', '26'),
+        getItem('舞蹈', '27'),
+        getItem('戏剧', '28'),
+    ]),
+    getItem('农林', 'sub8', <BookTwoTone />, [
+        getItem('农业', '29'),
+        getItem('林业', '30'),
+        getItem('园林', '31'),
+        getItem('畜牧', '32'),
+    ]),
+    getItem('特价书', 'sub9', <BookTwoTone />, [
+        getItem('特价书', '33'),
+    ]),
+    getItem('进口书', 'sub10', <BookTwoTone />, [
+        getItem('英语书', '34'),
+        getItem('日语书', '35'),
+        getItem('法语书', '35'),
+    ]),
+    getItem('经典名著', 'sub11', <BookTwoTone />, [
+        getItem('四大名著', '36'),
+        getItem('莎士比亚', '37'),
+    ]),
+    getItem('教育', 'sub12', <BookTwoTone />, [
+        getItem('教育', '38'),
+    ]),
+    getItem('科普', 'sub13', <BookTwoTone />, [
+        getItem('科普', '39'),
+    ]),
+    getItem('其他', 'sub14', <BookTwoTone />, [
+        getItem('其他', '40'),
+    ]),
+];
+
+const onClick = (e) => {
+    console.log('click', e);
+};
+
+export default function NavMenu(){
+    return (
+        <Menu
+            onClick={onClick}
+            style={{
+                width: 256,
+            }}
+            mode="vertical"
+            items={items}
+        />
+    );
+}

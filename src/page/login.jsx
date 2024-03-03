@@ -2,6 +2,7 @@ import React from "react";
 import useMessage from "antd/es/message/useMessage";
 import { Link } from "react-router-dom";
 import { Button, theme, Form, Input } from 'antd';
+import  { useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginFormPage, ProFormText } from '@ant-design/pro-components';
 import { Tabs } from "antd";
@@ -14,7 +15,7 @@ import '../css/global.css';
 // Login page
 const LoginPage = () => {
     const [messageApi, contextHolder] = useMessage();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const onSubmit = async (values) => {
         if (!isFormVisible) {  // create a new account
@@ -28,6 +29,7 @@ const LoginPage = () => {
             
             setIsFormVisible(false);
         }
+        navigate('/home');
     };
 
     const [loginType, setLoginType] = useState('account');
@@ -159,10 +161,10 @@ const LoginPage = () => {
                                 <Button className="login-form-info" onClick={(event) => {
                                     event.preventDefault();
                                     setIsFormVisible(true);
-                                }} backgroundColor='none'>Create a new account</Button>
+                                }} backgroundColor='none'>Create an account</Button>
                                 <Button className="login-form-info" style={{
                                     float: 'right',
-                                }}>Forget your password</Button>
+                                }}>Forget password</Button>
                             </div>
                         </>
                         }

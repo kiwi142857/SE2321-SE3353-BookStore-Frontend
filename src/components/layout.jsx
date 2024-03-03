@@ -27,7 +27,7 @@ function PageFooter() {
 export function BasicLayout({ children }) {
     return (
         <Layout className="basic-layout">
-            <Header className="header"><NavBar className="navbar" user={null} /></Header>
+            <Header className="header" ><NavBar className="navbar" user={null} /></Header>
             <Content>
                 {children}
             </Content>
@@ -38,9 +38,7 @@ export function BasicLayout({ children }) {
 
 
 export function PrivateLayout({ children }) {
-    const user = null;
-
-
+    const user = undefined;
 
     return (
         <Layout className="basic-layout">

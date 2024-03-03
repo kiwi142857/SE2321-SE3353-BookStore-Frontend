@@ -1,21 +1,14 @@
-import { Col, Menu, Row, Dropdown, Button } from "antd";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Col, Menu, Row, Button } from "antd";
+import { Link, useLocation } from "react-router-dom";
 import {
-    LogoutOutlined,
     UserOutlined,
-    AccountBookOutlined,
-    FormOutlined
 } from '@ant-design/icons';
-import { logout } from "../service/logout";
-import useMessage from "antd/es/message/useMessage";
-import { handleBaseApiResponse } from "../utils/message";
 import { useState } from "react";
 import ChangePasswordModal from "./change_password_modal";
 
 
 export default function NavBar({ user }) {
     const [showModal, setShowModal] = useState(false);
-    const navigate = useNavigate();
     const location = useLocation();
     const parts = location.pathname.split('/');
     const selectedKey = '/' + parts[parts.length - 1]; // The last part of the path
@@ -27,58 +20,17 @@ export default function NavBar({ user }) {
         { label: "Rank", value: "/rank" },
     ];
 
-
     const navMenuItems = navItems.map(item => ({
         key: item.value,
         label: <Link className="navbar-font" to={item.value}>{item.label}</Link>
     }));
-    const [messageApi, contextHolder] = useMessage();
-
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
 
     const handleCloseModal = () => {
         setShowModal(false);
     };
 
-    const handleMenuClick = async (e) => {
-        if (e.key === "/logout") {
-            let res = await logout();
-            handleBaseApiResponse(res, messageApi, () => navigate("/login"));
-            return;
-        }
-        if (e.key === "password") {
-            handleOpenModal();
-            return;
-        }
-        if (e.key.startsWith("/")) {
-            navigate(e.key);
-        }
-    };
-
-    const dropMenuItems = [
-        {
-            key: "nickname",
-            label: user?.nickname,
-            icon: <UserOutlined />,
-        },
-        {
-            key: "password",
-            label: "修改密码",
-            icon: <FormOutlined />,
-        },
-        {
-            key: "balance",
-            label: `余额：${user?.balance / 100}元`,
-            icon: <AccountBookOutlined />,
-        },
-        { key: "/logout", label: "登出", icon: <LogoutOutlined />, danger: true },
-    ];
-
     return (
-        <Row className="navbar" justify="start">
-            {contextHolder}
+        <Row className="navbar" justify="start" style={{margin:'15px', height:'50px', marginBottom:'0'}}>
             <Col flex='0.2'>
                 <Link to='./home'>
                     <div style={{ paddingTop: '10px' }}>
@@ -90,7 +42,7 @@ export default function NavBar({ user }) {
                     </div>
                 </Link>
             </Col>
-            <Col flex={navItems.length < 4 ? navItems.length :4} style={{marginRight:'3em', marginLeft:'0em'}}>
+            <Col flex={2.5} style={{ marginRight: '3em', marginLeft: '0em' }}>
                 <Link className="title-font" to="./home">Book store</Link>
             </Col>
             <Col flex="1" style={{ textAlign: 'right' }}>
@@ -100,12 +52,12 @@ export default function NavBar({ user }) {
                     selectedKeys={[selectedKey]}
                 />
             </Col>
-            {user && <Col>
-                <Dropdown menu={{ onClick: handleMenuClick, items: dropMenuItems }}>
+            {user===undefined && <Col>
+                <Link to='./login'>
                     <Button shape="circle" icon={<UserOutlined />} />
-                </Dropdown>
-            </Col>}
-            {user && showModal && <ChangePasswordModal onOk={handleCloseModal} onCancel={handleCloseModal} />}
+                </Link>
+            </Col>} 
+            {user===undefined &&showModal && <ChangePasswordModal onOk={handleCloseModal} onCancel={handleCloseModal} />}
         </Row>
     );
 }
