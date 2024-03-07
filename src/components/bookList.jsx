@@ -2,11 +2,15 @@ import { List, Pagination, Space } from "antd"
 import BookCard from "./bookCard"
 
 export default function BookList({ books, pageSize, current, total, onPageChange }) {
+    const paginationProp = {
+        current,
+        pageSize,
+        total,
+        onChange: onPageChange,  
+    }
     return <Space direction="vertical" style={{ width: "100%" }}>
-        <List
-            grid={{
-                gutter: 16, column: 5
-            }}
+        <List style={{marginLeft:'15px'}}
+            grid={{gutter: 16, column: 5}}
             dataSource={books.map(b => ({
                 ...b,
                 key: b.id
@@ -17,7 +21,6 @@ export default function BookList({ books, pageSize, current, total, onPageChange
                 </List.Item>
             )}
         />
-        <Pagination current={current} pageSize={pageSize} style={{ textAlign: "center" }}
-            onChange={onPageChange} total={total} />
+        <Pagination {...paginationProp} style={{textAlign:"center"}} />
     </Space>
 }

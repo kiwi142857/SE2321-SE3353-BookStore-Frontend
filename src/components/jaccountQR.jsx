@@ -1,6 +1,7 @@
 import { QRCode } from "antd";
 import { useState } from "react";
 import React from "react";
+import '../css/global.css';
 
 export default function JAccountQR(props) {
     const [qrValue, setQrValue] = useState(props.url);
@@ -12,7 +13,7 @@ export default function JAccountQR(props) {
 
     return (
         <div>
-            <QRCode value={qrValue} visible={qrVisible} />
+            <QRCode value={qrValue} visible={qrVisible} className="qr-code"/>
             <p> Scan the QRcode by Wechat or MySJTU</p>
         </div>
     );

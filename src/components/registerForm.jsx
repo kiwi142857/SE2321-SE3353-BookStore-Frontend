@@ -39,11 +39,11 @@ export default function RegisterForm() {
         prefix: '86',
       }}
       style={{
-        maxWidth: 600,
+        maxWidth: '120%'
       }}
       scrollToFirstError
     >
-      <Form.Item style={{ width: "19vw" }} 
+      <Form.Item style={{ width: '120% '}} 
         name="nickname"
         label="Nickname"
         tooltip="What do you want others to call you?"
@@ -58,7 +58,7 @@ export default function RegisterForm() {
         <Input />
       </Form.Item>
 
-      <Form.Item style={{ width: "19vw" }} 
+      <Form.Item style={{ width: '120% '}} 
         name="email"
         label="E-mail"
         rules={[
@@ -75,7 +75,7 @@ export default function RegisterForm() {
         <Input />
       </Form.Item>
 
-      <Form.Item style={{ width: "19vw" }} 
+      <Form.Item style={{ width: '120% '}} 
         name="password"
         label="Password"
         rules={[
@@ -89,9 +89,9 @@ export default function RegisterForm() {
         <Input.Password />
       </Form.Item>
 
-      <Form.Item style={{ width: "19vw", marginBottom: "5vh"}} 
+      <Form.Item style={{ width: "120%"}} 
         name="confirm"
-        label="Confirm Password"
+        label="ConfirmPassword"
         dependencies={['password']}
         hasFeedback
         rules={[

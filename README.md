@@ -2,6 +2,10 @@
 
 作者：陈启炜
 
+## Hint 作业测试说明
+
+    默认进入页面为HomePage，点击右上角头像进入LoginPage。
+
 ## 项目结构
 
 ``` constructure

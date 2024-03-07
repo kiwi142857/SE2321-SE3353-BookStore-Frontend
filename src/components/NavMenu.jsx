@@ -72,15 +72,6 @@ const items = [
         getItem('四大名著', '36'),
         getItem('莎士比亚', '37'),
     ]),
-    getItem('教育', 'sub12', <BookTwoTone />, [
-        getItem('教育', '38'),
-    ]),
-    getItem('科普', 'sub13', <BookTwoTone />, [
-        getItem('科普', '39'),
-    ]),
-    getItem('其他', 'sub14', <BookTwoTone />, [
-        getItem('其他', '40'),
-    ]),
 ];
 
 const onClick = (e) => {
@@ -92,7 +83,10 @@ export default function NavMenu(){
         <Menu
             onClick={onClick}
             style={{
-                width: 256,
+                width: '120%',
+                height: '100%',
+                fontSize: '18px',
+                borderRadius: '10px',
             }}
             mode="vertical"
             items={items}

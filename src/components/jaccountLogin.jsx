@@ -13,7 +13,7 @@ export default function JAccountLogin({captcha, captchaIndex, setCaptchaIndex, u
                     <JAccountQR url="https://graphql.sjtu.edu.cn/v1" />
                 </Col>
                 <Col span={12}>
-                    <Flex gap="middle" vertical>
+                    <Flex gap="small" vertical>
                         <ProFormText
                             className="form-opacity"
                             name="username"

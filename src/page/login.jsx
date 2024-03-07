@@ -44,8 +44,12 @@ const LoginPage = () => {
     return (
         <BasicLayout>
             {contextHolder}
-            <LoginFormPage mainStyle={{ marginLeft: '0', width: '18vw' }}
+            <LoginFormPage 
                 backgroundVideoUrl={process.env.PUBLIC_URL + 'loginBackGroundVideo.mp4'}
+                mainStyle={{ 
+                position: 'relative',  // set the position type of the form
+                top: '-20px',  // move the form 50px down from its normal position
+            }}
                 logo={process.env.PUBLIC_URL + 'icon.svg'}
                 title="Book Store"
                 subTitle="Welcome to the Book Store"
@@ -83,6 +87,7 @@ const LoginPage = () => {
                             centered
                             activeKey={loginType}
                             onChange={(activeKey) => setIsFormVisible(activeKey === 'logIn' ? false : true)}
+                            defaultActiveKey="signUp"
                         >
                             <Tabs.TabPane key={'logIn'} tab={'Log in'} />
                             <Tabs.TabPane key={'signUp'} tab={'Sign up'} />
@@ -161,10 +166,10 @@ const LoginPage = () => {
                                 <Button className="login-form-info" onClick={(event) => {
                                     event.preventDefault();
                                     setIsFormVisible(true);
-                                }} backgroundColor='none'>Create an account</Button>
+                                }} backgroundColor='none'>创建账号</Button>
                                 <Button className="login-form-info" style={{
                                     float: 'right',
-                                }}>Forget password</Button>
+                                }}>忘记密码</Button>
                             </div>
                         </>
                         }
