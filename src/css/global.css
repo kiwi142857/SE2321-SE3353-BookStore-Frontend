@@ -56,12 +56,14 @@ svg {
 
 .title-font {
     font-size: 25px;
+    font-size: 25px;
     font-family: 'Playfair Display SC', serif;
     font-weight: 600;
     color: #000000;
 }
 
 .navbar-font {
+    font-size: 18px;
     font-size: 18px;
     font-family: 'Lora', serif;
     font: 50;
@@ -90,6 +92,7 @@ svg {
 }
 
 .home-table-font {
+    font-size: 24 px;
     font-size: 24 px;
     font-weight: 550;
     font-family: 'Lora', serif;
