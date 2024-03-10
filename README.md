@@ -81,6 +81,16 @@ D:\bookStore_frontend\bookstore
     ![CreateNewCount](./readmeSource/CreateNewCount.png)
     ![HomePage](readmeSource/HomePage.png)
 
+## 项目经验总结
+
+1. 第一次写前端项目，模块化思维不够，导致代码冗余，后期需要重构。eg. 在``LoginPage``中，直接写各个组件的内容，导致该函数过长，后期需要重构。
+2. 第一次使用``Ant Design``组件库，对于组件的使用不够熟练，导致代码冗余，后期需要重构。
+
+## 目前问题
+
+1. 表单验证失败时，输入框padding不够，导致输入框内容与边框重合。
+
+
 ## 参考&&素材
 
 1. TA项目 [参考项目](https://github.com/Okabe-Rintarou-0/BookStore-Frontend "参考项目")

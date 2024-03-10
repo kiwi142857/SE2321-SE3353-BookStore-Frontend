@@ -5,7 +5,7 @@ import { ProFormText } from '@ant-design/pro-form';
 import { Flex } from 'antd';
 
 // JAccount login form
-export default function JAccountLogin({captcha, captchaIndex, setCaptchaIndex, userCaptcha, setUserCaptcha}) {
+export default function JAccountLogin({ captcha, captchaIndex, setCaptchaIndex, userCaptcha, setUserCaptcha }) {
     return (
         <>
             <Row>
@@ -48,7 +48,7 @@ export default function JAccountLogin({captcha, captchaIndex, setCaptchaIndex, u
                             onClick={(event) => {
                                 event.preventDefault();
                                 console.log(captchaIndex);
-                                console.log(typeof(setCaptchaIndex));
+                                console.log(typeof (setCaptchaIndex));
                                 setCaptchaIndex((prevIndex) => (prevIndex + 1) % 3);
                             }}
                         >
@@ -63,13 +63,13 @@ export default function JAccountLogin({captcha, captchaIndex, setCaptchaIndex, u
                                 type="text"
                                 placeholder="Captcha"
                                 value={userCaptcha}
-                                
-                                onChange={(e) => {console.log(typeof(setUserCaptcha));setUserCaptcha(e.target.value)}}
+
+                                onChange={(e) => { console.log(typeof (setUserCaptcha)); setUserCaptcha(e.target.value); }}
                             />
                         </Form.Item>
                     </Flex>
                 </Col>
             </Row>
         </>
-    )
+    );
 }

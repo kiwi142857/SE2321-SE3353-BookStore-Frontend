@@ -30,7 +30,7 @@ export default function RegisterForm() {
     console.log('Received values of form: ', values);
   };
   return (
-    <Form 
+    <Form
       {...formItemLayout}
       form={form}
       name="register"
@@ -43,7 +43,7 @@ export default function RegisterForm() {
       }}
       scrollToFirstError
     >
-      <Form.Item style={{ width: '120% '}} 
+      <Form.Item style={{ width: '120% ' }}
         name="nickname"
         label="Nickname"
         tooltip="What do you want others to call you?"
@@ -55,27 +55,25 @@ export default function RegisterForm() {
           },
         ]}
       >
-        <Input />
+        <Input style={{marginBottom:'4%'}}/>
       </Form.Item>
 
-      <Form.Item style={{ width: '120% '}} 
+      <Form.Item style={{ width: '120% ' }}
         name="email"
         label="E-mail"
         rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
+          
           {
             required: true,
+            
             message: 'Please input your E-mail!',
           },
         ]}
       >
-        <Input />
+        <Input style={{marginBottom:'4%'}}/>
       </Form.Item>
 
-      <Form.Item style={{ width: '120% '}} 
+      <Form.Item style={{ width: '120% ' }}
         name="password"
         label="Password"
         rules={[
@@ -86,10 +84,10 @@ export default function RegisterForm() {
         ]}
         hasFeedback
       >
-        <Input.Password />
+        <Input.Password style={{marginBottom:'4%'}}/>
       </Form.Item>
 
-      <Form.Item style={{ width: "120%"}} 
+      <Form.Item style={{ width: '120% ', marginBottom: '12%' }}
         name="confirm"
         label="ConfirmPassword"
         dependencies={['password']}
@@ -99,20 +97,12 @@ export default function RegisterForm() {
             required: true,
             message: 'Please confirm your password!',
           },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('The new password that you entered do not match!'));
-            },
-          }),
+          
         ]}
       >
-        <Input.Password />
+        <Input.Password style={{marginBottom:'4%'}}/>
       </Form.Item>
 
-      
     </Form>
   );
 };
