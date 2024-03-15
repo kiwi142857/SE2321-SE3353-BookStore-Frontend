@@ -10,6 +10,7 @@ export default function AppRouter() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/*" element={<HomePage />} />
             <Route path="/book/:id" element={<BookPage />} />
+            <Route path="/book" element={<BookPage />} />
         </Routes>
     </BrowserRouter>;
 }
