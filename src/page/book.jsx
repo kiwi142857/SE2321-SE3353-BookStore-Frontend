@@ -1,12 +1,50 @@
 import { PrivateLayout } from "../components/layout";
 import React from "react";
-import getBooks from "../service/books";
+import { getBookById, getBookComments } from "../service/books";
 import { Row, Col, Typography, Image, Divider, Card, Space, Rate, Tabs, Input, List } from "antd";
 import UsernameAvatar from "antd/lib/avatar/avatar";
 import { Button } from "antd";
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { formatTime } from "../utils/time";
+import { LikeOutlined, LikeFilled } from "@ant-design/icons";
 const { Paragraph } = Typography;
 const { TextArea } = Input;
+
+
+
+export function LikeButton({ defaultNumber, liked, onLike, onUnlike }) {
+    const [isLiked, setIsLiked] = useState(liked);
+    const [number, setNumber] = useState(defaultNumber);
+    useEffect(() => {
+        setIsLiked(liked);
+        setNumber(defaultNumber);
+    }, [liked, defaultNumber]);
+
+    const handleLikeOrUnlike = async (e) => {
+        e.preventDefault();
+        if (!isLiked) {
+            if (await onLike?.()) {
+                setIsLiked(true);
+                setNumber(number => number + 1);
+            }
+        } else if (await onUnlike?.()) {
+            setIsLiked(false);
+            setNumber(number => number - 1);
+        }
+    }
+
+    return <Space size="small">
+        <a onClick={handleLikeOrUnlike}>
+            {isLiked && <LikeFilled />}
+            {!isLiked && <LikeOutlined />}
+        </a>
+        {number}
+    </Space>
+} 
 
 function BookInfo({ book }) {
     return (
@@ -66,52 +104,49 @@ function CommentInput({ placeholder }) {
     );
 }
 
-function BookCommentList({ book }) {
-    /* 评论列表 先采用固定数据*/
-    const comments = [
-        {
-            id: 1,
-            username: "张三",
-            content: "这本书很好看"
-        },
-        {
-            id: 2,
-            username: "李四",
-            content: "这本书不好看"
-        }
-    ];
+function BookCommentList({ comments }) {
     return (
-        <Space direction="vertical" style={{ width: '100%' }}>
-            <List
-                itemLayout="horizontal"
-                dataSource={comments}
-                renderItem={comment => <BookComment comment={comment} />}
-            />
-        </Space>
+         <Space direction="vertical" style={{ width: '100%' }}>
+             <List
+                 itemLayout="horizontal"
+                 dataSource={comments}
+                 renderItem={comment => <BookComment comment={comment}
+                 />} 
+             />
+         </Space>
     );
 }
 
 function BookComment({ comment }) {
+    console.log(comment);
+    /* comment = { content: "评论内容", username: "用户名", id: "评论id" , like: 0, dislike: 0, createdTime: "评论时间" } */
+    const contentComponent = <Space direction="vertical" style={{ width: '100%' }}>
+        <Space>
+            {formatTime(comment.createdAt)}
+            <LikeButton defaultNumber={comment.like} liked={comment.liked}/>
+        </Space>
+        {<CommentInput placeholder={`回复 ${comment.username}：`}/>}
+    </Space>
     return (
         <List.Item key={comment.id}>
             <List.Item.Meta
                 avatar={<UsernameAvatar username={comment.username} />}
                 title={<div style={{ color: "grey" }}>{comment.username}</div>}
-                description={comment.content}
+                description={contentComponent}
             />
         </List.Item>
     );
 }
 
-function CommentArea({ book }) {
-    return (
+function CommentArea({ comments }) {
+        return (
         <Tabs defaultActiveKey="1">
-            <Tabs.TabPane tab="全部评论" key="1">
-                <BookCommentList book={book} />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="我要评论" key="2">
+            <items tab="全部评论" key="1">
+                <BookCommentList comments={comments} />
+            </items>
+            <items tab="我要评论" key="2">
                 <CommentInput placeholder="请输入您的评论" />
-            </Tabs.TabPane>
+            </items>
         </Tabs>
     );
 }
@@ -131,26 +166,72 @@ function BookRate({ book }) {
             <Rate allowHalf defaultValue={rateOfBook} allowClear={false} disabled />
             <Typography.Text style={{ fontSize: '20px' }}>{rateOfBook}<br /></Typography.Text>
             <div style={{ marginTop: '10px' }}>
-                <Typography.Text style={{color:'gray'}}>五星：{Math.round((numberOfFiveStar / numberInTotal) * 100)}%<br /></Typography.Text>
-                <Typography.Text style={{color:'gray'}}>四星：{Math.round((numberOfFourStar / numberInTotal) * 100)}%<br /></Typography.Text>
-                <Typography.Text style={{color:'gray'}}>三星：{Math.round((numberOfThreeStar / numberInTotal) * 100)}%<br /></Typography.Text>
-                <Typography.Text style={{color:'gray'}}>二星：{Math.round((numberOfTwoStar / numberInTotal) * 100)}%<br /></Typography.Text>
-                <Typography.Text style={{color:'gray'}}>一星：{Math.round((numberOfOneStar / numberInTotal) * 100)}%<br /></Typography.Text>
+                <Typography.Text style={{ color: 'gray' }}>五星：{Math.round((numberOfFiveStar / numberInTotal) * 100)}%<br /></Typography.Text>
+                <Typography.Text style={{ color: 'gray' }}>四星：{Math.round((numberOfFourStar / numberInTotal) * 100)}%<br /></Typography.Text>
+                <Typography.Text style={{ color: 'gray' }}>三星：{Math.round((numberOfThreeStar / numberInTotal) * 100)}%<br /></Typography.Text>
+                <Typography.Text style={{ color: 'gray' }}>二星：{Math.round((numberOfTwoStar / numberInTotal) * 100)}%<br /></Typography.Text>
+                <Typography.Text style={{ color: 'gray' }}>一星：{Math.round((numberOfOneStar / numberInTotal) * 100)}%<br /></Typography.Text>
             </div>
             <Divider />
             <Typography.Text level={4} style={{ fontSize: '16px', fontWeight: 'bold' }}>您的喜好程度<br /></Typography.Text>
-            <Rate allowHalf defaultValue={2.5} allowClear={false} style={{marginTop:'10px'}}/>
+            <Rate allowHalf defaultValue={2.5} allowClear={false} style={{ marginTop: '10px' }} />
         </div>
     );
 }
 
 export default function BookPage() {
-    const { books } = getBooks();
 
-    const book = books[0];
-    return (
+    const [book, setBook] = useState(null);
+    const [comments, setComments] = useState(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const pageIndex = Number.parseInt(searchParams.get("pageIndex") ?? '0');
+    const pageSize = Number.parseInt(searchParams.get("pageSize") ?? '5');
+    const sort = searchParams.get("sort") ?? "createdTime";
+
+    let { id } = useParams();
+
+    const getBook = async () => {
+        let book = await getBookById(id);
+        setBook(book);
+    };
+
+    const getComments = async () => {
+        let comments = await getBookComments(id, pageIndex, pageSize, sort);
+        setComments(comments);
+    };
+
+    useEffect(() => {
+        getBook();
+        getComments();
+    }, [id]);
+
+    useEffect(() => {
+        getComments();
+    }, [pageIndex, pageSize, sort]);
+
+    const handleMutate = () => {
+        getComments();
+    };
+
+    const handlePageChange = (page) => {
+        setSearchParams({
+            pageIndex: page - 1,
+            pageSize,
+            sort
+        });
+    };
+
+    const handleSortChange = (sort) => {
+        setSearchParams({
+            pageIndex: 0,
+            pageSize,
+            sort
+        });
+    };
+    
+        return (
         <PrivateLayout>
-            <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
+            {book && comments && <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
                 <Row gutter={[16, 16]}>
                     <Col span={9}>
                         <Card style={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)', marginTop: '30px' }}>
@@ -173,9 +254,9 @@ export default function BookPage() {
                     </Col>
                 </Row>
                 <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                    <CommentArea book={book} />
+                    <CommentArea comments={comments.items} />
                 </div>
-            </Card>
+            </Card>}
         </PrivateLayout>
     );
 }

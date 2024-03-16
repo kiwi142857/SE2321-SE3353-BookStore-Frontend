@@ -1,3 +1,71 @@
+import { DUMMY_RESPONSE, PREFIX, getJson, post } from "./common";
+
+export async function searchBooks(keyword, pageIndex, pageSize) {
+    const url = `${PREFIX}/books?keyword=${keyword}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    let books;
+    try {
+        books = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        books = {
+            total: 0,
+            items: []
+        };
+    }
+    return books;
+}
+
+export async function getBookById(id) {
+    const url = `${PREFIX}/book/${id}`;
+    let book;
+    try {
+        book = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        book = null;
+    }
+    return book;
+}
+
+export async function getTop10BestSellingBooks() {
+    const url = `${PREFIX}/books/rank`;
+    let books;
+    try {
+        books = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        books = null;
+    }
+    return books;
+}
+
+export async function getBookComments(bookId, pageIndex, pageSize, sort) {
+    const url = `${PREFIX}/book/${bookId}/comments?pageIndex=${pageIndex}&pageSize=${pageSize}&sort=${sort}`;
+    let comments;
+    try {
+        comments = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        comments = {
+            total: 0,
+            items: []
+        };
+    }
+    return comments;
+}
+
+export async function addBookComment(bookId, content) {
+    const url = `${PREFIX}/book/${bookId}/comments`;
+    let res;
+    try {
+        res = await post(url, { 'content': content });
+    } catch (e) {
+        console.log(e);
+        res = DUMMY_RESPONSE;
+    }
+    return res;
+}
+
 export default function getBooks(page, pageSize) {
     const bookcover = [{ title: "C++ Primer Plus", author: "Stephen Parata", price: 20000, tag: ["计算机", "编程", "进口书"], description: "这本久负盛名的 C++ 经典教程，时隔八年之久，终迎来史无前例的重大升级。除令全球无数程序员从中受益，甚至为之迷醉的——C++ 大师 Stanley B. Lippman 的丰富实践经验，C++标准委员会原负责人 Josée Lajoie 对C++标准的深入理解，以及C+ + 先驱 Barbara E. Moo 在 C++教学方面的真知灼见外，更是基于全新的 C++11标准进行了全面而彻底的内容更新。非常难能可贵的是，本书所有示例均全部采用 C++11 标准改写，这在经典升级版中极其罕见——充分体现了 C++ 语言的重大进展及其全面实践。书中丰富的教学辅助内容、醒目的知识点提示，以及精心组织的编程示范，让这本书在 C++ 领域的权威地位更加不可动摇。无论是初学者入门，或是中、高级程序员提升，本书均为不容置疑的首选。" },
     { title: "Excel 函数与公式速查手册（第2版）", author: "赛贝尔咨询", price: 3000, tag: ["计算机", "办公软件"], description: "Excel" },
