@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { formatTime } from "../utils/time";
 import { LikeOutlined, LikeFilled } from "@ant-design/icons";
+import BookTags from "../components/bookTag";
 const { Paragraph } = Typography;
 const { TextArea } = Input;
 
@@ -35,7 +36,7 @@ export function LikeButton({ defaultNumber, liked, onLike, onUnlike }) {
             setIsLiked(false);
             setNumber(number => number - 1);
         }
-    }
+    };
 
     return <Space size="small">
         <a onClick={handleLikeOrUnlike}>
@@ -43,8 +44,8 @@ export function LikeButton({ defaultNumber, liked, onLike, onUnlike }) {
             {!isLiked && <LikeOutlined />}
         </a>
         {number}
-    </Space>
-} 
+    </Space>;
+}
 
 function BookInfo({ book }) {
     return (
@@ -59,14 +60,15 @@ function BookInfo({ book }) {
 }
 
 function BookDiscount({ book }) {
+    const discount = book.discount || 0.7;
     return (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", borderRadius: '20px' }}>
                 <Paragraph style={{ marginBottom: 0 }} type="secondary">抢购价</Paragraph>
                 <div><Space>
                     <div style={{ color: "#dd3735", fontSize: "16px" }}>¥</div>
-                    <div style={{ color: "#dd3735", fontSize: "30px" }}>{book.price / 100 * 0.7}</div>
-                    <div style={{ color: "#dd3735", fontSize: "18px" }}>（7折）</div>
+                    <div style={{ color: "#dd3735", fontSize: "30px" }}>{(book.price / 100 * 0.7).toFixed(2)}</div>
+                    <div style={{ color: "#dd3735", fontSize: "18px" }}>({10 * discount}折)</div>
                 </Space>
                 </div>
                 <div>
@@ -77,7 +79,7 @@ function BookDiscount({ book }) {
                             borderRadius: "5px",
                             color: "white"
                         }}>店铺促销</div>
-                        <Paragraph style={{ marginBottom: 0 }} type="secondary">满¥18减¥1，满¥48减¥3，满¥98减¥5，满¥198减¥10</Paragraph>
+                        <Paragraph style={{ marginBottom: 0 }} type="secondary">满¥38减¥3,满¥48减¥5</Paragraph>
                     </Space>
                 </div>
                 <Space>
@@ -106,14 +108,14 @@ function CommentInput({ placeholder }) {
 
 function BookCommentList({ comments }) {
     return (
-         <Space direction="vertical" style={{ width: '100%' }}>
-             <List
-                 itemLayout="horizontal"
-                 dataSource={comments}
-                 renderItem={comment => <BookComment comment={comment}
-                 />} 
-             />
-         </Space>
+        <Space direction="vertical" style={{ width: '100%' }}>
+            <List
+                itemLayout="horizontal"
+                dataSource={comments}
+                renderItem={comment => <BookComment comment={comment}
+                />}
+            />
+        </Space>
     );
 }
 
@@ -123,10 +125,10 @@ function BookComment({ comment }) {
     const contentComponent = <Space direction="vertical" style={{ width: '100%' }}>
         <Space>
             {formatTime(comment.createdAt)}
-            <LikeButton defaultNumber={comment.like} liked={comment.liked}/>
+            <LikeButton defaultNumber={comment.like} liked={comment.liked} />
         </Space>
-        {<CommentInput placeholder={`回复 ${comment.username}：`}/>}
-    </Space>
+        {<CommentInput placeholder={`回复 ${comment.username}：`} />}
+    </Space>;
     return (
         <List.Item key={comment.id}>
             <List.Item.Meta
@@ -139,7 +141,7 @@ function BookComment({ comment }) {
 }
 
 function CommentArea({ comments }) {
-        return (
+    return (
         <Tabs defaultActiveKey="1">
             <items tab="全部评论" key="1">
                 <BookCommentList comments={comments} />
@@ -189,6 +191,9 @@ export default function BookPage() {
     const sort = searchParams.get("sort") ?? "createdTime";
 
     let { id } = useParams();
+    if (id === undefined) {
+        id = 1;
+    }
 
     const getBook = async () => {
         let book = await getBookById(id);
@@ -228,15 +233,21 @@ export default function BookPage() {
             sort
         });
     };
-    
-        return (
+    console.log("id", id);
+    console.log(book);
+    console.log(comments);
+    return (
         <PrivateLayout>
             {book && comments && <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
                 <Row gutter={[16, 16]}>
                     <Col span={9}>
                         <Card style={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)', marginTop: '30px' }}>
                             <Image style={{ width: '100%', height: 'auto' }} alt={book.title} src={book.cover} />
+
                         </Card>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:'5%' }}>
+                            <BookTags tags={book.tag} style={{ padding: '5px' }} />
+                        </div>
                     </Col>
                     <Col span={10}>
                         <BookInfo book={book} />
@@ -247,7 +258,7 @@ export default function BookPage() {
                     <Col span={0.5}>
                         <Divider type="vertical" style={{ marginTop: '10vh', height: '80%' }} />
                     </Col>
-                    <Col span={4.5}>
+                    <Col span={4}>
                         <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", marginTop: '80px', borderRadius: '20px' }}>
                             <BookRate book={book} />
                         </div>

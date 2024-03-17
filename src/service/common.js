@@ -40,7 +40,7 @@ export async function post(url, data) {
     return res.json();
 }
 
-export const BASEURL = process.env.REACT_APP_BASE_URL ?? 'https://202.120.40.93:34080';
+export const BASEURL = process.env.REACT_APP_BASE_URL ?? 'https://10.119.12.209:8080';
 export const PREFIX = `${BASEURL}/api`;
 export const API_DOCS_URL = `${BASEURL}/api-docs`;
 export const IMAGE_PREFIX = `${BASEURL}/images`;
