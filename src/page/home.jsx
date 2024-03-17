@@ -7,34 +7,47 @@ import '../css/global.css';
 import { Tabs } from 'antd';
 import { Input } from 'antd';
 import { useState } from "react";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { searchBooks } from "../service/book";
 const { Search } = Input;
 
 export default function HomePage() {
 
-    const bookcover = [{ title: "C++ Primer Plus", author: "Stephen Parata", price: 20000, tag:["计算机","编程","进口书"] },
-    { title: "Excel 函数与公式速查手册（第2版）", author: "赛贝尔咨询", price: 3000, tag:["计算机","办公软件"] },
-    { title: "Java轻松学", author: "AAA", price: 1000, tag:["计算机","编程","进口书"] }, { title: "MySQL必知必会", author: "AAA", price: 1000, tag:["计算机","数据库","进口书"] },
-    { title: "Python编程 从入门到实践", author: "AAA", price: 1050, tag:["计算机","编程","进口书"] },
-    { title: "千字文", author: "AAA", price: 1000,  tag:["文学","名著","教育"] }, { title: "史记", author: "AAA", price: 1000,  tag:["文学","名著"] }, { title: "声律启蒙", author: "AAA", price: 1000,  tag:["文学","名著"] },
-    { title: "悲惨世界", author: "AAA", price: 1000,  tag:["文学","名著"] }, { title: "活着", author: "AAA", price: 1000,  tag:["文学","名著"] },
-    { title: "现代C++编程", author: "AAA", price: 1000, tag:["计算机","编程"] }, { title: "许三观卖血记", author: "AAA", price: 1000, tag:["文学","名著"] }];
+    const [books, setBooks] = useState([]);
+    const [totalPage, setTotalPage] = useState(0);
 
-    const books = bookcover.map((item, index) => {
-        return { title: item.title, cover: process.env.PUBLIC_URL + './BookCover/' + item.title + '.jpg', author: item.author, price: item.price, tag: item.tag};
-    });
+    const [searchParams, setSearchParams] = useSearchParams();
+    const keyword = searchParams.get("keyword") || "";
+    const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 0;
+    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
 
-    const [pageIndex, setPageIndex] = useState(1);
-
-    const handlePageChange = (page, pageSize) => {
-        setPageIndex(page);
+    const getBooks = async () => {
+        let pagedBooks = await searchBooks(keyword, pageIndex, pageSize);
+        let books = pagedBooks.items;
+        let totalPage = pagedBooks.total;
+        setBooks(books);
+        setTotalPage(totalPage);
     };
 
-    const handleSearch = (value) => {
-        console.log(value);
+    useEffect(() => {
+        getBooks();
+    }, [keyword, pageIndex, pageSize])
+
+    const handleSearch = (keyword) => {
+        setSearchParams({
+            "keyword": keyword,
+            "pageIndex": 0,
+            "pageSize": 10
+        });
     };
 
+    const handlePageChange = (page) => {
+        setSearchParams({ ...searchParams, pageIndex: page - 1 });
+    }
+    
     const [searchType, setSearchType] = useState('title');
-
+    
     return <PrivateLayout>
         <div className="home-main" >
             <Space direction="vertical" size="large" style={{ width: "98%", marginTop: '10px' }}>
@@ -52,7 +65,7 @@ export default function HomePage() {
                     <Col span={21}>
                     <HomePageAd /></Col>
                 </Row>
-                <BookList books={books} pageSize='1' total='2' current={pageIndex} onPageChange={handlePageChange} />
+                <BookList books={books} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex + 1} onPageChange={handlePageChange} />
             </Space>
         </div>
     </PrivateLayout>;

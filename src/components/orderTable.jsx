@@ -19,7 +19,8 @@ export function OrderItemList({ orderItems }) {
 
 export default function OrderTable({ orders }) {
     const columns = [
-        { title: '订单号', dataIndex: 'id', key: 'id', },
+        { title: '订单号', dataIndex: 'id', key: 'id', 
+        sorter: (a, b) => a.id - b.id, },
         {
             title: '收货人',
             dataIndex: 'receiver',

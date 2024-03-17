@@ -71,10 +71,12 @@ svg {
 }
 
 .login-form-info {
-    font-size: 18px;
+    font-size: 14px;
     font-family: 'Lora', serif;
     font-weight: 10;
-    color: #1890ff
+    color: #1890ff;
+    top: -10px;
+    bottom: -10px;
 }
 
 .login-form-position {

@@ -118,11 +118,22 @@ const LoginPage = () => {
         backgroundVideoUrl={process.env.PUBLIC_URL + 'loginBackGroundVideo.mp4'}
         mainStyle={{
           position: 'relative',
-          top: '-30px',
+          top: '-40px',
           bottom: '-30px',
           marginBottom: '-30px',
+          height: '60%',
         }}
-        style={{ height: '85vh' }}
+        submitter={{
+            searchConfig:{
+            },
+            submitButtonProps:{
+              style:{
+                width:'100%',
+                top:'-20px',
+              }
+            },
+            resetButtonProps:false
+          }}
         logo={process.env.PUBLIC_URL + 'icon.svg'}
         title="Book Store"
         subTitle="欢迎来到电子书店！"

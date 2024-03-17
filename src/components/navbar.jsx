@@ -21,6 +21,7 @@ export default function NavBar({ user }) {
         label: <Link className="navbar-font" to={item.value}>{item.label}</Link>
     }));
 
+    console.log(user);
     return (
         <Row className="navbar" justify="start" style={{margin:'15px', height:'50px', marginBottom:'0'}}>
             <Col flex={0.1}>
@@ -44,7 +45,7 @@ export default function NavBar({ user }) {
                     selectedKeys={[selectedKey]}
                 />
             </Col>
-            {user===undefined && <Col>
+            {user!=undefined && <Col>
                 <Link to='./login'>
                     <Button shape="circle" icon={<UserOutlined />} />
                 </Link>

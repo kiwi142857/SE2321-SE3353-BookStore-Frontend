@@ -1,6 +1,6 @@
 import { PrivateLayout } from "../components/layout";
 import React from "react";
-import { getBookById, getBookComments } from "../service/books";
+import { getBookById, getBookComments } from "../service/book";
 import { Row, Col, Typography, Image, Divider, Card, Space, Rate, Tabs, Input, List } from "antd";
 import UsernameAvatar from "antd/lib/avatar/avatar";
 import { Button } from "antd";
