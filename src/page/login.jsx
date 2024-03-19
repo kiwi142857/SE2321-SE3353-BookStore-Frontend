@@ -10,6 +10,8 @@ import { useState } from 'react';
 import { BasicLayout } from "../components/layout";
 import JAccountLogin from "../components/jaccountLogin";
 import RegisterForm from "../components/registerForm";
+import { handleBaseApiResponse } from "../utils/message";
+import { login } from "../service/login";
 import '../css/global.css';
 
 function LoginForm({ setIsFormVisible, loginType, setLoginType, JacProps }) {
@@ -87,11 +89,17 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
+    let email = values['username'];
+    let password = values['password'];
+
+    let res = await login(email, password);
+  
     if (!isFormVisible) {
       if (values.captcha !== captcha[captchaIndex]) {
         messageApi.error('Captcha is wrong!');
         return;
       } else {
+        handleBaseApiResponse(res, messageApi, () => navigate("/"));
       };
     }
     else {
@@ -99,6 +107,7 @@ const LoginPage = () => {
     }
     navigate('/home');
   };
+
 
   const [loginType, setLoginType] = useState('account');
 

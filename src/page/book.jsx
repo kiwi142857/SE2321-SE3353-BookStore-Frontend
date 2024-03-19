@@ -12,6 +12,10 @@ import { useSearchParams } from "react-router-dom";
 import { formatTime } from "../utils/time";
 import { LikeOutlined, LikeFilled } from "@ant-design/icons";
 import BookTags from "../components/bookTag";
+import { addBookComment } from "../service/book";
+import useMessage from "antd/es/message/useMessage";
+import { handleBaseApiResponse } from "../utils/message";
+import { addCartItem } from "../service/cart";
 const { Paragraph } = Typography;
 const { TextArea } = Input;
 
@@ -24,7 +28,7 @@ export function LikeButton({ defaultNumber, liked, onLike, onUnlike }) {
         setIsLiked(liked);
         setNumber(defaultNumber);
     }, [liked, defaultNumber]);
-
+    
     const handleLikeOrUnlike = async (e) => {
         e.preventDefault();
         if (!isLiked) {
@@ -59,8 +63,15 @@ function BookInfo({ book }) {
     );
 }
 
-function BookDiscount({ book }) {
+function BookDiscount({ book, onMutate }) {
     const discount = book.discount || 0.7;
+    const [messageApi, contextHolder] = useMessage();
+    const handleAddCartItem = async () => {
+        let res = await addCartItem(book.id);
+        console.log(res);
+        let temp = handleBaseApiResponse(res, messageApi);
+        console.log(temp);
+    };
     return (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", borderRadius: '20px' }}>
@@ -88,7 +99,7 @@ function BookDiscount({ book }) {
                 </Space>
             </div>
             <Space>
-                <Button size="large" >加入购物车</Button>
+                <Button size="large" onClick={handleAddCartItem}>加入购物车</Button>
                 <Button type="primary" size="large">立即购买</Button>
             </Space>
         </Space>
@@ -233,11 +244,13 @@ export default function BookPage() {
             sort
         });
     };
+
     console.log("id", id);
     console.log(book);
     console.log(comments);
     return (
         <PrivateLayout>
+            
             {book && comments && <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
                 <Row gutter={[16, 16]}>
                     <Col span={9}>
@@ -252,7 +265,7 @@ export default function BookPage() {
                     <Col span={10}>
                         <BookInfo book={book} />
                         <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                            <BookDiscount book={book} />
+                            <BookDiscount book={book} onMutate={handleMutate}/>
                         </div>
                     </Col>
                     <Col span={0.5}>
