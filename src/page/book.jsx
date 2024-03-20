@@ -63,9 +63,9 @@ function BookInfo({ book }) {
     );
 }
 
-function BookDiscount({ book, onMutate }) {
+function BookDiscount({ book, messageApi }) {
     const discount = book.discount || 0.7;
-    const [messageApi, contextHolder] = useMessage();
+    
     const handleAddCartItem = async () => {
         let res = await addCartItem(book.id);
         console.log(res);
@@ -244,13 +244,13 @@ export default function BookPage() {
             sort
         });
     };
-
+    const [messageApi, contextHolder] = useMessage();
     console.log("id", id);
     console.log(book);
     console.log(comments);
     return (
         <PrivateLayout>
-            
+            {contextHolder}
             {book && comments && <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
                 <Row gutter={[16, 16]}>
                     <Col span={9}>
@@ -265,7 +265,7 @@ export default function BookPage() {
                     <Col span={10}>
                         <BookInfo book={book} />
                         <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                            <BookDiscount book={book} onMutate={handleMutate}/>
+                            <BookDiscount book={book} messageApi={messageApi}/>
                         </div>
                     </Col>
                     <Col span={0.5}>

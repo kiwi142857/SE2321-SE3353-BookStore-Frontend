@@ -9,29 +9,15 @@ import CountUp from 'react-countup';
 import { Statistic } from 'antd';
 import useMessage from "antd/es/message/useMessage";
 import { changeCartItemNumber, deleteCartItem } from "../service/cart";
+import PlaceOrderModal from "../components/placeOrder";
 import { handleBaseApiResponse } from "../utils/message";
 import { message } from "antd";
 
-function CartTable({ cartItems, setCartItems, onMutate }) {
+function CartTable({ cartItems, setCartItems, onMutate, messageApi, setShowModal, setSelectedItems, selectedItems}) {
 
-    const success = () => {
-        messageApi.open({
-          type: 'success',
-          content: 'This is a success message',
-        });
-      };
-    
-      const error = () => {
-        messageApi.open({
-          type: 'error',
-          content: 'This is an error message',
-        });
-      };
-
-    const [messageApi, contextHolder] = useMessage();
     const [items, setItems] = useState(cartItems);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedItems, setSelectedItems] = useState([]);
+    
+    
 
     const handleNumberChange = async (id, number) => {
         await changeCartItemNumber(id, number);
@@ -111,7 +97,7 @@ function CartTable({ cartItems, setCartItems, onMutate }) {
                             let res;
                             for (const id of selectedItems.map(item => item.id)) {
                                 const res = await deleteCartItem(id);
-                                success();
+                                messageApi.success('删除成功');
                             }
                             /* handleBaseApiResponse(res, '删除成功'); */
 
@@ -119,6 +105,8 @@ function CartTable({ cartItems, setCartItems, onMutate }) {
                             setSelectedItems([]);
                             setCartItems(newItems);
                         }}>删除选中书籍</Button>
+
+
                         {/* 购买选中书籍 */}
                         <Button type="primary" style={{ marginLeft: '10px' }} onClick={() => {
                             if (selectedItems.length === 0) {
@@ -129,12 +117,15 @@ function CartTable({ cartItems, setCartItems, onMutate }) {
                             const id = selectedItems.map(item => item.id);
                             let res;
                             for (const id of selectedItems.map(item => item.id)) {
-                                success();
+                                const res = deleteCartItem(id);
+                                if(res.ok)
+                                messageApi.success('购买成功');
+                                
                             }
                             /* handleBaseApiResponse(res, '删除成功'); */
-
+                            setShowModal(true);
                             setItems(newItems);
-                            setSelectedItems([]);
+                            
                             setCartItems(newItems);
                         }}>购买选中书籍</Button>
                     </Col>
@@ -159,11 +150,27 @@ export default function CartPage() {
         initCartItems();
     }, []);
 
+    const [messageApi, contextHolder] = useMessage();
+
+    const [showModal, setShowModal] = useState(false);
+
+    const [selectedItems, setSelectedItems] = useState([]);
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    }
 
     return (
         <PrivateLayout>
+            {contextHolder}
+            {showModal && <PlaceOrderModal setShowModal={setShowModal} onMutate={initCartItems} messageApi={messageApi} onCancel={handleCloseModal} onOk={handleOpenModal} 
+            selectedItems={selectedItems} setSelectedItems={setSelectedItems}/>}
             <Card style={{ margin: '10px', marginTop: '20px' }}>
-                <CartTable cartItems={cartItems} setCartItems={setCartItems} onMutate={initCartItems} />
+                <CartTable cartItems={cartItems} setCartItems={setCartItems} onMutate={initCartItems} messageApi={messageApi} setShowModal={setShowModal}
+                selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
             </Card>
         </PrivateLayout>
     );

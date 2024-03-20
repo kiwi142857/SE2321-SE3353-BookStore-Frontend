@@ -6,7 +6,7 @@ import { handleBaseApiResponse } from "../utils/message";
 
 const { TextArea } = Input;
 export default function PlaceOrderModal({
-    selectedItems,
+    selectedItems, setSelectedItems,
     onOk,
     onCancel }) {
     const [form] = Form.useForm();
@@ -25,6 +25,7 @@ export default function PlaceOrderModal({
         }
         let res = await placeOrder(orderInfo);
         handleBaseApiResponse(res, messageApi, onOk);
+        setSelectedItems([]);
     };
 
     return (
