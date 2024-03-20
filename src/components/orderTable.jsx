@@ -18,9 +18,17 @@ export function OrderItemList({ orderItems }) {
 }
 
 export default function OrderTable({ orders }) {
+    // 获取所有的书本名称
+    const bookTitles = [...new Set(orders.flatMap(order => order.items.map(item => item.book.title)))];
+
+    // 创建过滤器数组
+    const bookTitleFilters = bookTitles.map(title => ({ text: title, value: title }));
+
     const columns = [
-        { title: '订单号', dataIndex: 'id', key: 'id', 
-        sorter: (a, b) => a.id - b.id, },
+        {
+            title: '订单号', dataIndex: 'id', key: 'id',
+            sorter: (a, b) => a.id - b.id,
+        },
         {
             title: '收货人',
             dataIndex: 'receiver',
@@ -30,6 +38,8 @@ export default function OrderTable({ orders }) {
         {
             title: '书本名称',
             key: 'bookTitle',
+            filters: bookTitleFilters,
+            onFilter: (value, record) => record.items.some(item => item.book.title === value),
             render: (text, record) => (
                 <div>
                     {record.items.map(item => <div key={item.id}>{item.book.title}</div>)}
@@ -45,7 +55,7 @@ export default function OrderTable({ orders }) {
             render: (time) => formatTime(time),
             filters: [
                 { text: 'Last 10 minutes', value: '0.007' },
-                { text: 'Last 24 hours', value: '24' },
+                { text: 'Last 24 hours', value: '1' },
                 { text: 'Last 7 days', value: '7' },
                 { text: 'Last 30 days', value: '30' },
             ],
@@ -55,7 +65,7 @@ export default function OrderTable({ orders }) {
             },
         },
     ];
-    
+
     return <Table style={{ textAlign: 'left' }}
         columns={columns}
         expandable={{

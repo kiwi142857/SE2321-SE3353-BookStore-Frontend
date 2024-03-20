@@ -168,7 +168,7 @@ const LoginPage = () => {
                 width: 120,
               }}
             >
-              <Link to="/activity">去看看</Link>
+              <Link to="/home">去看看</Link>
             </Button>
           ),
         }}

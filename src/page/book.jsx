@@ -12,12 +12,17 @@ import { useSearchParams } from "react-router-dom";
 import { formatTime } from "../utils/time";
 import { LikeOutlined, LikeFilled } from "@ant-design/icons";
 import BookTags from "../components/bookTag";
+import { getCartItems } from "../service/cart";
 import { addBookComment } from "../service/book";
 import useMessage from "antd/es/message/useMessage";
 import { handleBaseApiResponse } from "../utils/message";
 import { addCartItem } from "../service/cart";
+import PlaceOrderModal from "../components/placeOrder";
+
+
 const { Paragraph } = Typography;
 const { TextArea } = Input;
+
 
 
 
@@ -63,15 +68,33 @@ function BookInfo({ book }) {
     );
 }
 
-function BookDiscount({ book, messageApi }) {
+
+
+function BookDiscount({ book, messageApi, setShowModal, item, setItem}) {
     const discount = book.discount || 0.7;
     
     const handleAddCartItem = async () => {
         let res = await addCartItem(book.id);
-        console.log(res);
-        let temp = handleBaseApiResponse(res, messageApi);
-        console.log(temp);
+        
+        handleBaseApiResponse(res, messageApi);
+        
     };
+
+    const handleBuyBook = async () => {
+        /* add to cart */
+        let res = await addCartItem(book.id);
+        /* get cart */
+        let cartItems = await getCartItems();
+        /* find the item */
+        let item = cartItems.find(item => item.book.id === book.id);
+        /* set item */
+        item = [item];
+        console.log('item',item);
+        setItem(item);
+        /* open modal */
+        setShowModal(true);
+    };
+
     return (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", borderRadius: '20px' }}>
@@ -100,7 +123,7 @@ function BookDiscount({ book, messageApi }) {
             </div>
             <Space>
                 <Button size="large" onClick={handleAddCartItem}>加入购物车</Button>
-                <Button type="primary" size="large">立即购买</Button>
+                <Button type="primary" size="large" onClick={handleBuyBook}>立即购买</Button>
             </Space>
         </Space>
     );
@@ -131,7 +154,7 @@ function BookCommentList({ comments }) {
 }
 
 function BookComment({ comment }) {
-    console.log(comment);
+    
     /* comment = { content: "评论内容", username: "用户名", id: "评论id" , like: 0, dislike: 0, createdTime: "评论时间" } */
     const contentComponent = <Space direction="vertical" style={{ width: '100%' }}>
         <Space>
@@ -197,6 +220,8 @@ export default function BookPage() {
     const [book, setBook] = useState(null);
     const [comments, setComments] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [showModal, setShowModal] = useState(false);
+    const [item, setItem] = useState(null);
     const pageIndex = Number.parseInt(searchParams.get("pageIndex") ?? '0');
     const pageSize = Number.parseInt(searchParams.get("pageSize") ?? '5');
     const sort = searchParams.get("sort") ?? "createdTime";
@@ -245,12 +270,19 @@ export default function BookPage() {
         });
     };
     const [messageApi, contextHolder] = useMessage();
-    console.log("id", id);
-    console.log(book);
-    console.log(comments);
+    
+    const handleOpenModal = () => {
+        setShowModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+
     return (
         <PrivateLayout>
             {contextHolder}
+            {showModal && <PlaceOrderModal selectedItems={item} onCancel={handleCloseModal} onOk={handleCloseModal} onMutate={handleMutate} />}
             {book && comments && <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
                 <Row gutter={[16, 16]}>
                     <Col span={9}>
@@ -265,7 +297,7 @@ export default function BookPage() {
                     <Col span={10}>
                         <BookInfo book={book} />
                         <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                            <BookDiscount book={book} messageApi={messageApi}/>
+                            <BookDiscount book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem}/>
                         </div>
                     </Col>
                     <Col span={0.5}>

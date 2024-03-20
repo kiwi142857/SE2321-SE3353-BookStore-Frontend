@@ -85,6 +85,7 @@ function CartTable({ cartItems, setCartItems, onMutate, messageApi, setShowModal
             messageApi.error('请选择要购买的商品');
             return;
         }
+        console.log('selectedItems', selectedItems);
         setShowModal(true);
     };
 
