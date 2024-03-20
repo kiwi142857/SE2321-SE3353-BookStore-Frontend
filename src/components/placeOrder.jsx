@@ -6,9 +6,9 @@ import { handleBaseApiResponse } from "../utils/message";
 
 const { TextArea } = Input;
 export default function PlaceOrderModal({
-    selectedItems, setSelectedItems,
+    selectedItems, setSelectedItems, 
     onOk,
-    onCancel }) {
+    onCancel, }) {
     const [form] = Form.useForm();
     const [messageApi, contextHolder] = useMessage();
 
@@ -49,21 +49,31 @@ export default function PlaceOrderModal({
                     label="收货人"
                     required
                 >
-                    <Input />
+                    <Input placeholder="请输入收货人姓名"/>
                 </Form.Item>
                 <Form.Item
                     name="tel"
                     label="联系电话"
                     required
+                    rules={[
+                        {
+                            required: true,
+                            message: '请输入你的电话号码!',
+                        },
+                        {
+                            pattern: /^1[3-9]\d{9}$/,
+                            message: '请输入正确的电话号码!',
+                        },
+                    ]}
                 >
-                    <Input />
+                    <Input placeholder="请输入你的电话号码"/>
                 </Form.Item>
                 <Form.Item
                     name="address"
                     label="收货地址"
                     required
                 >
-                    <TextArea rows={2} maxLength={817} />
+                    <TextArea rows={2} maxLength={817} placeholder="请输入收货地址"/>
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
