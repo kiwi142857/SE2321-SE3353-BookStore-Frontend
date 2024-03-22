@@ -54,10 +54,10 @@ export default function OrderTable({ orders }) {
             key: 'createdAt',
             render: (time) => formatTime(time),
             filters: [
-                { text: 'Last 10 minutes', value: '0.007' },
-                { text: 'Last 24 hours', value: '1' },
-                { text: 'Last 7 days', value: '7' },
-                { text: 'Last 30 days', value: '30' },
+                { text: '最近十分钟', value: '0.007' },
+                { text: '最近一天内', value: '1' },
+                { text: '最近一周内', value: '7' },
+                { text: '最近一个月', value: '30' },
             ],
             onFilter: (value, record) => {
                 const days = (new Date() - new Date(record.createdAt)) / (1000 * 60 * 60 * 24);

@@ -61,13 +61,13 @@ D:\bookStore_frontend\bookstore
 ## 项目情况简介
 
 1. 完成``LoginPage``的前端构建
-    - 完成``用户名``和``密码``登入，未接入后端
-    - 增添``验证码``功能，但是未接入后端，因此目前验证码为三张照片循环。
+    - 完成``用户名``和``密码``登入，已接入后端
+    - 增添``验证码``功能，但是后端未提供相关图片，因此目前验证码为三张照片循环。
     - 设置``Account``和``JAccount``两种登入方式，但未接入甲亢登入的API，因此目前做成模拟界面，二维码导向``www.sjtu.edu.cn``网站。
     - ``loginPage``底部的链接为作者``Github``主页与作者博客地址。
-    - 完成``Create a new account``表单，信息为``UserName``，``Email``，``Passport``，但未接入后端，故仅保存数据，未对表单内容处理。
-    - 由于未接入后端数据库，因此只要验证码正确且``用户名``和``密码``不为空即可登录。
-    - 点击效果：导航栏点击后跳转到相应页面（目前仅完成Login，Home，点击``logo``，``Title:BookStore``，``Home``进入Home界面）  
+    - 完成``Create a new account``表单，信息为``UserName``，``Email``，``Passport``，对表单内容处理。
+    - 要求验证码正确才能登录
+    - 点击效果：导航栏点击后跳转到相应页面（需check身份）
 点击``Account``和``JAccount``切换登入方式，点击验证码图案更换图片。  
 在验证码正确的情况下，点击``登录``进入HomePage。
 
@@ -76,20 +76,20 @@ D:\bookStore_frontend\bookstore
     - 完成``Navigate Menu``，导航菜单，按照``理科``,``工科``等科目进行书籍分类
     - 完成走马灯式展示书籍Ad,或新书状况浏览（目前图片设计为世界读书日照片，返校日促销广告）
     - 完成书籍展示布局，模仿[参考项目](https://github.com/Okabe-Rintarou-0/BookStore-Frontend "参考项目")，每行5个书籍布局
-    - 完成书籍页面选择，目前无统计页面数，固定为2页
+    - 完成书籍页面选择
     - 书籍展示内容为``cover``，``Title``，``Author``，``Price``。
-    - 点击效果：导航栏点击后跳转到相应页面（目前仅完成Login，Home，点击头像进入LoginPage）
+    - 点击效果：导航栏点击后跳转到相应页面
 
-1. ``OrderPage``前端建设（接入课程提供后端）
+2. ``OrderPage``前端建设（接入课程提供后端）
    总体布局参考示例代码，并进行修改。增加订单号栏目，并对书本名称进行筛选功能，对下单时间进行``10分钟``,``一周``等时间段的选择的筛选方式。
 
-1. ``CartOrderPage``前端建设（接入课程后端）
+3. ``CartOrderPage``前端建设（接入课程后端）
    总体布局参考示例项目，同时参考淘宝网，当当网等购物车页面，删除功能采取多选后删除，增加小计项目。
 
-1. ``BookPage``前端建设（接入课程后端）
+4. ``BookPage``前端建设（接入课程后端）
    布局在示例项目的书本图片，简介的基础上，参考豆瓣网增加评分区域，增加书籍标签等组件。目前打折，优惠等项目因为后端未提供相关数据，因此均采用7折。
 
-1. 项目展示图
+5. 项目展示图
     ![LoginPage](./readmeSource/LoginPage.png)
     ![LoginForm](./readmeSource/LoginForm.png)
     ![JaccountLogin](./readmeSource/JaccountLogin.png)
