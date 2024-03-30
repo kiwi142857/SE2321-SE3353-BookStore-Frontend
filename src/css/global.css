@@ -121,3 +121,102 @@ svg {
     font-weight: 500;
     color: #000000;
 }
+
+.book-rank-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px;
+    line-height: 50px; 
+    text-align: center;
+    width: 50px; 
+    z-index: 1;
+}
+
+.book-rank-cover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 4vw solid #eed895; 
+    border-right: 4vw solid transparent; 
+}
+
+.book-rank-second-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px;
+    line-height: 50px; 
+    text-align: center;
+    width: 50px; 
+    z-index: 1;
+}
+
+.book-rank-second-cover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 4vw solid #d1e1e9; 
+    border-right: 4vw solid transparent; 
+}
+
+.book-rank-third-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px;
+    line-height: 50px; 
+    text-align: center;
+    width: 50px; 
+    z-index: 1;
+}
+
+.book-rank-third-cover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 4vw solid #b3a84b; 
+    border-right: 4vw solid transparent; 
+}
+
+.book-rank-other-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px;
+    line-height: 50px; 
+    text-align: center;
+    width: 50px; 
+    z-index: 1;
+}
+
+.book-rank-other-cover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 4vw solid rgba(46,55,66, 0.9);
+    border-right: 4vw solid transparent; 
+}
+
+.book-rank-number {
+    position: absolute;
+    top: -0.5vw;
+    left: 0.5vw;
+    color: white;
+    font-size: 25px;
+    line-height: 50px;
+    text-align: left;
+    width: 50px;
+}

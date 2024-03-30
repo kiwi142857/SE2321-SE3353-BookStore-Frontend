@@ -42,6 +42,7 @@ export default function NavBar({ user }) {
         if (e.key === "/logout") {
             let res = await logout();
             handleBaseApiResponse(res, messageApi, () => navigate("/login"));
+            navigate("/login");
             return;
         }
         if (e.key === "password") {
