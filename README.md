@@ -2,14 +2,13 @@
 
 作者：陈启炜
 
-## 作业2说明
+## 作业3说明
 
-完成``book``页面，``cart``，``order``界面设计，完成跳转功能。接入课程提供后端，支持``立即购买``,``加入购物车``，``删除订单，支付订单``等功能。  
-
-1. 书籍标签功能由于后端并无相关数据，故使用前端设置常量；
-2. 书籍评分功能由于后端为存相关数据，均设置为2.5分。
-3. ``RankPage``UI在设计中，``书籍评论区``功能待完善。
-4. 整体页面结构参考示例代码，并进行修改，增加特色功能，如书籍评分，购物车，订单筛选，排序功能等。
+前端各界面主要功能均已实现，接入TA后端进行开发（感谢~~，大大减小开发难度）
+相比作业2，主要增加``Rank Page``实现，与TA呈现方式差异较大，主要参考豆瓣排行榜呈现方式（白底呈现效果较差，后续思考UI如何进一步修改）。
+NavBar中增加修改头像照片功能，但因未接入后端实现数据的存储，因此刷新后即丢失）
+在书本的属性中增加促销打折的参数，目前均以7折呈现，后续后端实现中进行修改。
+![RankPage](./readmeSource/RankPage.png)
 
 ## 项目结构
 
@@ -98,6 +97,7 @@ D:\bookStore_frontend\bookstore
     ![BookPage](readmeSource/bookPage.png)
     ![CartPage](readmeSource/cartPage.png)
     ![OrderPage](readmeSource/orderPage.png)
+    ![RankPage](./readmeSource/RankPage.png)
 
 ## 项目经验总结
 
