@@ -80,16 +80,16 @@ D:\bookStore_frontend\bookstore
     - 书籍展示内容为``cover``，``Title``，``Author``，``Price``。
     - 点击效果：导航栏点击后跳转到相应页面
 
-2. ``OrderPage``前端建设（接入课程提供后端）
+1. ``OrderPage``前端建设（接入课程提供后端）
    总体布局参考示例代码，并进行修改。增加订单号栏目，并对书本名称进行筛选功能，对下单时间进行``10分钟``,``一周``等时间段的选择的筛选方式。
 
-3. ``CartOrderPage``前端建设（接入课程后端）
+1. ``CartOrderPage``前端建设（接入课程后端）
    总体布局参考示例项目，同时参考淘宝网，当当网等购物车页面，删除功能采取多选后删除，增加小计项目。
 
-4. ``BookPage``前端建设（接入课程后端）
+1. ``BookPage``前端建设（接入课程后端）
    布局在示例项目的书本图片，简介的基础上，参考豆瓣网增加评分区域，增加书籍标签等组件。目前打折，优惠等项目因为后端未提供相关数据，因此均采用7折。
 
-5. 项目展示图
+1. 项目展示图
     ![LoginPage](./readmeSource/LoginPage.png)
     ![LoginForm](./readmeSource/LoginForm.png)
     ![JaccountLogin](./readmeSource/JaccountLogin.png)

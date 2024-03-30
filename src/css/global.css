@@ -113,3 +113,11 @@ svg {
     height: 75% !important;
     border-radius: 15px
 }
+
+.rank-header {
+    font-size: 20px;
+    font-size: 20px;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    color: #000000;
+}
