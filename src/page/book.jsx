@@ -1,60 +1,16 @@
-import { PrivateLayout } from "../components/layout";
-import React from "react";
-import { getBookById, getBookComments } from "../service/book";
-import { Row, Col, Typography, Image, Divider, Card, Space, Rate, Tabs, Input, List } from "antd";
-import UsernameAvatar from "antd/lib/avatar/avatar";
-import { Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import { Row, Col, Typography, Image, Divider, Card, Space, Rate, Button } from "antd";
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { formatTime } from "../utils/time";
-import { LikeOutlined, LikeFilled } from "@ant-design/icons";
-import BookTags from "../components/bookTag";
-import { getCartItems } from "../service/cart";
-import { addBookComment } from "../service/book";
 import useMessage from "antd/es/message/useMessage";
+import { PrivateLayout } from "../components/layout";
+import { getBookById, getBookComments } from "../service/book";
+import { getCartItems, addCartItem } from "../service/cart";
 import { handleBaseApiResponse } from "../utils/message";
-import { addCartItem } from "../service/cart";
+import BookTags from "../components/bookTag";
 import PlaceOrderModal from "../components/placeOrder";
-
-
+import CommentArea from "../components/bookComment";
 const { Paragraph } = Typography;
-const { TextArea } = Input;
-
-
-
-
-export function LikeButton({ defaultNumber, liked, onLike, onUnlike }) {
-    const [isLiked, setIsLiked] = useState(liked);
-    const [number, setNumber] = useState(defaultNumber);
-    useEffect(() => {
-        setIsLiked(liked);
-        setNumber(defaultNumber);
-    }, [liked, defaultNumber]);
-    
-    const handleLikeOrUnlike = async (e) => {
-        e.preventDefault();
-        if (!isLiked) {
-            if (await onLike?.()) {
-                setIsLiked(true);
-                setNumber(number => number + 1);
-            }
-        } else if (await onUnlike?.()) {
-            setIsLiked(false);
-            setNumber(number => number - 1);
-        }
-    };
-
-    return <Space size="small">
-        <a onClick={handleLikeOrUnlike}>
-            {isLiked && <LikeFilled />}
-            {!isLiked && <LikeOutlined />}
-        </a>
-        {number}
-    </Space>;
-}
 
 function BookInfo({ book }) {
     return (
@@ -70,29 +26,30 @@ function BookInfo({ book }) {
 
 
 
-function BookDiscount({ book, messageApi, setShowModal, item, setItem}) {
+function BookDiscount({ book, messageApi, setShowModal, item, setItem }) {
     const discount = book.discount || 0.7;
-    
+
     const handleAddCartItem = async () => {
         let res = await addCartItem(book.id);
-        
+
         handleBaseApiResponse(res, messageApi);
-        
+
     };
 
     const handleBuyBook = async () => {
-        /* add to cart */
+
         let res = await addCartItem(book.id);
-        /* get cart */
         let cartItems = await getCartItems();
-        /* find the item */
         let item = cartItems.find(item => item.book.id === book.id);
-        /* set item */
+        if (item === undefined) {
+            messageApi.error("购物车中未找到该商品！");
+            return;
+        }
         item = [item];
-        console.log('item',item);
+        console.log('item', item);
         setItem(item);
-        /* open modal */
         setShowModal(true);
+        handleBaseApiResponse(res, messageApi);
     };
 
     return (
@@ -129,63 +86,6 @@ function BookDiscount({ book, messageApi, setShowModal, item, setItem}) {
     );
 }
 
-function CommentInput({ placeholder }) {
-    return (
-        <Space direction="vertical" style={{ width: "100%" }}>
-            <TextArea placeholder={placeholder} />
-            <Row justify="end">
-                <Col><Button type="primary">发布</Button></Col>
-            </Row>
-        </Space>
-    );
-}
-
-function BookCommentList({ comments }) {
-    return (
-        <Space direction="vertical" style={{ width: '100%' }}>
-            <List
-                itemLayout="horizontal"
-                dataSource={comments}
-                renderItem={comment => <BookComment comment={comment}
-                />}
-            />
-        </Space>
-    );
-}
-
-function BookComment({ comment }) {
-    
-    /* comment = { content: "评论内容", username: "用户名", id: "评论id" , like: 0, dislike: 0, createdTime: "评论时间" } */
-    const contentComponent = <Space direction="vertical" style={{ width: '100%' }}>
-        <Space>
-            {formatTime(comment.createdAt)}
-            <LikeButton defaultNumber={comment.like} liked={comment.liked} />
-        </Space>
-        {<CommentInput placeholder={`回复 ${comment.username}：`} />}
-    </Space>;
-    return (
-        <List.Item key={comment.id}>
-            <List.Item.Meta
-                avatar={<UsernameAvatar username={comment.username} />}
-                title={<div style={{ color: "grey" }}>{comment.username}</div>}
-                description={contentComponent}
-            />
-        </List.Item>
-    );
-}
-
-function CommentArea({ comments }) {
-    return (
-        <Tabs defaultActiveKey="1">
-            <items tab="全部评论" key="1">
-                <BookCommentList comments={comments} />
-            </items>
-            <items tab="我要评论" key="2">
-                <CommentInput placeholder="请输入您的评论" />
-            </items>
-        </Tabs>
-    );
-}
 
 function BookRate({ book }) {
     const rateOfBook = 2.5;
@@ -242,16 +142,26 @@ export default function BookPage() {
     };
 
     useEffect(() => {
+        // eslint-disable-next-line
         getBook();
+        // eslint-disable-next-line
         getComments();
+        // eslint-disable-next-line
     }, [id]);
 
     useEffect(() => {
         getComments();
+        // eslint-disable-next-line
     }, [pageIndex, pageSize, sort]);
 
     const handleMutate = () => {
         getComments();
+    };
+
+    const [messageApi, contextHolder] = useMessage();
+
+    const handleCloseModal = () => {
+        setShowModal(false);
     };
 
     const handlePageChange = (page) => {
@@ -269,15 +179,6 @@ export default function BookPage() {
             sort
         });
     };
-    const [messageApi, contextHolder] = useMessage();
-    
-    const handleOpenModal = () => {
-        setShowModal(true);
-    }
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    }
 
     return (
         <PrivateLayout>
@@ -290,14 +191,14 @@ export default function BookPage() {
                             <Image style={{ width: '100%', height: 'auto' }} alt={book.title} src={book.cover} />
 
                         </Card>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:'5%' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
                             <BookTags tags={book.tag} style={{ padding: '5px' }} />
                         </div>
                     </Col>
                     <Col span={10}>
                         <BookInfo book={book} />
                         <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                            <BookDiscount book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem}/>
+                            <BookDiscount book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem} />
                         </div>
                     </Col>
                     <Col span={0.5}>
@@ -310,7 +211,7 @@ export default function BookPage() {
                     </Col>
                 </Row>
                 <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                    <CommentArea comments={comments.items} />
+                    <CommentArea comments={comments.items} onMutate={handleMutate} pageIndex={pageIndex} onPageChange={handlePageChange} onSortChange={handleSortChange} total={comments.total} />
                 </div>
             </Card>}
         </PrivateLayout>
