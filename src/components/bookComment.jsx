@@ -164,6 +164,7 @@ export default function CommentArea({ comments, onMutate, book, pageIndex, onPag
             messageApi.error("评论不得为空！");
             return;
         }
+        console.log("book", book);
         let res = await addBookComment(book.id, comment);
         handleBaseApiResponse(res, messageApi, onMutate);
     };

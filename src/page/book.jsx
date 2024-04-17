@@ -211,7 +211,7 @@ export default function BookPage() {
                     </Col>
                 </Row>
                 <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                    <CommentArea comments={comments.items} onMutate={handleMutate} pageIndex={pageIndex} onPageChange={handlePageChange} onSortChange={handleSortChange} total={comments.total} />
+                    <CommentArea comments={comments.items} onMutate={handleMutate} pageIndex={pageIndex} onPageChange={handlePageChange} onSortChange={handleSortChange} total={comments.total} book={book}/>
                 </div>
             </Card>}
         </PrivateLayout>
