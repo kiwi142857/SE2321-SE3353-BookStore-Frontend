@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox } from "antd";
+import { Button, Card } from "antd";
 import { PrivateLayout } from "../components/layout";
 import { useEffect, useState } from "react";
 import { getCartItems } from "../service/cart";
@@ -11,7 +11,7 @@ import useMessage from "antd/es/message/useMessage";
 import { changeCartItemNumber, deleteCartItem } from "../service/cart";
 import PlaceOrderModal from "../components/placeOrder";
 
-function CartTable({ cartItems, setCartItems, onMutate, messageApi, setShowModal, setSelectedItems, selectedItems }) {
+function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelectedItems, selectedItems }) {
 
     const columns = [
         {
@@ -50,7 +50,6 @@ function CartTable({ cartItems, setCartItems, onMutate, messageApi, setShowModal
         computeTotalPrice();
     }, [selectedItems]);
 
-    // 选择行
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             setSelectedItems(selectedRows);
@@ -134,14 +133,33 @@ export default function CartPage() {
         setShowModal(false);
     };
 
+    const modalProps = {
+        setShowModal,
+        onMutate: initCartItems,
+        messageApi,
+        onCancel: handleCloseModal,
+        onOk: handleCloseModal,
+        selectedItems,
+        setSelectedItems,
+        handleCloseModal
+    };
+
+    const cartTableProps = {
+        cartItems,
+        setCartItems,
+        onMutate: initCartItems,
+        messageApi,
+        setShowModal,
+        selectedItems,
+        setSelectedItems
+      };
+
     return (
         <PrivateLayout>
             {contextHolder}
-            {showModal && <PlaceOrderModal setShowModal={setShowModal} onMutate={initCartItems} messageApi={messageApi} onCancel={handleCloseModal} onOk={handleCloseModal}
-                selectedItems={selectedItems} setSelectedItems={setSelectedItems} handleCloseModal={handleCloseModal}/>}
+            {showModal && <PlaceOrderModal {...modalProps} />}
             <Card style={{ margin: '10px', marginTop: '20px' }}>
-                <CartTable cartItems={cartItems} setCartItems={setCartItems} onMutate={initCartItems} messageApi={messageApi} setShowModal={setShowModal}
-                    selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
+                <CartTable {...cartTableProps} />
             </Card>
         </PrivateLayout>
     );

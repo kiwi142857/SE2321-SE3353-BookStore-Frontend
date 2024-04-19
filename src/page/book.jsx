@@ -24,64 +24,32 @@ function BookInfo({ book }) {
     );
 }
 
-
-
-function BookDiscount({ book, messageApi, setShowModal, item, setItem }) {
+function BookDiscount({ book }) {
     const discount = book.discount || 0.7;
-
-    const handleAddCartItem = async () => {
-        let res = await addCartItem(book.id);
-
-        handleBaseApiResponse(res, messageApi);
-
-    };
-
-    const handleBuyBook = async () => {
-
-        let res = await addCartItem(book.id);
-        let cartItems = await getCartItems();
-        let item = cartItems.find(item => item.book.id === book.id);
-        if (item === undefined) {
-            messageApi.error("购物车中未找到该商品！");
-            return;
-        }
-        item = [item];
-        // console.log('item', item);
-        setItem(item);
-        setShowModal(true);
-        // handleBaseApiResponse(res, messageApi);
-    };
-
     return (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", borderRadius: '20px' }}>
                 <Paragraph style={{ marginBottom: 0 }} type="secondary">抢购价</Paragraph>
-                <div><Space>
+                <Space>
                     <div style={{ color: "#dd3735", fontSize: "16px" }}>¥</div>
                     <div style={{ color: "#dd3735", fontSize: "30px" }}>{(book.price / 100 * 0.7).toFixed(2)}</div>
                     <div style={{ color: "#dd3735", fontSize: "18px" }}>({10 * discount}折)</div>
                 </Space>
-                </div>
-                <div>
-                    <Space>
-                        <div style={{
-                            backgroundColor: "#f48484",
-                            padding: "0px 4px 0px 4px",
-                            borderRadius: "5px",
-                            color: "white"
-                        }}>店铺促销</div>
-                        <Paragraph style={{ marginBottom: 0 }} type="secondary">满¥38减¥3,满¥48减¥5</Paragraph>
-                    </Space>
-                </div>
+                <Space style={{marginLeft:10}}>
+                    <div style={{
+                        backgroundColor: "#f48484",
+                        padding: "0px 4px 0px 4px",
+                        borderRadius: "5px",
+                        color: "white"
+                    }}>店铺促销</div>
+                    <Paragraph style={{ marginBottom: 0 }} type="secondary">满¥38减¥3,满¥48减¥5</Paragraph>
+                </Space>
                 <Space>
                     <ExclamationCircleOutlined />
                     <Paragraph style={{ marginBottom: 0 }} type="secondary">部分促销不可共享，请以购物车能享受的促销为准</Paragraph>
                 </Space>
             </div>
-            <Space>
-                <Button size="large" onClick={handleAddCartItem}>加入购物车</Button>
-                <Button type="primary" size="large" onClick={handleBuyBook}>立即购买</Button>
-            </Space>
+
         </Space>
     );
 }
@@ -100,6 +68,7 @@ function BookRate({ book }) {
         <div style={{ borderRadius: '20px' }}>
             <Typography.Title level={4}>评分</Typography.Title>
             <Rate allowHalf defaultValue={rateOfBook} allowClear={false} disabled />
+            <br />
             <Typography.Text style={{ fontSize: '20px' }}>{rateOfBook}<br /></Typography.Text>
             <div style={{ marginTop: '10px' }}>
                 <Typography.Text style={{ color: 'gray' }}>五星：{Math.round((numberOfFiveStar / numberInTotal) * 100)}%<br /></Typography.Text>
@@ -110,8 +79,42 @@ function BookRate({ book }) {
             </div>
             <Divider />
             <Typography.Text level={4} style={{ fontSize: '16px', fontWeight: 'bold' }}>您的喜好程度<br /></Typography.Text>
-            <Rate allowHalf defaultValue={2.5} allowClear={false} style={{ marginTop: '10px' }} />
+            <Rate defaultValue={3} allowClear={false} style={{ marginTop: '10px' }} />
         </div>
+    );
+}
+
+function BookPageCard({ book, messageApi, setShowModal, item, setItem, handleAddCartItem, handleBuyBook }) {
+
+    return (
+        <Row gutter={[16, 16]}>
+            <Col span={9}>
+                <Card style={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)', marginTop: '30px' }}>
+                    <Image style={{ width: '100%', height: 'auto' }} alt={book.title} src={book.cover} />
+                </Card>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
+                    <BookTags tags={book.tag} style={{ padding: '5px' }} />
+                </div>
+            </Col>
+            <Col span={10}>
+                <BookInfo book={book} />
+                <div style={{ marginTop: '20px', borderRadius: '20px' }}>
+                    <BookDiscount book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem} />
+                    <Space style={{ marginTop: '10px' }}>
+                        <Button size="large" onClick={handleAddCartItem}>加入购物车</Button>
+                        <Button type="primary" size="large" onClick={handleBuyBook}>立即购买</Button>
+                    </Space>
+                </div>
+            </Col>
+            <Col span={0.5}>
+                <Divider type="vertical" style={{ marginTop: '10vh', height: '80%' }} />
+            </Col>
+            <Col span={4}>
+                <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", marginTop: '80px', borderRadius: '20px' }}>
+                    <BookRate book={book} />
+                </div>
+            </Col>
+        </Row>
     );
 }
 
@@ -125,6 +128,7 @@ export default function BookPage() {
     const pageIndex = Number.parseInt(searchParams.get("pageIndex") ?? '0');
     const pageSize = Number.parseInt(searchParams.get("pageSize") ?? '5');
     const sort = searchParams.get("sort") ?? "createdTime";
+    const [messageApi, contextHolder] = useMessage();
 
     let { id } = useParams();
     if (id === undefined) {
@@ -158,8 +162,6 @@ export default function BookPage() {
         getComments();
     };
 
-    const [messageApi, contextHolder] = useMessage();
-
     const handleCloseModal = () => {
         setShowModal(false);
     };
@@ -180,40 +182,41 @@ export default function BookPage() {
         });
     };
 
+    const handleAddCartItem = async () => {
+        let res = await addCartItem(book.id);
+
+        handleBaseApiResponse(res, messageApi);
+
+    };
+
+    const handleBuyBook = async () => {
+
+        await addCartItem(book.id);
+        let cartItems = await getCartItems();
+        let item = cartItems.find(item => item.book.id === book.id);
+        if (item === undefined) {
+            messageApi.error("购物车中未找到该商品！");
+            return;
+        }
+        item = [item];
+        // console.log('item', item);
+        setItem(item);
+        setShowModal(true);
+        // handleBaseApiResponse(res, messageApi);
+    };
+
     return (
         <PrivateLayout>
             {contextHolder}
             {showModal && <PlaceOrderModal selectedItems={item} onCancel={handleCloseModal} onOk={handleCloseModal} onMutate={handleMutate} />}
-            {book && comments && <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
-                <Row gutter={[16, 16]}>
-                    <Col span={9}>
-                        <Card style={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)', marginTop: '30px' }}>
-                            <Image style={{ width: '100%', height: 'auto' }} alt={book.title} src={book.cover} />
-
-                        </Card>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-                            <BookTags tags={book.tag} style={{ padding: '5px' }} />
-                        </div>
-                    </Col>
-                    <Col span={10}>
-                        <BookInfo book={book} />
-                        <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                            <BookDiscount book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem} />
-                        </div>
-                    </Col>
-                    <Col span={0.5}>
-                        <Divider type="vertical" style={{ marginTop: '10vh', height: '80%' }} />
-                    </Col>
-                    <Col span={4}>
-                        <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", marginTop: '80px', borderRadius: '20px' }}>
-                            <BookRate book={book} />
-                        </div>
-                    </Col>
-                </Row>
-                <div style={{ marginTop: '20px', borderRadius: '20px' }}>
-                    <CommentArea comments={comments.items} onMutate={handleMutate} pageIndex={pageIndex} onPageChange={handlePageChange} onSortChange={handleSortChange} total={comments.total} book={book}/>
-                </div>
-            </Card>}
+            {book && comments &&
+                <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
+                    <BookPageCard book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem} handleAddCartItem={handleAddCartItem} handleBuyBook={handleBuyBook} />
+                    <div style={{ marginTop: '20px', borderRadius: '20px' }}>
+                        <CommentArea comments={comments.items} onMutate={handleMutate} pageIndex={pageIndex} onPageChange={handlePageChange} onSortChange={handleSortChange} total={comments.total} book={book} />
+                    </div>
+                </Card>
+            }
         </PrivateLayout>
     );
 }

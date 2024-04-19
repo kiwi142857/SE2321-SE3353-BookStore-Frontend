@@ -230,45 +230,21 @@ svg {
     margin-left: 8%;
 }
 
-.user-name {
+.user-name, .user-box {
     font-family: Inter !important;
     font-size: 24px !important;
     font-weight: 500 !important;
     line-height: 24px !important;
     margin-top: 20px !important;
-    letter-spacing: 0em !important;
+    letter-spacing: 0em  !important;
     text-align: left;
     color: #333333 !important;
     border: none !important;
-}
-
-.user-name .MuiOutlinedInput-root {
-    border: none !important;
-}
-
-.user-name .MuiOutlinedInput-root:focus-within {
-    border: 1px solid #333333 !important;
-}
-
-.user-name .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-    border: none;
-}
-
-.user-name .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border: 1px solid #333333;
-}
-
-.user-box {
+    width: 120%;
+    height: 50px;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    width: 100%;
     margin-left: 12px !important;
-    font-family: Lora !important;
-    font-weight: bold !important;
-    font-size: 18px !important;
 }
 
 .balance-box {

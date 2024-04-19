@@ -28,25 +28,19 @@ function UserCard({ avatarSrc, handleAvatarChange, user, description, handleDesc
                 </div>
             </Col>
             <Col span={10}>
-                <Row gutter={8} className='user-box'>
-                    <Typography.Text className='user-name' style={{ height: '50px', width: '120%' }}>
-                        {user && user.nickname}
-                    </Typography.Text>
-                </Row>
-                <Col>
-                    <Typography className='email'>{user.sid ? user.sid : 'ID:522031910000'}</Typography>
-                </Col>
-                <Col style={{ marginTop: '20px' }}>
-                    <Input.TextArea
-                        className='description-input'
-                        value={description}
-                        onChange={handleDescriptionChange}
-                        placeholder={"个人简介,最多128字"}
-                        maxLength={128}
-                        autoSize={{ maxRows: 5 }}
-                        style={{ width: '100%' }}
-                    />
-                </Col>
+                <Typography.Text className='user-name' >
+                    {user && user.nickname}
+                </Typography.Text>
+                <Typography className='email' style={{ marginLeft: 10 }}>{user.sid ? user.sid : 'ID:522031910000'}</Typography>
+                <Input.TextArea
+                    className='description-input'
+                    value={description}
+                    onChange={handleDescriptionChange}
+                    placeholder={"个人简介,最多128字"}
+                    maxLength={128}
+                    autoSize={{ maxRows: 5 }}
+                    style={{ width: '100%', marginTop: '20px', marginLeft: 10 }}
+                />
             </Col>
         </Row>
     );
@@ -55,7 +49,7 @@ function UserCard({ avatarSrc, handleAvatarChange, user, description, handleDesc
 function UserBlance({ user }) {
 
     const formatter = (value) => <CountUp end={value} separator="," decimals={2} />;
-    
+
     return (
         <Col span={12}>
             <Statistic

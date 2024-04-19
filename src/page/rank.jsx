@@ -1,27 +1,23 @@
 import React from 'react';
 import { Card, Row, Col, Divider } from 'antd';
 import Typography from 'antd/es/typography/Typography';
-import NavBar from '../components/navbar';
 import { PrivateLayout } from '../components/layout';
-import useMessage from 'antd/es/message/useMessage';
 import { useEffect, useState } from 'react';
 import { getTop10BestSellingBooks } from "../service/book";
 import BookTags from '../components/bookTag';
 import { Link } from 'react-router-dom';
 
-const { Meta } = Card;
-
 function RankHeader() {
     return (
         <Row justify="center">
             <Col>
-                <img src={process.env.PUBLIC_URL + '/riceEarLeft.svg'} style={{ height: '8em' }} />
+                <img src={process.env.PUBLIC_URL + '/riceEarLeft.svg'} style={{ height: '8em' }} alt='riceEarLeft'/>
             </Col>
             <Col>
                 <Typography.Title className='rank-header'>畅销榜前十图书</Typography.Title>
             </Col>
             <Col>
-                <img src={process.env.PUBLIC_URL + '/riceEarRight.svg'} style={{ height: '8em' }} />
+                <img src={process.env.PUBLIC_URL + '/riceEarRight.svg'} style={{ height: '8em' }} alt='riceEarRight'/>
             </Col>
         </Row>
     );
@@ -91,13 +87,11 @@ function FirstRankCard({ book }) {
                 style={{ width: '100%', marginBottom: '20px' }}
             >
                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-
                     <div style={{ position: 'relative' }}>
                         <img alt="bookCover" src={book.cover} style={{ width: '100%', border: '2px solid #eed895' }} />
                         <label htmlFor="bookCoverRank" className="book-rank-cover" style={{ color: 'white' }}></label>
                         <div className="book-rank-number" style={{ zIndex: 1 }}>1</div>
                     </div>
-
                     <Typography.Text style={{
                         color: 'black',
                         fontSize: '24px',
@@ -133,7 +127,7 @@ function FirstRankCard({ book }) {
 
 
 function RankList({ books }) {
-    console.log(books);
+    
     const book = books[0];
     books = books.slice(1);
     return (
@@ -157,7 +151,7 @@ function RankList({ books }) {
 }
 
 export default function RankPage() {
-    const [messageApi, contextHolder] = useMessage();
+    
     const [books, setBooks] = useState(null);
     const getTop10Books = async () => {
         let books = await getTop10BestSellingBooks();
@@ -170,7 +164,7 @@ export default function RankPage() {
 
     return (
         <PrivateLayout>
-            {contextHolder}
+            
             <Card style={{ margin: '10px', marginTop: '20px' }}>
                 <div style={{ marginLeft: '1%', marginRight: '1%' }}>
                     <RankHeader />

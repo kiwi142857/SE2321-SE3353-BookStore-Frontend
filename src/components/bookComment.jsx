@@ -164,7 +164,7 @@ export default function CommentArea({ comments, onMutate, book, pageIndex, onPag
             messageApi.error("评论不得为空！");
             return;
         }
-        console.log("book", book);
+        
         let res = await addBookComment(book.id, comment);
         handleBaseApiResponse(res, messageApi, onMutate);
     };
@@ -172,7 +172,7 @@ export default function CommentArea({ comments, onMutate, book, pageIndex, onPag
     return (
         <>
             {contextHolder}
-            <Tabs defaultActiveKey="1" onChange={onSortChange}>
+            <Tabs defaultActiveKey="createdTime" onChange={onSortChange}>
                 <items tab="最新评论" key="createdTime">
                     <CommentInput placeholder="发布一条友善的评论" onSubmit={handleAddComment} />
                     <BookCommentList comments={comments} onMutate={onMutate} />
