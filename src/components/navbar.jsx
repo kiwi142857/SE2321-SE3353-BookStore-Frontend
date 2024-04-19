@@ -7,7 +7,8 @@ export default function NavBar({ user }) {
 
     const location = useLocation();
     const parts = location.pathname.split('/');
-    const selectedKey = '/' + parts[parts.length - 1]; // The last part of the path
+    const selectedKey = '/' + parts[1]; // The last part of the path
+    console.log(selectedKey);
     const navItems = [  // Items in the navigation bar
         { label: "主页", value: "/home" },
         { label: "购物车", value: "/cart" },

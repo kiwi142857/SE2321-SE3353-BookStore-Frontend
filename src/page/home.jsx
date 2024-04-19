@@ -52,10 +52,10 @@ export default function HomePage() {
         <div className="home-main" >
             <Space direction="vertical" size="large" style={{ width: "98%", marginTop: '10px' }}>
                 <Flex style={{height:'35px'}}>
-                    <Tabs className="home-table-font" centered style={{ marginLeft:'40px', marginRight: '15px', marginBottom: '0px' }} defaultActiveKey="Title"
+                    <Tabs className="home-table-font" centered style={{ marginLeft:'40px', marginRight: '15px' }} defaultActiveKey="Title"
                     onChange={(key) => {setSearchType(key);}} activeKey={searchType}>
                         <Tabs.TabPane key={'title'} tab={'书名'} />
-                        <Tabs.TabPane key={'nnthor'} tab={'作者'} />
+                        <Tabs.TabPane key={'author'} tab={'作者'} />
                     </Tabs>
                     <Search style={{height:'30px',marginRight:'20px'}} placeholder={searchType === 'title' ? '请输入查询的书名' : '请输入查询的作者名'} onSearch={handleSearch} enterButton size="large" />
                 </Flex>

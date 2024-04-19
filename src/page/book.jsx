@@ -46,10 +46,10 @@ function BookDiscount({ book, messageApi, setShowModal, item, setItem }) {
             return;
         }
         item = [item];
-        console.log('item', item);
+        // console.log('item', item);
         setItem(item);
         setShowModal(true);
-        handleBaseApiResponse(res, messageApi);
+        // handleBaseApiResponse(res, messageApi);
     };
 
     return (

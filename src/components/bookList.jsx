@@ -8,14 +8,14 @@ export default function BookList({ books, pageSize, current, total, onPageChange
         total,
         onChange: onPageChange,  
     }
-    return <Space direction="vertical" style={{ width: "100%" }}>
+    return <Space direction="vertical" >
         <List style={{marginLeft:'15px'}}
             grid={{gutter: 16, column: 5}}
             dataSource={books.map(b => ({
                 ...b,
                 key: b.id
             }))}
-            renderItem={(book, _) => (
+            renderItem={(book) => (
                 <List.Item>
                     <BookCard book={book} />
                 </List.Item>

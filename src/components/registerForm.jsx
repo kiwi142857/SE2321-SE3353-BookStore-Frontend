@@ -35,9 +35,6 @@ export default function RegisterForm() {
       form={form}
       name="register"
       onFinish={onFinish}
-      initialValues={{
-        prefix: '86',
-      }}
       style={{
         maxWidth: '120%'
       }}
@@ -62,10 +59,8 @@ export default function RegisterForm() {
         name="email"
         label="E-mail"
         rules={[
-          
           {
             required: true,
-            
             message: 'Please input your E-mail!',
           },
         ]}
@@ -82,7 +77,7 @@ export default function RegisterForm() {
             message: 'Please input your password!',
           },
         ]}
-        hasFeedback
+
       >
         <Input.Password style={{marginBottom:'4%'}}/>
       </Form.Item>
@@ -97,7 +92,6 @@ export default function RegisterForm() {
             required: true,
             message: 'Please confirm your password!',
           },
-          
         ]}
       >
         <Input.Password style={{marginBottom:'4%'}}/>

@@ -12,14 +12,14 @@ import { getMe } from "../service/user";
 import { login } from "../service/login";
 import '../css/global.css';
 
-function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps }) {
+function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps, setIsSignUp }) {
   const { captcha, captchaIndex, setCaptchaIndex, userCaptcha, setUserCaptcha } = JacProps;
 
   return ( // if log in
     <>
       <Tabs centered activeKey={loginType} onChange={(activeKey) => setLoginType(activeKey)}>
-        <Tabs.TabPane key={'account'} tab={'Account'} />
-        <Tabs.TabPane key={'jaccount'} tab={'JAccount'} />
+        <Tabs.TabPane key={'account'} tab={'账户登录'} />
+        <Tabs.TabPane key={'jaccount'} tab={'JAccount登录'} />
       </Tabs>
 
       {(loginType === 'account') &&
@@ -72,7 +72,7 @@ function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps })
           </Form.Item>
 
           <div style={{ marginBlockEnd: 24, marginTop: '40px' }} >
-            <Button className="login-form-info" onClick={(event) => { event.preventDefault(); setIsLoginFormVisbile(true); }} backgroundColor='none'>创建账号</Button>
+            <Button className="login-form-info" onClick={(event) => { event.preventDefault(); setIsLoginFormVisbile(true); setIsSignUp(true)}} backgroundColor='none'>创建账号</Button>
             <Button className="login-form-info" style={{ float: 'right' }}>忘记密码</Button>
           </div>
         </>}
@@ -87,19 +87,20 @@ const LoginPage = () => {
   const [messageApi, contextHolder] = useMessage();
   const navigate = useNavigate();
   const [loginType, setLoginType] = useState('account');
+  const [isSignUp, setIsSignUp] = useState(false);
   const captcha = ['wbusk', 'amvo', 'qhxxx'];
   const [captchaIndex, setCaptchaIndex] = useState(0);
   const [userCaptcha, setUserCaptcha] = useState('');
   const [isLoginFormVisbile, setIsLoginFormVisbile] = useState(false);
   
   const JacProps = { captcha, captchaIndex, setCaptchaIndex, userCaptcha, setUserCaptcha };
-  const LoginFormProps = { setIsLoginFormVisbile, loginType, setLoginType, JacProps };
+  const LoginFormProps = { setIsLoginFormVisbile, loginType, setLoginType, JacProps, setIsSignUp };
 
   const onSubmit = async (values) => {
     let email = values['username'];
     let password = values['password'];
 
-    if (isLoginFormVisbile) { setIsLoginFormVisbile(false); return; }
+    if (isLoginFormVisbile) { return; }
 
     if (values.captcha !== captcha[captchaIndex]) {
       messageApi.error('验证码输错了!');
@@ -176,12 +177,14 @@ const LoginPage = () => {
           <>
             <Tabs
               centered
-              activeKey={loginType}
-              onChange={(activeKey) => setIsLoginFormVisbile(activeKey === 'logIn' ? false : true)}
+              activeKey={isSignUp ? 'signUp' : 'logIn'}
+              onChange={(activeKey) => { setIsSignUp(activeKey === 'signUp'); 
+              if(activeKey !== 'signUp') {
+                setIsLoginFormVisbile(false);}}}
               defaultActiveKey="signUp"
             >
-              <Tabs.TabPane key={'logIn'} tab={'Log in'} />
-              <Tabs.TabPane key={'signUp'} tab={'Sign up'} />
+              <Tabs.TabPane key={'logIn'} tab={'登录'} />
+              <Tabs.TabPane key={'signUp'} tab={'注册'} />
             </Tabs>
             <RegisterForm />
           </>
