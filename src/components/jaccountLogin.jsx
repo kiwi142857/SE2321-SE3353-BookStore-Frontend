@@ -10,7 +10,7 @@ export default function JAccountLogin({ captcha, captchaIndex, setCaptchaIndex, 
         <>
             <Row>
                 <Col span={12}>
-                    <JAccountQR url="https://graphql.sjtu.edu.cn/v1" />
+                    <JAccountQR url="https://api.sjtu.edu.cn/oauth2/authorize?response_type=code&scope=&client_id=ov3SLrO4HyZSELxcHiqS&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin" />
                 </Col>
                 <Col span={12}>
                     <Flex gap="small" vertical>

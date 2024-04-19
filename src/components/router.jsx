@@ -12,13 +12,13 @@ export default function AppRouter() {
         <Routes>
             <Route index element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/*" element={<HomePage />} />
             <Route path="/book/:id" element={<BookPage />} />
             <Route path="/book" element={<BookPage />} />
             <Route path="/order" element={<OrderPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/rank" element={<RankPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/*" element={<HomePage />} />
         </Routes>
     </BrowserRouter>;
 }

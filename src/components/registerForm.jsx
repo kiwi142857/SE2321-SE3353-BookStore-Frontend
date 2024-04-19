@@ -45,7 +45,7 @@ export default function RegisterForm() {
     >
       <Form.Item style={{ width: '120% ' }}
         name="nickname"
-        label="Nickname"
+        label="昵称"
         tooltip="What do you want others to call you?"
         rules={[
           {
@@ -75,7 +75,7 @@ export default function RegisterForm() {
 
       <Form.Item style={{ width: '120% ' }}
         name="password"
-        label="Password"
+        label="密码"
         rules={[
           {
             required: true,
@@ -87,9 +87,9 @@ export default function RegisterForm() {
         <Input.Password style={{marginBottom:'4%'}}/>
       </Form.Item>
 
-      <Form.Item style={{ width: '120% ', marginBottom: '12%' }}
+      <Form.Item style={{ width: '120% ', marginBottom: '20%' }}
         name="confirm"
-        label="ConfirmPassword"
+        label="确认密码"
         dependencies={['password']}
         hasFeedback
         rules={[
