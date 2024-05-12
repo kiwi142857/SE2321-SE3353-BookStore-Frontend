@@ -137,6 +137,7 @@ export default function BookPage() {
 
     const getBook = async () => {
         let book = await getBookById(id);
+        console.log("book", book);
         setBook(book);
     };
 

@@ -1,7 +1,7 @@
 import { DUMMY_RESPONSE, PREFIX, getJson, post } from "./common";
 
-export async function searchBooks(keyword, pageIndex, pageSize) {
-    const url = `${PREFIX}/books?keyword=${keyword}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
+export async function searchBooks(keyword, pageIndex, pageSize, searchType) {
+    const url = `${PREFIX}/books/search?keyWord=${keyword}&pageIndex=${pageIndex}&pageSize=${pageSize}&searchType=${searchType}`;
     let books;
     try {
         books = await getJson(url);
@@ -16,7 +16,7 @@ export async function searchBooks(keyword, pageIndex, pageSize) {
 }
 
 export async function getBookById(id) {
-    const url = `${PREFIX}/book/${id}`;
+    const url = `${PREFIX}/books/${id}`;
     let book;
     try {
         book = await getJson(url);

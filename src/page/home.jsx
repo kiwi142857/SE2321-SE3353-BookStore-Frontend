@@ -21,13 +21,16 @@ export default function HomePage() {
     const keyword = searchParams.get("keyword") || "";
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 0;
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
-
+    
     const getBooks = async () => {
-        let pagedBooks = await searchBooks(keyword, pageIndex, pageSize);
-        let books = pagedBooks.items;
-        let totalPage = pagedBooks.total;
+        let pagedBooks = await searchBooks(keyword, pageIndex, pageSize, searchType);
+        console.log("pagedBooks",pagedBooks);
+        let books = pagedBooks.bookList;
+        let totalItem = pagedBooks.total;
         setBooks(books);
-        setTotalPage(totalPage);
+        console.log("totalItem",totalItem);
+        setTotalPage(totalItem % pageSize === 0 ? totalItem / pageSize : Math.floor(totalItem / pageSize) + 1);
+        console.log("totalPage",totalItem % pageSize === 0 ? totalItem / pageSize : Math.floor(totalItem / pageSize) + 1);
     };
 
     useEffect(() => {

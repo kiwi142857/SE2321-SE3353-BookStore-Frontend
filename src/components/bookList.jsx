@@ -2,6 +2,7 @@ import { List, Pagination, Space } from "antd"
 import BookCard from "./bookCard"
 
 export default function BookList({ books, pageSize, current, total, onPageChange }) {
+    console.log(books)
     const paginationProp = {
         current,
         pageSize,

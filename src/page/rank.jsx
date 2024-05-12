@@ -154,7 +154,9 @@ export default function RankPage() {
     
     const [books, setBooks] = useState(null);
     const getTop10Books = async () => {
-        let books = await getTop10BestSellingBooks();
+
+        let response = await getTop10BestSellingBooks();
+        let books = response.bookList;
         setBooks(books);
     };
 

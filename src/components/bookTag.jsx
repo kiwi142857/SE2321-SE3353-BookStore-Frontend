@@ -1,6 +1,7 @@
 import { Tag } from 'antd';
 
 function BookTags({ tags }) {
+    tags=[tags];
     if(!tags) tags = ["畅销"];
     return (
         <>

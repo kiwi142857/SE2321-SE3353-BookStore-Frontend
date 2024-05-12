@@ -121,7 +121,8 @@ export default function CartPage() {
 
     const initCartItems = async () => {
         let cartItems = await getCartItems();
-        setCartItems(cartItems);
+        console.log('cartItems', cartItems);
+        setCartItems(cartItems.cartItems);
     };
 
     useEffect(() => {

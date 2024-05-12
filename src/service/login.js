@@ -1,7 +1,7 @@
 import { PREFIX, post } from "./common";
 
 export async function login(username, password) {
-    const url = `${PREFIX}/login`;
+    const url = `${PREFIX}/auth/login`;
     let result;
 
     try {

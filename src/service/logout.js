@@ -1,7 +1,7 @@
 import { DUMMY_RESPONSE, PREFIX, put } from "./common";
 
 export async function logout() {
-    const url = `${PREFIX}/logout`;
+    const url = `${PREFIX}/auth/logout`;
     let res;
     try {
         res = await put(url);
