@@ -29,7 +29,7 @@ function UserCard({ avatarSrc, handleAvatarChange, user, description, handleDesc
             </Col>
             <Col span={10}>
                 <Typography.Text className='user-name' >
-                    {user && user.nickname}
+                    {user && user.name}
                 </Typography.Text>
                 <Typography className='email' style={{ marginLeft: 10 }}>{user.sid ? user.sid : 'ID:522031910000'}</Typography>
                 <Input.TextArea
