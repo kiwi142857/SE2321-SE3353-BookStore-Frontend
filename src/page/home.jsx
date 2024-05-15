@@ -2,7 +2,7 @@ import { Space, Flex, Row , Col} from "antd";
 import { PrivateLayout } from "../components/layout";
 import BookList from "../components/bookList";
 import HomePageAd from "../components/homePageAd";
-import NavMenu from "../components/navMenu";
+import NavMenu from "../components/NavMenu";
 import '../css/global.css';
 import { Tabs } from 'antd';
 import { Input } from 'antd';
