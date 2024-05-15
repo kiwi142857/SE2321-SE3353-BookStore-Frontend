@@ -13,17 +13,18 @@ export default function ChangePasswordModal({
     const [form] = Form.useForm();
     const [messageApi, contextHolder] = useMessage();
 
-    const handleSubmit = async ({ password, confirm }) => {
-        if (!password || !confirm) {
+    const handleSubmit = async ({ oldPassword, newPassword, confirm }) => {
+        if (!newPassword || !confirm) {
             messageApi.error("请填写完整信息！");
             return;
         }
-        if (password !== confirm) {
+        if (newPassword !== confirm) {
             messageApi.error("新密码和确认新密码不一致！");
             return;
         }
         let request = {
-            password
+            oldPassword,
+            newPassword
         }
         let res = await changePassword(request);
         handleBaseApiResponse(res, messageApi, onOk);
@@ -49,7 +50,15 @@ export default function ChangePasswordModal({
                 preserve={false}
             >
                 <Form.Item
-                    name="password"
+                    name="oldPassword"
+                    label="旧密码"
+                    required
+                    rules={[{ required: true, message: '请输入旧密码！' }]}
+                >
+                    <Password placeholder="请输入旧密码" />
+                </Form.Item>
+                <Form.Item
+                    name="newPassword"
                     label="新密码"
                     required
                     rules={[
@@ -65,7 +74,7 @@ export default function ChangePasswordModal({
                     name="confirm"
                     label="确认新密码"
                     required
-                    dependencies={['password']}
+                    dependencies={['newPassword']}
                     rules={[
                         {
                             required: true,
@@ -73,7 +82,7 @@ export default function ChangePasswordModal({
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
-                                if (!value || getFieldValue('password') === value) {
+                                if (!value || getFieldValue('newPassword') === value) {
                                     return Promise.resolve();
                                 }
                                 return Promise.reject(new Error('新密码和确认新密码不一致！'));
