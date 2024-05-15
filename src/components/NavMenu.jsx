@@ -74,14 +74,35 @@ const items = [
     ]),
 ];
 
-const onClick = (e) => {
-    console.log('click', e);
+const onClick = (setSearchType, setTag) => (e) => {
+    const { keyPath } = e;
+    const key = keyPath[0];
+
+    let label;
+    for (let item of items) {
+        if (item.key === key) {
+            label = item.label;
+            break;
+        }
+        for (let child of item.children) {
+            if (child.key === key) {
+                label = child.label;
+                break;
+            }
+        }
+        if (label) break;
+    }
+
+    if (label) {
+        setTag(label);
+        setSearchType('tag');
+    }
 };
 
-export default function NavMenu(){
+export default function NavMenu({ setSearchType, setTag }) {
     return (
         <Menu
-            onClick={onClick}
+            onClick={onClick(setSearchType, setTag)}
             style={{
                 width: '120%',
                 height: '100%',
