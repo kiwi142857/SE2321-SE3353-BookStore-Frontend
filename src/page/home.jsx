@@ -2,7 +2,7 @@ import { Space, Flex, Row, Col } from "antd";
 import { PrivateLayout } from "../components/layout";
 import BookList from "../components/bookList";
 import HomePageAd from "../components/homePageAd";
-import NavMenu from "../components/navMenu";
+import NavMenu from "../components/NavMenu";
 import '../css/global.css';
 import { Tabs } from 'antd';
 import { Input } from 'antd';
@@ -18,7 +18,7 @@ export default function HomePage() {
     const [totalPage, setTotalPage] = useState(0);
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const [keyword, setKeyword] = useState(searchParams.get("keyword") ?? '');
+    const [keyword, setKeyword] = useState(searchParams.get("keyword") || '');
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 0;
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
 
@@ -37,8 +37,9 @@ export default function HomePage() {
     const [searchType, setSearchType] = useState('title');
 
     useEffect(() => {
+        console.log("useEffect: getBooks");
         getBooks();
-    }, [keyword, pageIndex, pageSize, searchType]);
+    }, [keyword, pageIndex, pageSize, searchType, searchParams]);
 
     const handleSearch = (keyword) => {
         console.log("keyword", keyword);
@@ -47,6 +48,7 @@ export default function HomePage() {
             "pageIndex": 0,
             "pageSize": 10
         });
+        setKeyword(keyword);
     };
 
     const handlePageChange = (page) => {
