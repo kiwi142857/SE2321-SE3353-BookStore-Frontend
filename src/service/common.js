@@ -1,5 +1,8 @@
 export async function getJson(url) {
     let res = await fetch(url, { method: "GET", credentials: "include" });
+    if (res.status !== 200) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+    }
     return res.json();
 }
 
