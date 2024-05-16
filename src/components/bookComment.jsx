@@ -126,7 +126,11 @@ export function BookComment({ comment, isReplying, onReply, onMutate }) {
     };
 
     const contentComponent = <Space direction="vertical" style={{ width: '100%' }}>
-        <p style={{ fontSize: 16, color: "black", margin: 0 }}>{replyMessage}{content}</p>
+        <p style={{ fontSize: 16, color: "black", margin: 0 }}>
+            <span style={{ color: "gray" }}>{replyMessage}</span>
+            <br />
+            {content}
+        </p>
         <Space>
             {formatTime(comment.createdAt)}
             <LikeButton defaultNumber={comment.like} liked={comment.liked}
@@ -156,6 +160,7 @@ export function BookComment({ comment, isReplying, onReply, onMutate }) {
 }
 
 export default function CommentArea({ comments, onMutate, book, pageIndex, onPageChange, onSortChange, total }) {
+    
     const [messageApi, contextHolder] = useMessage();
     console.log("pageIndex", pageIndex);
     console.log("comments", comments);
@@ -164,7 +169,7 @@ export default function CommentArea({ comments, onMutate, book, pageIndex, onPag
             messageApi.error("评论不得为空！");
             return;
         }
-        
+
         let res = await addBookComment(book.id, comment);
         handleBaseApiResponse(res, messageApi, onMutate);
     };
@@ -185,7 +190,7 @@ export default function CommentArea({ comments, onMutate, book, pageIndex, onPag
             <Pagination
                 current={pageIndex + 1}
                 pageSize={5}
-                total={5 * total}
+                total={total}
                 onChange={onPageChange} />
         </>
     );

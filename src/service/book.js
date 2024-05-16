@@ -40,7 +40,7 @@ export async function getTop10BestSellingBooks() {
 }
 
 export async function getBookComments(bookId, pageIndex, pageSize, sort) {
-    const url = `${PREFIX}/book/${bookId}/comments?pageIndex=${pageIndex}&pageSize=${pageSize}&sort=${sort}`;
+    const url = `${PREFIX}/books/${bookId}/comments?pageIndex=${pageIndex}&pageSize=${pageSize}&sort=${sort}`;
     let comments;
     try {
         comments = await getJson(url);
@@ -55,7 +55,7 @@ export async function getBookComments(bookId, pageIndex, pageSize, sort) {
 }
 
 export async function addBookComment(bookId, content) {
-    const url = `${PREFIX}/book/${bookId}/comments`;
+    const url = `${PREFIX}/books/${bookId}/comments`;
     let res;
     try {
         res = await post(url, { 'content': content });

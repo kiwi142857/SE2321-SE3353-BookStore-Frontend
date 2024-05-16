@@ -1,7 +1,7 @@
 import { DUMMY_RESPONSE, PREFIX, post, put } from "./common";
 
 export async function replyComment(commentId, content) {
-    const url = `${PREFIX}/comment/${commentId}`;
+    const url = `${PREFIX}/comments/${commentId}`;
     let res;
     try {
         res = await post(url, { 'content': content });
@@ -13,7 +13,7 @@ export async function replyComment(commentId, content) {
 }
 
 export async function likeComment(commentId, content) {
-    const url = `${PREFIX}/comment/${commentId}/like`;
+    const url = `${PREFIX}/comments/${commentId}/like`;
     let res;
     try {
         res = await put(url);
@@ -25,7 +25,7 @@ export async function likeComment(commentId, content) {
 }
 
 export async function unlikeComment(commentId, content) {
-    const url = `${PREFIX}/comment/${commentId}/unlike`;
+    const url = `${PREFIX}/comments/${commentId}/unlike`;
     let res;
     try {
         res = await put(url);
