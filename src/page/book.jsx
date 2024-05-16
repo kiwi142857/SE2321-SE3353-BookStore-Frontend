@@ -10,6 +10,7 @@ import { handleBaseApiResponse } from "../utils/message";
 import BookTags from "../components/bookTag";
 import PlaceOrderModal from "../components/placeOrder";
 import CommentArea from "../components/bookComment";
+import { getBookRate, rateBook } from "../service/book";
 const { Paragraph } = Typography;
 
 function BookInfo({ book }) {
@@ -35,7 +36,7 @@ function BookDiscount({ book }) {
                     <div style={{ color: "#dd3735", fontSize: "30px" }}>{(book.price / 100 * 0.7).toFixed(2)}</div>
                     <div style={{ color: "#dd3735", fontSize: "18px" }}>({10 * discount}折)</div>
                 </Space>
-                <Space style={{marginLeft:10}}>
+                <Space style={{ marginLeft: 10 }}>
                     <div style={{
                         backgroundColor: "#f48484",
                         padding: "0px 4px 0px 4px",
@@ -55,14 +56,45 @@ function BookDiscount({ book }) {
 }
 
 
-function BookRate({ book }) {
-    const rateOfBook = 2.5;
-    const numberOfFiveStar = 5;
-    const numberOfFourStar = 4;
-    const numberOfThreeStar = 3;
-    const numberOfTwoStar = 4;
-    const numberOfOneStar = 5;
+function BookRate({ book, handleRateBook }) {
+
+    const numberOfFiveStar = book.fiveStarNumber;
+    const numberOfFourStar = book.fourStarNumber;
+    const numberOfThreeStar = book.threeStarNumber;
+    const numberOfTwoStar = book.twoStarNumber;
+    const numberOfOneStar = book.oneStarNumber;
     const numberInTotal = numberOfFiveStar + numberOfFourStar + numberOfThreeStar + numberOfTwoStar + numberOfOneStar;
+    const rateOfBook = numberInTotal === 0 ? 0 : ((numberOfFiveStar * 5 + numberOfFourStar * 4 + numberOfThreeStar * 3 + numberOfTwoStar * 2 + numberOfOneStar) / numberInTotal).toFixed(1);
+
+    // 获取用户对书籍的评分
+    const [rate, setRate] = useState(0);
+    const [isRated, setIsRated] = useState(false);
+    const [messageApi] = useMessage();
+    useEffect(() => {
+        const getRate = async () => {
+            let rate = await getBookRate(book.id);
+            if (rate !== null) {
+                setRate(rate.rate);
+                setIsRated(true);
+            }
+        };
+        getRate();
+    }, [book.id]);
+
+    const handleRateChange = async (value) => {
+        const result = await rateBook(book.id, value);
+        console.log('result', result);
+        if (result.ok) {
+            console.log('success');
+            setRate(value);
+            setIsRated(true);
+            messageApi.success('评分成功！');
+        } else {
+            console.log('failed');
+            messageApi.error('评分失败，请稍后再试。');
+        }
+        handleRateBook(value);
+    };
 
     return (
         <div style={{ borderRadius: '20px' }}>
@@ -79,12 +111,12 @@ function BookRate({ book }) {
             </div>
             <Divider />
             <Typography.Text level={4} style={{ fontSize: '16px', fontWeight: 'bold' }}>您的喜好程度<br /></Typography.Text>
-            <Rate defaultValue={3} allowClear={false} style={{ marginTop: '10px' }} />
+            <Rate defaultValue={rate} allowClear={false} style={{ marginTop: '10px' }} onChange={handleRateChange} />
         </div>
     );
 }
 
-function BookPageCard({ book, messageApi, setShowModal, item, setItem, handleAddCartItem, handleBuyBook }) {
+function BookPageCard({ book, messageApi, setShowModal, item, setItem, handleAddCartItem, handleBuyBook, handleRateBook }) {
 
     return (
         <Row gutter={[16, 16]}>
@@ -111,7 +143,7 @@ function BookPageCard({ book, messageApi, setShowModal, item, setItem, handleAdd
             </Col>
             <Col span={4}>
                 <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", marginTop: '80px', borderRadius: '20px' }}>
-                    <BookRate book={book} />
+                    <BookRate book={book} handleRateBook={handleRateBook} />
                 </div>
             </Col>
         </Row>
@@ -206,13 +238,17 @@ export default function BookPage() {
         // handleBaseApiResponse(res, messageApi);
     };
 
+    const handleRateBook = async (rate) => {
+        getBook(); // 重新获取书籍数据
+    };
+
     return (
         <PrivateLayout>
             {contextHolder}
             {showModal && <PlaceOrderModal selectedItems={item} onCancel={handleCloseModal} onOk={handleCloseModal} onMutate={handleMutate} />}
             {book && comments &&
                 <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
-                    <BookPageCard book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem} handleAddCartItem={handleAddCartItem} handleBuyBook={handleBuyBook} />
+                    <BookPageCard book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem} handleAddCartItem={handleAddCartItem} handleBuyBook={handleBuyBook} handleRateBook={handleRateBook} />
                     <div style={{ marginTop: '20px', borderRadius: '20px' }}>
                         <CommentArea comments={comments.items} onMutate={handleMutate} pageIndex={pageIndex} onPageChange={handlePageChange} onSortChange={handleSortChange} total={comments.total} book={book} />
                     </div>
