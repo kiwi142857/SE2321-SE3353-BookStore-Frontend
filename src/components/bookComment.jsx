@@ -1,4 +1,3 @@
-import { likeComment, unlikeComment } from "../service/comment";
 import { replyComment } from "../service/comment";
 import { Pagination } from "antd";
 import { formatTime } from "../utils/time";
@@ -113,17 +112,7 @@ export function BookComment({ comment, isReplying, onReply, onMutate }) {
         handleBaseApiResponse(res, messageApi, onMutate);
     };
 
-    const handleLikeComment = async () => {
-        let res = await likeComment(comment.id);
-        handleBaseApiResponse(res, messageApi);
-        return res.ok;
-    };
-
-    const handleUnlikeComment = async () => {
-        let res = await unlikeComment(comment.id);
-        handleBaseApiResponse(res, messageApi);
-        return res.ok;
-    };
+    
 
     const contentComponent = <Space direction="vertical" style={{ width: '100%' }}>
         <p style={{ fontSize: 16, color: "black", margin: 0 }}>
@@ -133,10 +122,7 @@ export function BookComment({ comment, isReplying, onReply, onMutate }) {
         </p>
         <Space>
             {formatTime(comment.createdAt)}
-            <LikeButton defaultNumber={comment.like} liked={comment.liked}
-                onLike={handleLikeComment}
-                onUnlike={handleUnlikeComment}
-            />
+            
             <a style={{ color: "grey", fontSize: 14 }}
                 onClick={handleReply}>回复
             </a>
