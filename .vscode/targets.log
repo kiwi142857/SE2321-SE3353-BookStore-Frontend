@@ -1,0 +1,321 @@
+make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make.exe: *** No rule to make target 'all'.  Stop.
+
+# GNU Make 4.2.1
+# Built for x86_64-w64-mingw32
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Thu May 09 10:58:30 2024
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
+# automatic
+?F = $(notdir $?)
+# default
+.SHELLFLAGS := -c
+# environment
+VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
+# environment
+VSCEXT_STACK_ANALYSIS_COMMAND = rhda.stackAnalysis
+# makefile
+MAKEFLAGS = pqrR
+# environment
+VSCEXT_TELEMETRY_ID = 8dd28f51-1adf-4a22-b0f8-d9c90001c82d
+# automatic
+?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
+# environment
+VSCEXT_EXHORT_GO_PATH = go
+# automatic
+@D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
+# environment
+HOMEDRIVE = C:
+# automatic
+@F = $(notdir $@)
+# automatic
+^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+# makefile
+CURDIR := d:/bookStore_frontend/bookstore
+# environment
+VSCEXT_MATCH_MANIFEST_VERSIONS = true
+# default
+SHELL := sh.exe
+# environment
+CLION = E:\APPLICATION\CLion 2022.3.2\bin;
+# environment
+WINDIR = C:\WINDOWS
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en","osLocale":"zh-cn","availableLanguages":{},"_languagePackSupport":true}
+# environment
+ONEDRIVE = C:\Users\�����\OneDrive
+# environment
+MAVEN_HOME = C:\Program Files\apache-maven-3.9.6
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# makefile
+MAKEFILE_LIST := 
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# environment
+TMP = C:\Kiwi\temp
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PROGRAMDATA = C:\ProgramData
+# environment
+VSCODE_CWD = E:\APPLICATION\Microsoft VS Code
+# default
+MAKE_HOST := x86_64-w64-mingw32
+# environment
+PATH = E:\mingw64\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Bandizip\;C:\Program Files\Wolfram Research\WolframScript\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;E:\APPLICATION\CMake\bin;E:\APPLICATION\Qt\5.14.2\mingw73_64\bin;E:\APPLICATION\Git\cmd;E:\APPLICATION\Anaconda;E:\APPLICATION\Anaconda\Scripts;E:\APPLICATION\Anaconda\Library\bin;E:\APPLICATION\Anaconda\Library\bin;E:\APPLICATION\Anaconda\Library\usr\bin;E:\APPLICATION\Anaconda\Library\mingw-w64\bin;E:\APPLICATION\Anaconda\Scripts\activate.bat;E:\APPLICATION\Anaconda\envs\py38\python38.exe;E:\APPLICATION\GithubCLI\;C:\Program Files (x86)\pcsuite\;E:\APPLICATION\Prince\engine\bin;E:\APPLICATION\Node\;E:\APPLICATION\.rustup\toolchains\stable-x86_64-pc-windows-msvc\bin\cargo.exe;C:\Users\�����\.cargo\bin;C:\Program Files\LLVM\bin;C:\Program Files\PuTTY\;C:\Program Files\Tesseract-OCR;C:\Program Files\Java\jdk-17\bin;C:\Program Files\apache-maven-3.9.6\bin;E:\APPLICATION\MikTex\miktex\bin\x64\;E:\APPLICATION\bin\;E:\APPLICATION\Strawberry\c\bin;E:\APPLICATION\Strawberry\perl\site\bin;E:\APPLICATION\Strawberry\perl\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Users\�����\.cargo\bin;C:\Users\�����\AppData\Local\Programs\Python\Python38\python38.exe;C:\Users\�����\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\�����\AppData\Local\Programs\Python\Python311\;C:\Users\�����\AppData\Local\Microsoft\WindowsApps;C:\Users\�����\.dotnet\tools;E:\APPLICATION\Microsoft VS Code\bin;E:\mingw64\bin;E:\APPLICATION\CLion 2022.3.2\bin;;;D:\DevEco Studio\bin;;E:\APPLICATION\IntelliJ IDEA 2023.3.4\bin;;C:\Users\�����\AppData\Roaming\npm
+# environment
+VSCEXT_EXHORT_NPM_PATH = npm
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# environment
+ZES_ENABLE_SYSMAN = 1
+# environment
+VSCEXT_EXHORT_PYTHON3_PATH = python3
+# environment
+VSCEXT_EXHORT_PIP3_PATH = pip3
+# environment
+PROCESSOR_ARCHITECTURE = AMD64
+# environment
+USERPROFILE = C:\Users\�����
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+DEVECO STUDIO = D:\DevEco Studio\bin;
+# environment
+EFC_11932 = 1
+# environment
+NUMBER_OF_PROCESSORS = 16
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCEXT_EXHORT_PIP_PATH = pip
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync
+# environment
+INTELLIJ IDEA = E:\APPLICATION\IntelliJ IDEA 2023.3.4\bin;
+# automatic
+%F = $(notdir $%)
+# environment
+DB_USERNAME = kiwi
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_21428_WSDAZGETRTARVANV
+# environment
+IGCCSVC_DB = AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAmDbBtZqkXUaLD2k+o/b33AQAAAACAAAAAAAQZgAAAAEAACAAAABXelOchL+9tWDFK7Bv0ByVpwvVqhSNciD3/einzghuNwAAAAAOgAAAAAIAACAAAACtzwhSdm+V6sN9AWJzB4wM9ahBHMNL0/cvDTkrR1aPGmAAAAA5D0L+ognO6t+ydgn4KyNHvCOjbglPiHNZZuHCl4AfBCA4xuSae97VqgxTK6hzjJH/c8DbJBqnKgGb/uFY/7Asj4U8QVoGKqcPG2tPf6e5ietuPO5HmKsWCgvD8CTKnmZAAAAA2qM/BVX3QTHC0Fsrk5cjHBWcmWhLqi+2H6xwMpLx/NSSdQGLvETqW1l8Vu2WGUlCr7rH+fU2/s71d32qvZNJYQ==
+# environment
+OPENAI_API_KEY = sk-OhenOiFqJC5rjzCI5793C1B0B7804bF3967eB776847809E2
+# environment
+COMPUTERNAME = KIWI
+# environment
+PROGRAMFILES = C:\Program Files
+# default
+.LOADED := 
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+OPENAI_API_BASE_URL = https://api.chatgptid.net
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERNAME = �����
+# environment
+PUBLIC = C:\Users\Public
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\�����\AppData\Roaming\Code\CachedData\b58957e67ee1e712cebf466b995adf4c5307b2bd
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+COMMONPROGRAMFILES = C:\Program Files\Common Files
+# environment
+LOGONSERVER = \\KIWI
+# environment
+M2_HOME = C:\Program Files\apache-maven-3.9.6\repository
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+USERDOMAIN = kiwi
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+JAVA_HOME = C:\Program Files\Java\jdk-17
+# default
+MAKE_VERSION := 4.2.1
+# makefile
+.DEFAULT_GOAL := 
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# automatic
+%D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
+# environment
+LOCALAPPDATA = C:\Users\�����\AppData\Local
+# environment
+VSCEXT_EXHORT_PYTHON_PATH = python
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := make.exe
+# environment
+VSCEXT_UTM_SOURCE = vscode
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 154 Stepping 3, GenuineIntel
+# environment
+OS = Windows_NT
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\f9a6ce62-1.89.0-main-sock
+# environment
+DB_PASSWORD = kiwi
+# environment
+VSCEXT_REDHAT_REPOSITORY_RECOMMENDATION_NOTIFICATION_COMMAND = rhda.rhRepositoryRecommendationNotification
+# environment
+HOMEPATH = \Users\�����
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+PROMPT = $P$G
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+# environment
+SYSTEMROOT = C:\WINDOWS
+# automatic
++D = $(patsubst %/,%,$(patsubst %\,%,$(dir $+)))
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
+# automatic
++F = $(notdir $+)
+# environment
+APPDATA = C:\Users\�����\AppData\Roaming
+# environment
+TEMP = C:\Kiwi\temp
+# environment
+COMSPEC = C:\WINDOWS\system32\cmd.exe
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+LC_ALL = C
+# environment
+VSCEXT_VULNERABILITY_ALERT_SEVERITY = Error
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+SYSTEMDRIVE = C:
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = 9a03
+# default
+.RECIPEPREFIX := 
+# environment
+LANG = C
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+VSCODE_PID = 21428
+# environment
+VSCEXT_EXHORT_MVN_PATH = mvn
+# environment
+USERDOMAIN_ROAMINGPROFILE = kiwi
+# variable set hash-table stats:
+# Load=115/1024=11%, Rehash=0, Collisions=16/133=12%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (key d:/bookStore_frontend/bookstore, mtime 1715223479): 24 files, no impossibilities.
+
+# 24 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+makefile.mak:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+GNUmakefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# files hash-table stats:
+# Load=7/1024=1%, Rehash=0, Collisions=0/16=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 31 / storage = 327 B / avg = 10 B
+# current buf: size = 8162 B / used = 327 B / count = 31 / avg = 10 B
+
+# strcache performance: lookups = 33 / hit rate = 6%
+# hash-table stats:
+# Load=31/8192=0%, Rehash=0, Collisions=1/33=3%
+# Finished Make data base on Thu May 09 10:58:30 2024
+
+ 
