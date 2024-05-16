@@ -111,7 +111,7 @@ function BookRate({ book, handleRateBook }) {
             </div>
             <Divider />
             <Typography.Text level={4} style={{ fontSize: '16px', fontWeight: 'bold' }}>您的喜好程度<br /></Typography.Text>
-            <Rate defaultValue={rate} allowClear={false} style={{ marginTop: '10px' }} onChange={handleRateChange} />
+            <Rate value={rate} allowClear={false} style={{ marginTop: '10px' }} onChange={handleRateChange} />
         </div>
     );
 }
