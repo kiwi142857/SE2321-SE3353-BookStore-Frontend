@@ -10,6 +10,7 @@ import RegisterForm from "../components/registerForm";
 import { handleBaseApiResponse } from "../utils/message";
 import { getMe } from "../service/user";
 import { login } from "../service/login";
+import { register } from "../service/auth";
 import '../css/global.css';
 
 function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps, setIsSignUp }) {
@@ -27,7 +28,7 @@ function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps, s
           <ProFormText name="username"
             fieldProps={{
               size: 'large',
-              prefix: <UserOutlined/>,
+              prefix: <UserOutlined />,
             }}
             placeholder={'Username'}
             rules={[
@@ -42,7 +43,7 @@ function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps, s
             name="password"
             fieldProps={{
               size: 'large',
-              prefix: <LockOutlined  />,
+              prefix: <LockOutlined />,
             }}
             placeholder={'Password'}
             rules={[
@@ -63,7 +64,7 @@ function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps, s
                   <img src={process.env.PUBLIC_URL + 'cap_' + captcha[captchaIndex] + '.png'} alt="Captcha" />
                 </button>
               }
-              prefix={<LockOutlined  />}
+              prefix={<LockOutlined />}
               type="text"
               placeholder="Captcha"
               value={userCaptcha}
@@ -72,7 +73,7 @@ function LoginForm({ setIsLoginFormVisbile, loginType, setLoginType, JacProps, s
           </Form.Item>
 
           <div style={{ marginBlockEnd: 24, marginTop: '40px' }} >
-            <Button className="login-form-info" onClick={(event) => { event.preventDefault(); setIsLoginFormVisbile(true); setIsSignUp(true)}} backgroundColor='none'>创建账号</Button>
+            <Button className="login-form-info" onClick={(event) => { event.preventDefault(); setIsLoginFormVisbile(true); setIsSignUp(true); }} backgroundColor='none'>创建账号</Button>
             <Button className="login-form-info" style={{ float: 'right' }}>忘记密码</Button>
           </div>
         </>}
@@ -92,12 +93,12 @@ const LoginPage = () => {
   const [captchaIndex, setCaptchaIndex] = useState(0);
   const [userCaptcha, setUserCaptcha] = useState('');
   const [isLoginFormVisbile, setIsLoginFormVisbile] = useState(false);
-  
+
   const JacProps = { captcha, captchaIndex, setCaptchaIndex, userCaptcha, setUserCaptcha };
   const LoginFormProps = { setIsLoginFormVisbile, loginType, setLoginType, JacProps, setIsSignUp };
 
-  const onSubmit = async (values) => {
-    let email = values['username'];
+  const loginSumit = async (values) => {
+    let username = values['username'];
     let password = values['password'];
 
     if (isLoginFormVisbile) { return; }
@@ -107,7 +108,7 @@ const LoginPage = () => {
       return;
     }
     else {
-      let res = await login(email, password);
+      let res = await login(username, password);
       handleBaseApiResponse(res, messageApi);
       if (res.ok === true) {
         navigate('/home');
@@ -115,10 +116,31 @@ const LoginPage = () => {
     };
   };
 
+  const onSubmit = async (values) => {
+    console.log("values: ", values);
+    if (isSignUp) {
+      let username = values['username'];
+      let password = values['password'];
+
+      console.log("username: ", username);
+      console.log("password: ", password);
+      let res = await register(values.username, values.password);
+      handleBaseApiResponse(res, messageApi);
+      if (res.ok === true) {
+        setIsLoginFormVisbile(false);
+        setIsSignUp(false);
+      }
+    }
+    else {
+      loginSumit(values);
+    }
+  };
+
+
   async function handleActivity() {
     let me = await getMe();
-    if(me) {
-    navigate('/home');
+    if (me) {
+      navigate('/home');
     }
     else {
       messageApi.error('请先登录!');
@@ -167,7 +189,7 @@ const LoginPage = () => {
               }}
               onClick={
                 handleActivity
-            }
+              }
             >去看看
             </Button>
           ),
@@ -178,9 +200,12 @@ const LoginPage = () => {
             <Tabs
               centered
               activeKey={isSignUp ? 'signUp' : 'logIn'}
-              onChange={(activeKey) => { setIsSignUp(activeKey === 'signUp'); 
-              if(activeKey !== 'signUp') {
-                setIsLoginFormVisbile(false);}}}
+              onChange={(activeKey) => {
+                setIsSignUp(activeKey === 'signUp');
+                if (activeKey !== 'signUp') {
+                  setIsLoginFormVisbile(false);
+                }
+              }}
               defaultActiveKey="signUp"
             >
               <Tabs.TabPane key={'logIn'} tab={'登录'} />
@@ -189,7 +214,7 @@ const LoginPage = () => {
             <RegisterForm />
           </>
         )}
-        {(!isLoginFormVisbile) && <LoginForm {...LoginFormProps} />}
+        {(!isLoginFormVisbile) && <div style={{marginBottom:'8%'}}><LoginForm {...LoginFormProps} /></div>}
       </LoginFormPage>
     </BasicLayout >
   );
