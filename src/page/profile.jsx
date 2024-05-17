@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Input, Row, Col, Typography, Card, Button, Statistic } from 'antd';
+import { Avatar, Input, Row, Col, Typography, Card, Button, Statistic, message } from 'antd';
 import useMessage from 'antd/es/message/useMessage';
 import { WalletOutlined } from '@ant-design/icons';
 import CountUp from 'react-countup';
@@ -9,9 +9,25 @@ import { logout } from '../service/logout';
 import { handleBaseApiResponse } from '../utils/message';
 import { PrivateLayout } from '../components/layout';
 import ChangePasswordModal from '../components/changePasswordModal';
+import { updateProfile } from '../service/user';
 import '../css/global.css';
 
-function UserCard({ avatarSrc, handleAvatarChange, user, description, handleDescriptionChange }) {
+function UserCard({ avatarSrc, handleAvatarChange, user }) {
+
+    const [messageApi, contextHolder] = useMessage();
+    const [username, setUsername] = useState(user.name);
+    const [description, setDescription] = useState(user.description);
+    const handleCommit = async () => {
+        const updatedUser = {
+            name: username,
+            description: description,
+        };
+
+        let res = await updateProfile(updatedUser);
+        handleBaseApiResponse(res, messageApi);
+
+    };
+
     return (
         <Row gutter={18} style={{ marginLeft: '5%' }}>
             <Col span={3}>
@@ -28,19 +44,36 @@ function UserCard({ avatarSrc, handleAvatarChange, user, description, handleDesc
                 </div>
             </Col>
             <Col span={10}>
-                <Typography.Text className='user-name' >
-                    {user && user.name}
-                </Typography.Text>
+                <Input.TextArea
+                    className='user-name'
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder={"名称，最多20字"}
+                    maxLength={20}
+                    autoSize={{ maxRows: 1 }}
+                    style={{ width: '100%', marginTop: '20px', marginLeft: 10, marginBottom: 10}}
+                />
                 <Typography className='email' style={{ marginLeft: 10 }}>{user.sid ? user.sid : 'ID:522031910000'}</Typography>
                 <Input.TextArea
                     className='description-input'
                     value={description}
-                    onChange={handleDescriptionChange}
+                    onChange={(e) => setDescription(e.target.value)}
                     placeholder={"个人简介,最多128字"}
                     maxLength={128}
                     autoSize={{ maxRows: 5 }}
                     style={{ width: '100%', marginTop: '20px', marginLeft: 10 }}
                 />
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size='medium'
+                    style={{ width: '25%', marginTop: '10px', marginLeft: 10 }}
+                    onClick={handleCommit}
+                >
+                    保存
+                </Button>
+
             </Col>
         </Row>
     );
@@ -73,7 +106,7 @@ function ProfileButton({ clickChangePassword, clickLogout }) {
 };
 
 export default function ProfilePage() {
-    const [description, setDescription] = useState('我是简介~~');
+
     const [messageApi, contextHolder] = useMessage();
     const [user, setUser] = useState(null);
     const [avatarSrc, setAvatarSrc] = useState('https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png');
@@ -103,10 +136,6 @@ export default function ProfilePage() {
         // eslint-disable-next-line
     }, []);
 
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value);
-    };
-
     const handleAvatarChange = (event) => {
         if (event.target.files && event.target.files[0]) {
             setAvatarSrc(URL.createObjectURL(event.target.files[0]));
@@ -133,7 +162,7 @@ export default function ProfilePage() {
         <PrivateLayout>
             {contextHolder}
             <Card className='user-card'>
-                <UserCard avatarSrc={avatarSrc} handleAvatarChange={handleAvatarChange} user={user} description={description} handleDescriptionChange={handleDescriptionChange} />
+                <UserCard avatarSrc={avatarSrc} handleAvatarChange={handleAvatarChange} user={user} />
                 <Row style={{ marginTop: '30px', marginLeft: '5%' }}>
                     <ProfileButton clickChangePassword={clickChangePassword} clickLogout={clickLogout} />
                     <UserBlance user={user} />

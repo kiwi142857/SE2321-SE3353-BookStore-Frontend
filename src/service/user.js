@@ -22,3 +22,15 @@ export async function changePassword(request) {
     }
     return res;
 }
+
+export async function updateProfile(request) {
+    const url = `${PREFIX}/user/{id}`;
+    let res;
+    try {
+        res = await put(url, request);
+    } catch(e) {
+        console.log(e);
+        res = DUMMY_RESPONSE;
+    }
+    return res;
+}
