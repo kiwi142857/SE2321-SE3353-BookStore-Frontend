@@ -225,7 +225,9 @@ export default function BookPage() {
     const handleBuyBook = async () => {
 
         await addCartItem(book.id);
-        let cartItems = await getCartItems();
+        let response = await getCartItems();
+        let cartItems = response.cartItems;
+        console.log('cartItems', cartItems);
         let item = cartItems.find(item => item.book.id === book.id);
         if (item === undefined) {
             messageApi.error("购物车中未找到该商品！");

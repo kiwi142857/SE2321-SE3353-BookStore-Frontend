@@ -24,7 +24,7 @@ export async function changePassword(request) {
 }
 
 export async function updateProfile(request) {
-    const url = `${PREFIX}/user/{id}`;
+    const url = `${PREFIX}/user/me`;
     let res;
     try {
         res = await put(url, request);
