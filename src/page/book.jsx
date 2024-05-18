@@ -234,10 +234,10 @@ export default function BookPage() {
             return;
         }
         item = [item];
-        // console.log('item', item);
+
         setItem(item);
         setShowModal(true);
-        // handleBaseApiResponse(res, messageApi);
+
     };
 
     const handleRateBook = async (rate) => {
