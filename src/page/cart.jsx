@@ -20,7 +20,7 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
         },
         {
             title: '单价', dataIndex: 'book', key: 'bookPrice',
-            render: (book) => (book.price / 100 * (book.discount === undefined ? 0.7 : book.discount)).toFixed(2),
+            render: (book) => (book.price / 1000 * (book.discount === undefined ? 7 : book.discount)).toFixed(2),
         },
         {
             title: '数量', dataIndex: 'number', key: 'quantity',
@@ -30,7 +30,7 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
         },
         {
             title: '小计', dataIndex: 'book', key: 'subtotal',
-            render: (book, item) => (book.price / 100 * (book.discount === undefined ? 0.7 : book.discount) * item.number).toFixed(2),
+            render: (book, item) => (book.price / 1000 * (book.discount === undefined ? 7 : book.discount) * item.number).toFixed(2),
         },
     ];
 
@@ -41,7 +41,7 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
     };
 
     const computeTotalPrice = () => {
-        const prices = selectedItems.map(item => (item.book.price * ((item.book.discount === undefined) ? 0.7 : item.book.discount)) * item.number);
+        const prices = selectedItems.map(item => (item.book.price * ((item.book.discount === undefined) ? 7 : item.book.discount)) * item.number / 10);
         return prices.length > 0 ?
             prices.reduce((prev, cur) => prev + cur) / 100 : 0;
     };

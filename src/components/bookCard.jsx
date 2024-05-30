@@ -9,7 +9,7 @@ export default function BookCard({ book }) {
             <Meta title={book.title} />
             <Typography.Text style={{ color: 'gray', fontSize: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block', width: '100%', marginTop: '5px' }}>作者：{book.author}</Typography.Text>
             <Typography.Text style={{ color: 'gray', fontSize: '12px', marginBottom: '-10px' }}>
-                价格： {(book.price / 100 * (book.discount ? book.discount : 0.7)).toFixed(2)}<br />
+                价格： {(book.price / 1000 * (book.discount ? book.discount : 7)).toFixed(2)}<br />
             </Typography.Text>
             <Divider style={{ margin: '10px', marginTop: '0' }} />
             <BookTags tags={book.tag} style={{ padding: '5px' }} />

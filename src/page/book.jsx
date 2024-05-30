@@ -26,15 +26,15 @@ function BookInfo({ book }) {
 }
 
 function BookDiscount({ book }) {
-    const discount = book.discount || 0.7;
+    const discount = book.discount || 7;
     return (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div style={{ backgroundColor: "#fcfaf7", padding: "20px", width: "100%", borderRadius: '20px' }}>
                 <Paragraph style={{ marginBottom: 0 }} type="secondary">抢购价</Paragraph>
                 <Space>
                     <div style={{ color: "#dd3735", fontSize: "16px" }}>¥</div>
-                    <div style={{ color: "#dd3735", fontSize: "30px" }}>{(book.price / 100 * 0.7).toFixed(2)}</div>
-                    <div style={{ color: "#dd3735", fontSize: "18px" }}>({10 * discount}折)</div>
+                    <div style={{ color: "#dd3735", fontSize: "30px" }}>{(book.price / 1000 * discount).toFixed(2)}</div>
+                    <div style={{ color: "#dd3735", fontSize: "18px" }}>({discount}折)</div>
                 </Space>
                 <Space style={{ marginLeft: 10 }}>
                     <div style={{
