@@ -12,8 +12,8 @@ export async function placeOrder(orderInfo) {
     return res;
 }
 
-export async function getOrders() {
-    const url = `${PREFIX}/order`;
+export async function getOrders(pageIndex= 1, pageSize= 10) {
+    const url = `${PREFIX}/order?pageIndex=${pageIndex-1}&pageSize=${pageSize}`;
     let orders;
     try {
         orders = await getJson(url);

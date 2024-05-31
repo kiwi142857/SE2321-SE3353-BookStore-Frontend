@@ -1,6 +1,9 @@
 import { Table } from "antd";
 import { formatTime } from "../utils/time";
 import { List, Avatar } from "antd";
+import { getOrders } from "../service/order";
+import { useState } from "react";
+
 
 export function OrderItemList({ orderItems }) {
     return <List
@@ -17,7 +20,10 @@ export function OrderItemList({ orderItems }) {
     />;
 }
 
-export default function OrderTable({ orders }) {
+export default function OrderTable({ orders, setOrders, total }) {
+
+    const [currentPage, setCurrentPage] = useState(1);  
+    const [totalItems, setTotalItems] = useState(total);
     // 获取所有的书本名称
     const bookTitles = [...new Set(orders.flatMap(order => order.items.map(item => item.book.title)))];
 
@@ -77,5 +83,16 @@ export default function OrderTable({ orders }) {
             ...order,
             key: order.id,
         }))}
+        pagination={{
+            current: currentPage,
+            total: totalItems,
+            pageSize: 10,
+            onChange: async(page, pageSize) => {
+                setCurrentPage(page);
+                const orders = await getOrders(page, pageSize);
+                setOrders(orders.orders);
+                setTotalItems(orders.total);
+            },
+        }}
     />;
 }

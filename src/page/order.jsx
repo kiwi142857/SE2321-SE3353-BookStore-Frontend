@@ -6,10 +6,11 @@ import { getOrders } from "../service/order";
 
 export default function OrderPage() {
     const [orders, setOrders] = useState([]);
-
+    const [total, setTotal] = useState(0);
     const initOrders = async () => {
         let orders = await getOrders();
-        setOrders(orders);
+        setOrders(orders.orders);
+        setTotal(orders.total);
     }
 
     useEffect(() => {
@@ -18,7 +19,7 @@ export default function OrderPage() {
 
     return <PrivateLayout>
         <Card style={{margin:'10px', marginTop:'20px'}}>
-            <OrderTable orders={orders} />
+            <OrderTable orders={orders} setOrders={setOrders} total={total}/>
         </Card>
     </PrivateLayout>
 }
