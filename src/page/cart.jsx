@@ -11,7 +11,7 @@ import useMessage from "antd/es/message/useMessage";
 import { changeCartItemNumber, deleteCartItem } from "../service/cart";
 import PlaceOrderModal from "../components/placeOrder";
 
-function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelectedItems, selectedItems }) {
+function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelectedItems, selectedItems, total}) {
 
     const columns = [
         {
@@ -39,6 +39,9 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
         setCartItems(cartItems.map(item => item.id === id ? { ...item, number } : item));
         setSelectedItems(selectedItems.map(item => item.id === id ? { ...item, number } : item));
     };
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState(total);
 
     const computeTotalPrice = () => {
         const prices = selectedItems.map(item => (item.book.price * ((item.book.discount === undefined) ? 7 : item.book.discount)) * item.number / 10);
@@ -88,6 +91,7 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
         setShowModal(true);
     };
 
+   
     return (
         <>
             <Table rowSelection={rowSelection}
@@ -96,6 +100,18 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
                     ...item,
                     key: item.id
                 }))}
+                pagination={{
+                    current: currentPage,
+                    total: totalItems,
+                    pageSize: 10,
+                    onChange: async(page, pageSize) => {
+                        setCurrentPage(page);
+                        const cartItems = await getCartItems(page, pageSize);
+                        setCartItems(cartItems.cartItems);
+                        setTotalItems(cartItems.total);
+                        console.log('totalItems', cartItems.total);
+                    },
+                }}
             />
             <Card style={{ margin: '10px' }}>
                 <Row>
@@ -116,6 +132,7 @@ export default function CartPage() {
 
     const [messageApi, contextHolder] = useMessage();
     const [cartItems, setCartItems] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [selectedItems, setSelectedItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
@@ -123,6 +140,7 @@ export default function CartPage() {
         let cartItems = await getCartItems();
         console.log('cartItems', cartItems);
         setCartItems(cartItems.cartItems);
+        setTotalItems(cartItems.total);
     };
 
     useEffect(() => {
@@ -152,7 +170,8 @@ export default function CartPage() {
         messageApi,
         setShowModal,
         selectedItems,
-        setSelectedItems
+        setSelectedItems,
+        total: totalItems
       };
 
     return (

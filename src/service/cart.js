@@ -1,7 +1,7 @@
 import { DUMMY_RESPONSE, PREFIX, del, getJson, put } from "./common";
 
-export async function getCartItems() {
-    const url = `${PREFIX}/cart`;
+export async function getCartItems(pageIndex = 1, pageSize = 10) {
+    const url = `${PREFIX}/cart?pageIndex=${pageIndex-1}&pageSize=${pageSize}`;
     let cartItems;
     try {
         cartItems = await getJson(url);
