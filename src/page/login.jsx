@@ -124,7 +124,7 @@ const LoginPage = () => {
 
       console.log("username: ", username);
       console.log("password: ", password);
-      let res = await register(values.username, values.password);
+      let res = await register(values.username, values.password, values.email);
       handleBaseApiResponse(res, messageApi);
       if (res.ok === true) {
         setIsLoginFormVisbile(false);

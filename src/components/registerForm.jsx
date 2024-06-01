@@ -62,22 +62,22 @@ export default function RegisterForm() {
       />
 
       <ProFormText
-    name="email"
-    label="E-mail"
-    rules={[
-        {
+        name="email"
+        label="E-mail"
+        rules={[
+          {
             required: true,
             message: 'Please input your E-mail!',
-        },
-        {
+          },
+          {
             type: 'email',
             message: 'The input is not valid E-mail!',
-        },
-    ]}
-    fieldProps={{
-        style: { width: '80%', marginBottom: '-4%' }
-    }}
-/>
+          },
+        ]}
+        fieldProps={{
+          style: { width: '80%', marginBottom: '-4%' }
+        }}
+      />
 
       <ProFormText.Password
         name="password"
