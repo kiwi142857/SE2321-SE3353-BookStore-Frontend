@@ -11,6 +11,12 @@ export default function BookCard({ book }) {
             <Typography.Text style={{ color: 'gray', fontSize: '12px', marginBottom: '-10px' }}>
                 价格： {(book.price / 1000 * (book.discount ? book.discount : 7)).toFixed(2)}<br />
             </Typography.Text>
+            <Typography.Text style={{ color: 'gray', fontSize: '12px', marginBottom: '-10px' }}>
+                库存： {book.stock}<br />
+            </Typography.Text>
+            <Typography.Text style={{ color: 'gray', fontSize: '12px', marginBottom: '-10px' }}>
+                ISBN: {book.isbn}<br />
+            </Typography.Text>
             <Divider style={{ margin: '10px', marginTop: '0' }} />
             <BookTags tags={book.tag} style={{ padding: '5px' }} />
         </Card>
