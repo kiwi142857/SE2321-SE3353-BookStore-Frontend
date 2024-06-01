@@ -9,12 +9,18 @@ export default function NavBar({ user }) {
     const parts = location.pathname.split('/');
     const selectedKey = '/' + parts[1]; // The last part of the path
     console.log(selectedKey);
+    console.log("user", user);
     const navItems = [  // Items in the navigation bar
         { label: "主页", value: "/home" },
         { label: "购物车", value: "/cart" },
         { label: "订单", value: "/order" },
         { label: "排名", value: "/rank" },
     ];
+
+
+    if (user && user.role !== 0) {
+        navItems.push({ label: "管理员", value: "/administrator" });
+    }
 
     const navMenuItems = navItems.map(item => ({
         key: item.value,
@@ -34,7 +40,7 @@ export default function NavBar({ user }) {
                     </div>
                 </Link>
             </Col>
-            <Col flex={10}>
+            <Col flex={8}>
                 <Link className="title-font" to="./home">Book store</Link>
             </Col>
             <Col flex={1} style={{ textAlign: 'right' }}>
