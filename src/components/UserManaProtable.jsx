@@ -51,6 +51,15 @@ export function UserManaProtable() {
             sorter: (a, b) => a.email.localeCompare(b.email),
             hideInSearch: true,
         },
+        {
+            title: '余额', dataIndex: 'balance', key: 'balance',
+            sorter: (a, b) => a.balance - b.balance,
+            hideInSearch: true,
+            // 由于余额是以分为单位的，所以需要除以100
+            render: (_, record) => {
+                return (record.balance / 100).toFixed(2);
+            }
+        },
         /* {
             title: '电话号码', dataIndex: 'tel', key: 'tel',
             sorter: (a, b) => a.tel.localeCompare(b.tel),

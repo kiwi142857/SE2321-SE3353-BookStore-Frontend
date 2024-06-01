@@ -87,7 +87,7 @@ function UserBlance({ user }) {
         <Col span={12}>
             <Statistic
                 title="余额"
-                value={user.balance}
+                value={user.balance /100}
                 precision={2}
                 formatter={formatter}
                 prefix={<WalletOutlined />}
