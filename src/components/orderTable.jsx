@@ -1,9 +1,15 @@
 import { Table } from "antd";
 import { formatTime } from "../utils/time";
 import { List, Avatar } from "antd";
-import { getOrders } from "../service/order";
+import { searchOrders } from "../service/order";
 import { useState } from "react";
+import React, { useEffect, useRef } from 'react';
+import ProTable from '@ant-design/pro-table';
+import { DatePicker } from 'antd';
+import { searchOrdersAdmin } from '../service/order';
+import moment from 'moment';
 
+const { RangePicker } = DatePicker;
 
 export function OrderItemList({ orderItems }) {
     return <List
@@ -22,76 +28,74 @@ export function OrderItemList({ orderItems }) {
 
 export default function OrderTable({ orders, setOrders, total, setTotal }) {
 
-    const [currentPage, setCurrentPage] = useState(1);  
-    // 获取所有的书本名称
-    const bookTitles = [...new Set(orders.flatMap(order => order.items.map(item => item.book.title)))];
-
-    // 创建过滤器数组
-    const bookTitleFilters = bookTitles.map(title => ({ text: title, value: title }));
-
     const columns = [
         {
             title: '订单号', dataIndex: 'id', key: 'id',
             sorter: (a, b) => a.id - b.id,
+            hideInSearch: true,
         },
         {
             title: '收货人',
             dataIndex: 'receiver',
             key: 'receiver',
             sorter: (a, b) => a.receiver.localeCompare(b.receiver),
+            hideInSearch: true,
         },
         {
             title: '书本名称',
             key: 'bookTitle',
-            filters: bookTitleFilters,
-            onFilter: (value, record) => record.items.some(item => item.book.title === value),
             render: (text, record) => (
                 <div>
                     {record.items.map(item => <div key={item.id}>{item.book.title}</div>)}
                 </div>
             ),
         },
-        { title: '联系方式', dataIndex: 'tel', key: 'tel', },
-        { title: '收货地址', dataIndex: 'address', key: 'address', },
+        { title: '联系方式', dataIndex: 'tel', key: 'tel', hideInSearch: true, },
+        { title: '收货地址', dataIndex: 'address', key: 'address', hideInSearch: true, },
         {
             title: '下单时间',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            render: (time) => formatTime(time),
-            filters: [
-                { text: '最近十分钟', value: '0.007' },
-                { text: '最近一天内', value: '1' },
-                { text: '最近一周内', value: '7' },
-                { text: '最近一个月', value: '30' },
-            ],
-            onFilter: (value, record) => {
-                const days = (new Date() - new Date(record.createdAt)) / (1000 * 60 * 60 * 24);
-                return days <= value;
-            },
+            valueType: 'dateRange',
+            render: (_, record) => moment(record.createdAt).format('YYYY-MM-DD HH:mm:ss'),
         },
     ];
 
-    return <Table style={{ textAlign: 'left' }}
+    return <ProTable
         columns={columns}
-        expandable={{
-            expandedRowRender: (order) => (
-                <OrderItemList orderItems={order.items} />
-            ),
+        request={async (params) => {
+            const { current, pageSize, createdAt, ...rest } = params;
+            console.log('params', params);
+            
+            let startTime, endTime;
+            if (createdAt && createdAt.length === 2) {
+                startTime = moment(createdAt[0]).startOf('day').toISOString();
+                endTime = moment(createdAt[1]).endOf('day').toISOString();
+            } else {
+                startTime = "2022-01-01T00:00:00Z";
+                endTime = "2028-01-01T00:00:00Z";
+            }
+            console.log('startTime', startTime);
+            console.log('endTime', endTime);
+            const data = await searchOrders(rest.bookTitle || "", current, pageSize, startTime, endTime);
+            const orders = data.orders;
+            console.log('data', data);
+            return {
+                data: orders.map(order => ({
+                    ...order,
+                    key: order.id,
+                })),
+            };
         }}
-        dataSource={orders.map(order => ({
-            ...order,
-            key: order.id,
-        }))}
+        rowKey="id"
+        search={{
+            labelWidth: 'auto',
+        }}
         pagination={{
-            current: currentPage,
-            total: total,
             pageSize: 10,
-            onChange: async(page, pageSize) => {
-                setCurrentPage(page);
-                const orders = await getOrders(page, pageSize);
-                setOrders(orders.orders);
-                setTotal(orders.total);
-            },
         }}
+        dateFormatter="string"
+        headerTitle="订单管理"
     />;
+
 }

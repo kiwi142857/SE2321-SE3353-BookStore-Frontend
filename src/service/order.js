@@ -24,6 +24,18 @@ export async function getOrders(pageIndex= 1, pageSize= 10) {
     return orders;
 }
 
+export async function searchOrders(key, pageIndex= 1, pageSize= 10, startTime, endTime) {
+    const url = `${PREFIX}/order/search?keyWord=${key}&pageIndex=${pageIndex-1}&pageSize=${pageSize}&startTime=${startTime}&endTime=${endTime}`;
+    let orders;
+    try {
+        orders = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        orders = []
+    }
+    return orders;
+}
+
 export async function searchOrdersAdmin(key, pageIndex= 1, pageSize= 10, startTime, endTime) {
     const url = `${PREFIX}/order/admin?keyWord=${key}&pageIndex=${pageIndex-1}&pageSize=${pageSize}&startTime=${startTime}&endTime=${endTime}`;
     let orders;
