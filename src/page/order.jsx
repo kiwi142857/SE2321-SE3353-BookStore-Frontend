@@ -19,7 +19,7 @@ export default function OrderPage() {
 
     return <PrivateLayout>
         <Card style={{margin:'10px', marginTop:'20px'}}>
-            <OrderTable orders={orders} setOrders={setOrders} total={total}/>
+            <OrderTable orders={orders} setOrders={setOrders} total={total} setTotal={setTotal}/>
         </Card>
     </PrivateLayout>
 }
