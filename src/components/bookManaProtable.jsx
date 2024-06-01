@@ -169,7 +169,7 @@ export function BookManaProtable() {
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
                         修改
                     </Button>
-                    <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record)} style={{ marginLeft: '10px' }}>
+                    <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record)} style={{ marginLeft: '10px', color:'red' }}>
                         删除
                     </Button>
                 </>
