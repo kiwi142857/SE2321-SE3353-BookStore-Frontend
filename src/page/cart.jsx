@@ -11,7 +11,7 @@ import useMessage from "antd/es/message/useMessage";
 import { changeCartItemNumber, deleteCartItem } from "../service/cart";
 import PlaceOrderModal from "../components/placeOrder";
 
-function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelectedItems, selectedItems, total}) {
+function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelectedItems, selectedItems, totalItems, setTotalItems}) {
 
     const columns = [
         {
@@ -41,7 +41,6 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
     };
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalItems] = useState(total);
 
     const computeTotalPrice = () => {
         const prices = selectedItems.map(item => (item.book.price * ((item.book.discount === undefined) ? 7 : item.book.discount)) * item.number / 10);
@@ -171,7 +170,8 @@ export default function CartPage() {
         setShowModal,
         selectedItems,
         setSelectedItems,
-        total: totalItems
+        totalItems,
+        setTotalItems
       };
 
     return (

@@ -24,7 +24,7 @@ export default function PlaceOrderModal({
             itemIds: selectedItems.map(item => item.id)
         }
         let res = await placeOrder(orderInfo);
-        handleBaseApiResponse(res, messageApi, onOk);
+        handleBaseApiResponse(res, messageApi, onOk, onCancel);
     };
 
     return (

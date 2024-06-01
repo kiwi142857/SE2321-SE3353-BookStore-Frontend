@@ -20,10 +20,9 @@ export function OrderItemList({ orderItems }) {
     />;
 }
 
-export default function OrderTable({ orders, setOrders, total }) {
+export default function OrderTable({ orders, setOrders, total, setTotal }) {
 
     const [currentPage, setCurrentPage] = useState(1);  
-    const [totalItems, setTotalItems] = useState(total);
     // 获取所有的书本名称
     const bookTitles = [...new Set(orders.flatMap(order => order.items.map(item => item.book.title)))];
 
@@ -85,13 +84,13 @@ export default function OrderTable({ orders, setOrders, total }) {
         }))}
         pagination={{
             current: currentPage,
-            total: totalItems,
+            total: total,
             pageSize: 10,
             onChange: async(page, pageSize) => {
                 setCurrentPage(page);
                 const orders = await getOrders(page, pageSize);
                 setOrders(orders.orders);
-                setTotalItems(orders.total);
+                setTotal(orders.total);
             },
         }}
     />;
