@@ -7,6 +7,7 @@ import CartPage from "../page/cart";
 import RankPage from "../page/rank";
 import ProfilePage from "../page/profile";
 import AdministratorPage from "../page/administrator";
+import StatisticsPage from "../page/statistics";
 
 export default function AppRouter() {
     return <BrowserRouter>
@@ -20,6 +21,7 @@ export default function AppRouter() {
             <Route path="/rank" element={<RankPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/administrator" element={<AdministratorPage />} />
+            <Route path="/statistics" element={<StatisticsPage />} />
             <Route path="/*" element={<HomePage />} />
         </Routes>
     </BrowserRouter>;

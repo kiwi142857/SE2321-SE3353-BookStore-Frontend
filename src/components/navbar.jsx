@@ -15,6 +15,7 @@ export default function NavBar({ user }) {
         { label: "购物车", value: "/cart" },
         { label: "订单", value: "/order" },
         { label: "排名", value: "/rank" },
+        { label: "统计", value: "/statistics"}
     ];
 
 
