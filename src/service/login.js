@@ -5,13 +5,19 @@ export async function login(username, password) {
     let result;
 
     try {
-        result = await post(url, { username, password });
-    } catch (e) {
-        console.log(e);
+    result = await post(url, { username, password });
+    if (result.status === 'forbidden') {
         result = {
             ok: false,
-            message: "网络错误！",
+            message: "您的账户被封禁！",
         }
     }
+} catch (e) {
+    console.log(e);
+    result = {
+        ok: false,
+        message: "网络错误！",
+    }
+}
     return result;
 }

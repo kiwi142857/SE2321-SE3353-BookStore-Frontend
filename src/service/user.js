@@ -36,6 +36,9 @@ export async function updateProfile(request) {
 }
 
 export async function getUserList(pageIndex = 1, pageSize = 10, keyWord ="", id = -1) {
+    
+    if(id == 'undefined' || id == null || id == '') id = -1;
+    console.log("getUserList", pageIndex, pageSize, keyWord, id);
     const url = `${PREFIX}/user/list?pageIndex=${pageIndex-1}&pageSize=${pageSize}&keyWord=${keyWord}&id=${id}`;
     let users;
     try {
