@@ -18,12 +18,10 @@ function BookEditModal({ isModalVisible,  handleCancel, form, currentRow , actio
                 values.cover = "https://img3m4.ddimg.cn/96/20/25215594-2_u_11.jpg";
                 const res = await postBook(values.id, values);
                 handleBaseApiResponse(res, message, () => {
-                    // 在这里添加成功的回调函数
                     console.log('Book posted successfully');
                     actionRef.current.reload();
                     handleCancel(); 
                 }, () => {
-                    // 在这里添加失败的回调函数
                     handleCancel(); 
                     console.log('Failed to post book');
                 });

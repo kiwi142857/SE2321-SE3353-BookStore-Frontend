@@ -34,3 +34,27 @@ export async function updateProfile(request) {
     }
     return res;
 }
+
+export async function getUserList(pageIndex = 1, pageSize = 10, keyWord ="", id = -1) {
+    const url = `${PREFIX}/user/list?pageIndex=${pageIndex-1}&pageSize=${pageSize}&keyWord=${keyWord}&id=${id}`;
+    let users;
+    try {
+        users = await getJson(url);
+    } catch(e) {
+        console.log(e);
+        users = [];
+    }
+    return users;
+}
+
+export async function toggleUserStatus(userId) {
+    const url = `${PREFIX}/user/ban/${userId}`;
+    let res;
+    try {
+        res = await put(url);
+    } catch(e) {
+        console.log(e);
+        res = DUMMY_RESPONSE;
+    }
+    return res;
+}
