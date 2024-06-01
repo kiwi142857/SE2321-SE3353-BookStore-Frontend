@@ -4,6 +4,7 @@ import { PrivateLayout } from "../components/layout";
 import { Tabs } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { useState } from "react";
+import { BookManaProtable } from "../components/bookManaProtable";
 const { TabPane } = Tabs;
 
 
@@ -15,9 +16,7 @@ export default function AdministratorPage() {
         <Card style={{ margin: '10px', marginTop: '20px' }}>
             <Tabs activeKey={activeTab} onChange={setActiveTab} centered size="large"> 
                 <TabPane tab="书籍管理" key="books">
-                    <ProTable
-                    // ...
-                    />
+                    <BookManaProtable />
                 </TabPane>
 
                 <TabPane tab="用户管理" key="users">
