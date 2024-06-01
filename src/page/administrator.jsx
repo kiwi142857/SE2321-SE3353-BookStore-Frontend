@@ -5,6 +5,8 @@ import { Tabs } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { useState } from "react";
 import { BookManaProtable } from "../components/bookManaProtable";
+import { UserManaProtable } from "../components/UserManaProtable";
+import { OrderManaProtable } from "../components/OrderManaProtable";
 const { TabPane } = Tabs;
 
 
@@ -20,15 +22,11 @@ export default function AdministratorPage() {
                 </TabPane>
 
                 <TabPane tab="用户管理" key="users">
-                    <ProTable
-                    // ...
-                    />
+                    <UserManaProtable />
                 </TabPane>
 
                 <TabPane tab="订单管理" key="orders">
-                    <ProTable
-                    // ...
-                    />
+                    <OrderManaProtable />
                 </TabPane>
             </Tabs>
         </Card>
