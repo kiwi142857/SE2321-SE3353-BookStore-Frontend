@@ -15,7 +15,7 @@ function BookEditModal({ isModalVisible,  handleCancel, form, currentRow , actio
             .then(async (values) => {
                 // 两个参数一个id,一个book
                 console.log("in fun handleOk");
-                values.cover = "https://img3m4.ddimg.cn/96/20/25215594-2_u_11.jpg";
+                values.cover = "https://web-data-1319894912.cos.ap-shanghai.myqcloud.com/csapp.jpg";
                 const res = await postBook(values.id, values);
                 handleBaseApiResponse(res, message, () => {
                     console.log('Book posted successfully');
