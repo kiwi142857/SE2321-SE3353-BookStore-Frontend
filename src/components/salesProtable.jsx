@@ -1,17 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { DatePicker } from 'antd';
-import { searchOrdersAdmin } from '../service/order';
 import moment from 'moment';
-
-
-import { Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import { searchBooks, getBookById, postBook, deleteBook, getBooksBySalesRank } from '../service/book';
-import { Upload } from 'antd';
-import { handleBaseApiResponse } from "../utils/message";
-import { get } from '../service/common';
+import { getBooksBySalesRank } from '../service/book';
 
 const { RangePicker } = DatePicker;
 

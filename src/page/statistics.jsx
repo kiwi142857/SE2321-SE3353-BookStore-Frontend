@@ -5,7 +5,7 @@ import { Tabs } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { useEffect, useState } from "react";
 import { SalesProtable } from "../components/salesProtable";
-import { UserManaProtable } from "../components/UserManaProtable";
+import { UserSalesProtable } from "../components/userSalesProtable";
 import { OrderManaProtable } from "../components/OrderManaProtable";
 import { getMe } from "../service/user";
 const { TabPane } = Tabs;
@@ -44,7 +44,7 @@ export default function StatisticsPage() {
                 </TabPane>}
 
                 {isAdmin && <TabPane tab="消费榜" key="users">
-                    <UserManaProtable />
+                    <UserSalesProtable />
                 </TabPane>}
 
                 <TabPane tab="消费情况" key="myOrders">

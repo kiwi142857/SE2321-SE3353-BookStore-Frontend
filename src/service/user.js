@@ -5,7 +5,7 @@ export async function getMe() {
     let me = null;
     try {
         me = await getJson(url);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
     }
     return me;
@@ -16,7 +16,7 @@ export async function changePassword(request) {
     let res;
     try {
         res = await put(url, request);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         res = DUMMY_RESPONSE;
     }
@@ -28,22 +28,22 @@ export async function updateProfile(request) {
     let res;
     try {
         res = await put(url, request);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         res = DUMMY_RESPONSE;
     }
     return res;
 }
 
-export async function getUserList(pageIndex = 1, pageSize = 10, keyWord ="", id = -1) {
-    
-    if(id == 'undefined' || id == null || id == '') id = -1;
+export async function getUserList(pageIndex = 1, pageSize = 10, keyWord = "", id = -1) {
+
+    if (id == 'undefined' || id == null || id == '') id = -1;
     console.log("getUserList", pageIndex, pageSize, keyWord, id);
-    const url = `${PREFIX}/user/list?pageIndex=${pageIndex-1}&pageSize=${pageSize}&keyWord=${keyWord}&id=${id}`;
+    const url = `${PREFIX}/user/list?pageIndex=${pageIndex - 1}&pageSize=${pageSize}&keyWord=${keyWord}&id=${id}`;
     let users;
     try {
         users = await getJson(url);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         users = [];
     }
@@ -55,9 +55,22 @@ export async function toggleUserStatus(userId) {
     let res;
     try {
         res = await put(url);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         res = DUMMY_RESPONSE;
     }
     return res;
+}
+
+// getSalesRankList
+export async function getSalesRankList(pageIndex = 0, pageSize = 10, startTime , endTime ) {
+    const url = `${PREFIX}/user/rank/sales?pageIndex=${pageIndex}&pageSize=${pageSize}&startTime=${startTime}&endTime=${endTime}`;
+    let salesRankList;
+    try {
+        salesRankList = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        salesRankList = [];
+    }
+    return salesRankList;
 }
