@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import ProTable from '@ant-design/pro-table';
-import { DatePicker } from 'antd';
+import { DatePicker, Divider } from 'antd';
 import { searchOrdersAdmin } from '../service/order';
 import moment from 'moment';
 
@@ -27,13 +27,28 @@ export function OrderManaProtable() {
             hideInSearch: true,
         },
         {
-            title: '书本名称',
-            key: 'bookTitle',
-            render: (text, record) => (
-                <div>
-                    {record.items.map(item => <div key={item.id}>{item.book.title}</div>)}
-                </div>
-            ),
+            title: '书本详情',
+            key: 'booktitle',
+            render: (text, record) => {
+                let totalAmount = 0;
+                return (
+                    <div>
+                        {record.items.map(item => {
+                            const subtotal = item.book.price /100 * item.number * (item.book.discount / 10);
+                            totalAmount += subtotal;
+                            return (
+                                <div key={item.id}>
+                                    <div>书名: {item.book.title}</div>
+                                    <div>数量: {item.number}</div>
+                                    <div>小计: {subtotal.toFixed(2)}</div>
+                                    <Divider />
+                                </div>
+                            );
+                        })}
+                        <div>总金额: {totalAmount.toFixed(2)}</div>
+                    </div>
+                );
+            }
         },
         { title: '联系方式', dataIndex: 'tel', key: 'tel', hideInSearch: true, },
         { title: '收货地址', dataIndex: 'address', key: 'address', hideInSearch: true, },
