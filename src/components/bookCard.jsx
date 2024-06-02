@@ -5,7 +5,7 @@ const { Meta } = Card;
 
 export default function BookCard({ book }) {
     return <Link to={'./book/' + book.id}>
-        <Card hoverable cover={<img alt={book.title} src={book.cover} />}>
+        <Card hoverable cover={<img alt={book.title} src={book.cover} style={{ width: '100%', height: '320px', objectFit: 'cover', objectPosition: 'top' }} />}>
             <Meta title={book.title} />
             <Typography.Text style={{ color: 'gray', fontSize: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block', width: '100%', marginTop: '5px' }}>作者：{book.author}</Typography.Text>
             <Typography.Text style={{ color: 'gray', fontSize: '12px', marginBottom: '-10px' }}>
