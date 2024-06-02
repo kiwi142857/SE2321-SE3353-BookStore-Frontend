@@ -25,7 +25,9 @@ export default function StatisticsPage() {
         } else {
             setUser(me);
             setIsAdmin(me.role != 0);
-            setActiveTab('sales');
+            if(me.role != 0){
+                setActiveTab('sales');
+            }
         }
     };
 
