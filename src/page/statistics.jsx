@@ -2,11 +2,10 @@
 import { Card } from "antd";
 import { PrivateLayout } from "../components/layout";
 import { Tabs } from 'antd';
-import ProTable from '@ant-design/pro-table';
 import { useEffect, useState } from "react";
 import { SalesProtable } from "../components/salesProtable";
 import { UserSalesProtable } from "../components/userSalesProtable";
-import { OrderManaProtable } from "../components/OrderManaProtable";
+import { OrderDetailProtable} from "../components/orderDetailProtable";
 import { getMe } from "../service/user";
 const { TabPane } = Tabs;
 
@@ -48,7 +47,7 @@ export default function StatisticsPage() {
                 </TabPane>}
 
                 <TabPane tab="消费情况" key="myOrders">
-                    <OrderManaProtable />
+                    <OrderDetailProtable />
                 </TabPane>
             </Tabs>
         </Card>
