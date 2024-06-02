@@ -8,9 +8,10 @@ import moment from 'moment';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { searchBooks, getBookById, postBook, deleteBook } from '../service/book';
+import { searchBooks, getBookById, postBook, deleteBook, getBooksBySalesRank } from '../service/book';
 import { Upload } from 'antd';
 import { handleBaseApiResponse } from "../utils/message";
+import { get } from '../service/common';
 
 const { RangePicker } = DatePicker;
 
@@ -36,6 +37,7 @@ export function SalesProtable() {
         {
             title: '书名',
             dataIndex: 'title',
+            hideInSearch: true,
         },
         {
             title: '作者',
@@ -45,6 +47,11 @@ export function SalesProtable() {
         {
             title: '销量',
             dataIndex: 'sales',
+            hideInSearch: true,
+        },
+        {
+            title: '选定时间内销量',
+            dataIndex: 'salesInTime',
             hideInSearch: true,
         },
         {
@@ -59,9 +66,22 @@ export function SalesProtable() {
             dataIndex: 'stock',
             hideInSearch: true,
         },
-        
-        
-        
+        {
+            title: '时间范围',
+            dataIndex: 'dateRange',
+            valueType: 'dateRange',
+            hideInTable: true,
+            search: {
+                transform: (value) => {
+                    return {
+                        startTime: value[0] ? moment(value[0]).startOf('day').toISOString() : null,
+                        endTime: value[1] ? moment(value[1]).endOf('day').toISOString() : null,
+                    };
+                },
+            },
+        },
+
+
 
     ];
 
@@ -70,9 +90,9 @@ export function SalesProtable() {
             <ProTable
                 columns={columns}
                 request={async (params) => {
-                    const { current, pageSize, ...rest } = params;
+                    const { current, pageSize, startTime, endTime, ...rest } = params;
                     console.log('params', params);
-                    const data = await searchBooks(rest.title || "", current - 1, pageSize, "title");
+                    const data = await getBooksBySalesRank(current -1 , pageSize, startTime, endTime);
                     console.log('data', data);
                     return {
                         data: data.bookList.map(book => ({
@@ -91,11 +111,11 @@ export function SalesProtable() {
                     pageSize: 10,
                 }}
                 dateFormatter="string"
-                headerTitle="书籍管理"
+                headerTitle="Hot 热销榜"
 
-               
+
             />
-            
+
         </>
     );
 }

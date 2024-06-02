@@ -113,3 +113,19 @@ export async function deleteBook(id) {
     }
     return res;
 }
+
+// 按照时间范围内销量排序获取书本，用于统计页面，同时有分页功能
+export async function getBooksBySalesRank(pageIndex, pageSize, startTime, endTime) {
+    const url = `${PREFIX}/books/rank/sales?pageIndex=${pageIndex}&pageSize=${pageSize}&startTime=${startTime}&endTime=${endTime}`;
+    let books;
+    try {
+        books = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        books = {
+            total: 0,
+            items: []
+        };
+    }
+    return books;
+}
