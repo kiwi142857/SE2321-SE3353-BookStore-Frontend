@@ -9,8 +9,8 @@ export default function BookList({ books, pageSize, current, total, onPageChange
         total,
         onChange: onPageChange,  
     }
-    return <Space direction="vertical" >
-        <List style={{marginLeft:'15px'}}
+    return <Space direction="vertical" style={{width:'100%'}}>
+        <List style={{marginLeft:'15px', width:'100%'}}
             grid={{gutter: 16, column: 5}}
             dataSource={books.map(b => ({
                 ...b,
