@@ -15,6 +15,21 @@ export async function searchBooks(keyword, pageIndex, pageSize, searchType) {
     return books;
 }
 
+export async function searchBooksAdmin(keyword, pageIndex, pageSize, searchType) {
+    const url = `${PREFIX}/books/admin/search?keyWord=${keyword}&pageIndex=${pageIndex}&pageSize=${pageSize}&searchType=${searchType}`;
+    let books;
+    try {
+        books = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        books = {
+            total: 0,
+            items: []
+        };
+    }
+    return books;
+}
+
 export async function getBookById(id) {
     const url = `${PREFIX}/books/${id}`;
     let book;

@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { Button, Modal, Form, Input, InputNumber, Row, Col, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { searchBooks, getBookById, postBook, deleteBook } from '../service/book';
+import { searchBooksAdmin, getBookById, postBook, deleteBook } from '../service/book';
 import { Upload } from 'antd';
 import { handleBaseApiResponse } from "../utils/message";
 
@@ -219,7 +219,7 @@ export function BookManaProtable() {
                 request={async (params) => {
                     const { current, pageSize, ...rest } = params;
                     console.log('params', params);
-                    const data = await searchBooks(rest.title || "", current - 1, pageSize, "title");
+                    const data = await searchBooksAdmin(rest.title || "", current - 1, pageSize, "title");
                     console.log('data', data);
                     return {
                         data: data.bookList.map(book => ({
