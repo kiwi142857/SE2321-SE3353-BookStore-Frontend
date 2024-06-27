@@ -10,6 +10,7 @@ import { handleBaseApiResponse } from '../utils/message';
 import { PrivateLayout } from '../components/layout';
 import ChangePasswordModal from '../components/changePasswordModal';
 import { updateProfile } from '../service/user';
+import { uploadFile } from '../service/uploadFile';
 import '../css/global.css';
 
 function UserCard({ avatarSrc, handleAvatarChange, user }) {
@@ -51,7 +52,7 @@ function UserCard({ avatarSrc, handleAvatarChange, user }) {
                     placeholder={"名称，最多20字"}
                     maxLength={20}
                     autoSize={{ maxRows: 1 }}
-                    style={{ width: '100%', marginTop: '20px', marginLeft: 10, marginBottom: 10}}
+                    style={{ width: '100%', marginTop: '20px', marginLeft: 10, marginBottom: 10 }}
                 />
                 <Typography className='email' style={{ marginLeft: 10 }}>{user.sid ? user.sid : 'ID:522031910000'}</Typography>
                 <Input.TextArea
@@ -87,7 +88,7 @@ function UserBlance({ user }) {
         <Col span={12}>
             <Statistic
                 title="余额"
-                value={user.balance /100}
+                value={user.balance / 100}
                 precision={2}
                 formatter={formatter}
                 prefix={<WalletOutlined />}
@@ -109,7 +110,7 @@ export default function ProfilePage() {
 
     const [messageApi, contextHolder] = useMessage();
     const [user, setUser] = useState(null);
-    const [avatarSrc, setAvatarSrc] = useState('https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png');
+    const [avatarSrc, setAvatarSrc] = useState((user&&user.avatar) ? user.avatar:'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' );
     const [showModal, setShowModal] = useState(false);
 
     const handleOk = () => {
@@ -128,6 +129,7 @@ export default function ProfilePage() {
             navigate("/login");
         } else {
             setUser(me);
+            setAvatarSrc(me.avatar);
         }
     };
 
@@ -136,9 +138,17 @@ export default function ProfilePage() {
         // eslint-disable-next-line
     }, []);
 
-    const handleAvatarChange = (event) => {
+    const handleAvatarChange = async (event) => {
         if (event.target.files && event.target.files[0]) {
-            setAvatarSrc(URL.createObjectURL(event.target.files[0]));
+            const file = event.target.files[0];
+
+            try {
+                const data = await uploadFile('/api/image/user/profile', file);
+                console.log(data);
+                setAvatarSrc(data.imageUrl); // 假设服务器响应包含了图片的 URL
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     };
 
