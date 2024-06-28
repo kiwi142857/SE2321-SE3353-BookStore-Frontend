@@ -165,8 +165,12 @@ const LoginPage = () => {
                             width: '100%',
                             top: '-20px',
                         }
-                    }
-                }}
+                    },
+                    searchConfig: {
+                        submitText: isSignUp ? '注册' : '登录',
+                    },
+                }
+                }
                 logo={process.env.PUBLIC_URL + 'icon.svg'}
                 title="Book Store"
                 subTitle="欢迎来到电子书店！"
