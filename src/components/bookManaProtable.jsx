@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef } from 'react';
 import ProTable from '@ant-design/pro-table';
 import { Button, Modal, Form, Input, InputNumber, Row, Col, message } from 'antd';
@@ -5,33 +6,75 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { searchBooksAdmin, getBookById, postBook, deleteBook } from '../service/book';
 import { Upload } from 'antd';
+import { uploadFile } from '../service/uploadFile';
 import { handleBaseApiResponse } from "../utils/message";
 
 
-function BookEditModal({ isModalVisible,  handleCancel, form, currentRow , actionRef}) {
+function BookEditModal({ isModalVisible, handleCancel, form, currentRow, actionRef }) {
+
+    const [imageUrl, setImageUrl] = useState();
+
+    useEffect(() => {
+        // 当表单的cover字段更新时，也更新imageUrl状态
+        setImageUrl(form.getFieldValue('cover'));
+    }, [form.getFieldValue('cover')]);
 
     async function handleOk() {
         form.validateFields()
             .then(async (values) => {
                 // 两个参数一个id,一个book
                 console.log("in fun handleOk");
-                values.cover = "https://web-data-1319894912.cos.ap-shanghai.myqcloud.com/csapp.jpg";
                 const res = await postBook(values.id, values);
                 handleBaseApiResponse(res, message, () => {
                     console.log('Book posted successfully');
                     actionRef.current.reload();
-                    handleCancel(); 
+                    handleCancel();
                 }, () => {
-                    handleCancel(); 
+                    handleCancel();
                     console.log('Failed to post book');
                 });
             })
             .catch((info) => {
                 console.log('Validate Failed:', info);
             });
-           
+
     }
-    
+
+    /* const handleFileChange = async (event) => {
+        console.log('handleFileChange');
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+
+            try {
+                const data = await uploadFile('/api/image/upload', file);
+                console.log('Upload successfully:', data);
+                form.setFieldsValue({ cover: data.imageUrl }); // 假设返回的 data 中有一个 imageUrl 字段包含了图片的 URL
+            } catch (error) {
+                console.error('Upload failed:', error);
+                message.error('Upload failed');
+            }
+        }
+    }; */
+    const handleFileChange = async (event) => {
+        console.log('handleFileChange');
+        console.log(event);
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+
+            try {
+                const data = await uploadFile('/api/image/upload', file);
+                console.log(data);
+                form.setFieldsValue({ cover: data.imageUrl }); // 假设服务器响应包含了图片的 URL
+                // check if already set the cover
+                console.log('form.getFieldValue(cover)', form.getFieldValue('cover'));
+                console.log('currentRow.cover', currentRow.cover);
+                setImageUrl(data.imageUrl);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    };
+
 
     return (
         <Modal title="修改书籍" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
@@ -40,13 +83,21 @@ function BookEditModal({ isModalVisible,  handleCancel, form, currentRow , actio
 
                     <Col span={6}>
                         <Form.Item name="cover" label="封面" rules={[{ required: true }]}>
-                            <Upload
-                                listType="picture-card"
-                                showUploadList={false}
-                                beforeUpload={() => false}
-                            >
-                                {form.getFieldValue('cover') ? <img src={form.getFieldValue('cover')} alt="cover" style={{ width: '100%' }} /> : <PlusOutlined />}
-                            </Upload>
+                            <div style={{ position: 'relative', marginTop: '20%', width: '100px', height: '100px' }}>
+                                {imageUrl ? (
+                                    <img src={imageUrl} alt="cover" style={{ width: '100%' }} />
+                                ) : (
+                                    <PlusOutlined />
+                                )}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                    style={{ display: 'none' }}
+                                    id="cover-input"
+                                />
+                                <label htmlFor="cover-input" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', cursor: 'pointer' }}></label>
+                            </div>
                         </Form.Item>
                     </Col>
                     <Col span={6}>
@@ -73,21 +124,22 @@ function BookEditModal({ isModalVisible,  handleCancel, form, currentRow , actio
                     <Col span={6}>
                         <Form.Item name="price" label="价格" rules={[{ required: true }]}>
                             <InputNumber
+                                min={0}
                                 formatter={value => `￥ ${value ? (value / 100).toFixed(2) : 0}`}
                                 parser={value => value ? value.replace(/￥\s?|(,*)/g, '') * 100 : 0}
                             />
                         </Form.Item>
                         <Form.Item name="discount" label="折扣" rules={[{ required: true }]}>
-                            <InputNumber />
+                            <InputNumber min={1} max={10} />
                         </Form.Item>
                         <Form.Item name="sales" label="销量" rules={[{ required: true }]}>
-                            <InputNumber />
+                            <InputNumber min={0} />
                         </Form.Item>
                         <Form.Item name="tag" label="标签" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
                         <Form.Item name="stock" label="库存" rules={[{ required: true }]}>
-                            <InputNumber />
+                            <InputNumber min={0} />
                         </Form.Item>
                     </Col>
                     <Col span={6}>
@@ -169,7 +221,7 @@ export function BookManaProtable() {
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
                         修改
                     </Button>
-                    <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record)} style={{ marginLeft: '10px', color:'red' }}>
+                    <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record)} style={{ marginLeft: '10px', color: 'red' }}>
                         删除
                     </Button>
                 </>
@@ -185,7 +237,7 @@ export function BookManaProtable() {
         setIsModalVisible(true);
     };
 
-    
+
 
     const handleCancel = () => {
         setIsModalVisible(false);
@@ -247,7 +299,7 @@ export function BookManaProtable() {
                 ]}
                 actionRef={actionRef}
             />
-            <BookEditModal isModalVisible={isModalVisible} handleCancel={handleCancel} form={form} currentRow={currentRow} actionRef={actionRef}/>
+            <BookEditModal isModalVisible={isModalVisible} handleCancel={handleCancel} form={form} currentRow={currentRow} actionRef={actionRef} />
         </>
     );
 }

@@ -110,7 +110,7 @@ export default function ProfilePage() {
 
     const [messageApi, contextHolder] = useMessage();
     const [user, setUser] = useState(null);
-    const [avatarSrc, setAvatarSrc] = useState((user&&user.avatar) ? user.avatar:'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' );
+    const [avatarSrc, setAvatarSrc] = useState((user && user.avatar) ? user.avatar : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png');
     const [showModal, setShowModal] = useState(false);
 
     const handleOk = () => {
