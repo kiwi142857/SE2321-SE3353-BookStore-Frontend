@@ -155,7 +155,7 @@ export default function ProfilePage() {
     const handleLogout = async () => {
         let res = await logout();
         handleBaseApiResponse(res, messageApi, () => navigate("/login"));
-        navigate("/login");
+        // navigate("/login");
         return;
     };
 
