@@ -6,9 +6,10 @@ import { handleBaseApiResponse } from "../utils/message";
 
 const { TextArea } = Input;
 export default function PlaceOrderModal({
-    selectedItems, 
+    selectedItems,
     onOk,
-    onCancel, }) {
+    onCancel,
+    createWebSocketConnectionForOrder }) {
     const [form] = Form.useForm();
     const [messageApi, contextHolder] = useMessage();
 
@@ -22,8 +23,10 @@ export default function PlaceOrderModal({
             receiver,
             tel,
             itemIds: selectedItems.map(item => item.id)
-        }
+        };
         let res = await placeOrder(orderInfo);
+        // TODO: add crypto here for orderId
+        createWebSocketConnectionForOrder(0);
         handleBaseApiResponse(res, messageApi, onOk, onCancel);
     };
 
@@ -48,7 +51,7 @@ export default function PlaceOrderModal({
                     label="收货人"
                     required
                 >
-                    <Input placeholder="请输入收货人姓名"/>
+                    <Input placeholder="请输入收货人姓名" />
                 </Form.Item>
                 <Form.Item
                     name="tel"
@@ -65,14 +68,14 @@ export default function PlaceOrderModal({
                         },
                     ]}
                 >
-                    <Input placeholder="请输入你的电话号码"/>
+                    <Input placeholder="请输入你的电话号码" />
                 </Form.Item>
                 <Form.Item
                     name="address"
                     label="收货地址"
                     required
                 >
-                    <TextArea rows={2} maxLength={817} placeholder="请输入收货地址"/>
+                    <TextArea rows={2} maxLength={817} placeholder="请输入收货地址" />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">

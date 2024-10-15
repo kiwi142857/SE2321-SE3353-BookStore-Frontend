@@ -11,6 +11,7 @@ import BookTags from "../components/bookTag";
 import PlaceOrderModal from "../components/placeOrder";
 import CommentArea from "../components/bookComment";
 import { getBookRate, rateBook } from "../service/book";
+import { createWebSocketConnection } from "../service/websocket";
 const { Paragraph } = Typography;
 
 function BookInfo({ book }) {
@@ -161,6 +162,7 @@ export default function BookPage() {
     const pageSize = Number.parseInt(searchParams.get("pageSize") ?? '5');
     const sort = searchParams.get("sort") ?? "createdTime";
     const [messageApi, contextHolder] = useMessage();
+    const [socket, setSocket] = useState(null);
 
     let { id } = useParams();
     if (id === undefined) {
@@ -176,6 +178,43 @@ export default function BookPage() {
     const getComments = async () => {
         let comments = await getBookComments(id, pageIndex, pageSize, sort);
         setComments(comments);
+    };
+
+    /**
+    * WebSocket连接建立后，处理来自服务器的消息
+    */
+    useEffect(() => {
+        if (socket) {
+            // 新的WebSocket连接被创建
+            // 处理来自服务器的消息
+            socket.onmessage = (event) => {
+                console.log('WebSocket message: ', event.data);
+                const message = JSON.parse(event.data);
+                handleBaseApiResponse(message, messageApi);
+                if (message.ok === true) {
+                    console.log('WebSocket message: ', message);
+                } else {
+                    console.error('WebSocket message: ', message);
+                }
+                // Close the WebSocket connection
+                // TODO: 测试用先关闭断开连接的操作，后续开启断开操作
+                // socket.close();
+            };
+            socket.onerror = (error) => {
+                console.error('WebSocket Error: ', error);
+            };
+        }
+    }, [socket]);
+
+    const createWebSocketConnectionForOrder = async (orderId) => {
+        console.log("WebSocketConnection start: ", orderId);
+        try {
+            const socket_ = await createWebSocketConnection(orderId);
+            setSocket(socket_);
+            console.log("WebSocketConnection: ", socket_);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     useEffect(() => {
@@ -247,7 +286,7 @@ export default function BookPage() {
     return (
         <PrivateLayout>
             {contextHolder}
-            {showModal && <PlaceOrderModal selectedItems={item} onCancel={handleCloseModal} onOk={handleCloseModal} onMutate={handleMutate} />}
+            {showModal && <PlaceOrderModal selectedItems={item} onCancel={handleCloseModal} onOk={handleCloseModal} onMutate={handleMutate} createWebSocketConnectionForOrder={createWebSocketConnectionForOrder} />}
             {book && comments &&
                 <Card style={{ marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
                     <BookPageCard book={book} messageApi={messageApi} setShowModal={setShowModal} item={item} setItem={setItem} handleAddCartItem={handleAddCartItem} handleBuyBook={handleBuyBook} handleRateBook={handleRateBook} />

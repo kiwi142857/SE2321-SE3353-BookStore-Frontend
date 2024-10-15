@@ -10,8 +10,10 @@ import { Statistic } from 'antd';
 import useMessage from "antd/es/message/useMessage";
 import { changeCartItemNumber, deleteCartItem } from "../service/cart";
 import PlaceOrderModal from "../components/placeOrder";
+import { createWebSocketConnection } from "../service/websocket";
+import { handleBaseApiResponse } from "../utils/message";
 
-function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelectedItems, selectedItems, totalItems, setTotalItems}) {
+function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelectedItems, selectedItems, totalItems, setTotalItems }) {
 
     const columns = [
         {
@@ -33,6 +35,8 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
             render: (book, item) => (book.price / 1000 * (book.discount === undefined ? 7 : book.discount) * item.number).toFixed(2),
         },
     ];
+
+
 
     const handleNumberChange = async (id, number) => {
         await changeCartItemNumber(id, number);
@@ -90,7 +94,7 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
         setShowModal(true);
     };
 
-   
+
     return (
         <>
             <Table rowSelection={rowSelection}
@@ -103,7 +107,7 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
                     current: currentPage,
                     total: totalItems,
                     pageSize: 10,
-                    onChange: async(page, pageSize) => {
+                    onChange: async (page, pageSize) => {
                         setCurrentPage(page);
                         const cartItems = await getCartItems(page, pageSize);
                         setCartItems(cartItems.cartItems);
@@ -127,6 +131,8 @@ function CartTable({ cartItems, setCartItems, messageApi, setShowModal, setSelec
     );
 }
 
+
+
 export default function CartPage() {
 
     const [messageApi, contextHolder] = useMessage();
@@ -134,6 +140,7 @@ export default function CartPage() {
     const [totalItems, setTotalItems] = useState(0);
     const [selectedItems, setSelectedItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [socket, setSocket] = useState(null);
 
     const initCartItems = async () => {
         let cartItems = await getCartItems();
@@ -146,9 +153,46 @@ export default function CartPage() {
         initCartItems();
     }, []);
 
+    /**
+    * WebSocket连接建立后，处理来自服务器的消息
+    */
+    useEffect(() => {
+        if (socket) {
+            // 新的WebSocket连接被创建
+            // 处理来自服务器的消息
+            socket.onmessage = (event) => {
+                console.log('WebSocket message: ', event.data);
+                const message = JSON.parse(event.data);
+                handleBaseApiResponse(message, messageApi);
+                if (message.ok === true) {
+                    console.log('WebSocket message: ', message);
+                } else {
+                    console.error('WebSocket message: ', message);
+                }
+                // Close the WebSocket connection
+                // TODO: 测试用先关闭断开连接的操作，后续开启断开操作
+                // socket.close();
+            };
+            socket.onerror = (error) => {
+                console.error('WebSocket Error: ', error);
+            };
+        }
+    }, [socket]);
+
     const handleCloseModal = () => {
         initCartItems();
         setShowModal(false);
+    };
+
+    const createWebSocketConnectionForOrder = async (orderId) => {
+        console.log("WebSocketConnection start: ", orderId);
+        try {
+            const socket_ = await createWebSocketConnection(orderId);
+            setSocket(socket_);
+            console.log("WebSocketConnection: ", socket_);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const modalProps = {
@@ -159,7 +203,8 @@ export default function CartPage() {
         onOk: handleCloseModal,
         selectedItems,
         setSelectedItems,
-        handleCloseModal
+        handleCloseModal,
+        createWebSocketConnectionForOrder
     };
 
     const cartTableProps = {
@@ -172,7 +217,7 @@ export default function CartPage() {
         setSelectedItems,
         totalItems,
         setTotalItems
-      };
+    };
 
     return (
         <PrivateLayout>
