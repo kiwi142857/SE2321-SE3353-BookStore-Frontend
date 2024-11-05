@@ -105,7 +105,7 @@ export async function rateBook(bookId, rate) {
     return res;
 }
 
-export async function postBook(id,book) {
+export async function postBook(id, book) {
     const url = `${PREFIX}/books/${id}`;
     let res;
     try {
@@ -143,4 +143,20 @@ export async function getBooksBySalesRank(pageIndex, pageSize, startTime, endTim
         };
     }
     return books;
+}
+
+export async function getAuthor(bookTitle) {
+    const url = `http://localhost:8081/api/books/getAuthor?bookName=${bookTitle}`;
+
+    let author;
+    try {
+        author = await getJson(url);
+        author.ok = true;
+        author.message = author.author;
+        console.log("author", author.author);
+    } catch (e) {
+        console.log(e);
+        author = null;
+    }
+    return author;
 }

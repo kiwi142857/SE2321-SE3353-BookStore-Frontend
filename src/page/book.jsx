@@ -10,7 +10,7 @@ import { handleBaseApiResponse } from "../utils/message";
 import BookTags from "../components/bookTag";
 import PlaceOrderModal from "../components/placeOrder";
 import CommentArea from "../components/bookComment";
-import { getBookRate, rateBook } from "../service/book";
+import { getBookRate, rateBook, getAuthor } from "../service/book";
 import { createWebSocketConnection } from "../service/websocket";
 const { Paragraph } = Typography;
 
@@ -173,6 +173,7 @@ export default function BookPage() {
         let book = await getBookById(id);
         console.log("book", book);
         setBook(book);
+        handleGetAuthor(book);
     };
 
     const getComments = async () => {
@@ -259,6 +260,11 @@ export default function BookPage() {
 
         handleBaseApiResponse(res, messageApi);
 
+    };
+
+    const handleGetAuthor = async (book) => {
+        let res = await getAuthor(book.title);
+        handleBaseApiResponse(res, messageApi);
     };
 
     const handleBuyBook = async () => {
