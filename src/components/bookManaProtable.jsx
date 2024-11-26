@@ -182,9 +182,16 @@ export function BookManaProtable() {
         },
         {
             title: '封面',
-            dataIndex: 'cover',
+            dataIndex: 'coverContent',
             valueType: 'image',
             hideInSearch: true,
+            render: (_, record) => (
+                <img
+                    src={`data:image/jpeg;base64,${record.coverContent}`}
+                    alt={record.title}
+                    style={{ width: '50px', height: 'auto' }}
+                />
+            ),
         },
         {
             title: 'ISBN',

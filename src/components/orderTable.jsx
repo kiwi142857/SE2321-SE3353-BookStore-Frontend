@@ -17,7 +17,7 @@ export function OrderItemList({ orderItems }) {
         renderItem={(item, _) => (
             <List.Item>
                 <List.Item.Meta
-                    avatar={<Avatar shape="square" size={80} src={item.book.cover} />}
+                    avatar={<Avatar shape="square" size={80} src={`data:image/jpeg;base64,${item.book.coverContent}`} />}
                     title={item.book.title}
                     description={`数量：${item.number}`}
                 />
@@ -66,7 +66,7 @@ export default function OrderTable({ orders, setOrders, total, setTotal }) {
         request={async (params) => {
             const { current, pageSize, createdAt, ...rest } = params;
             console.log('params', params);
-            
+
             let startTime, endTime;
             if (createdAt && createdAt.length === 2) {
                 startTime = moment(createdAt[0]).startOf('day').toISOString();

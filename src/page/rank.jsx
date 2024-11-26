@@ -11,13 +11,13 @@ function RankHeader() {
     return (
         <Row justify="center">
             <Col>
-                <img src={process.env.PUBLIC_URL + '/riceEarLeft.svg'} style={{ height: '8em' }} alt='riceEarLeft'/>
+                <img src={process.env.PUBLIC_URL + '/riceEarLeft.svg'} style={{ height: '8em' }} alt='riceEarLeft' />
             </Col>
             <Col>
                 <Typography.Title className='rank-header'>畅销榜前十图书</Typography.Title>
             </Col>
             <Col>
-                <img src={process.env.PUBLIC_URL + '/riceEarRight.svg'} style={{ height: '8em' }} alt='riceEarRight'/>
+                <img src={process.env.PUBLIC_URL + '/riceEarRight.svg'} style={{ height: '8em' }} alt='riceEarRight' />
             </Col>
         </Row>
     );
@@ -50,7 +50,7 @@ function RankBookCard({ book, rank }) {
                 <Row style={{ marginLeft: '-10%', marginRight: '-10%' }} gutter={{ xs: 3, sm: 4, md: 6, lg: 8 }}>
                     <Col span={14} >
                         <div style={{ position: 'relative' }}>
-                            <img alt="bookCover" src={book.cover} style={{ width: '100%', border: BorderStyle.border }} />
+                            <img alt="bookCover" src={`data:image/jpeg;base64,${book.coverContent}`} style={{ width: '100%', border: BorderStyle.border }} />
                             <label htmlFor="bookCoverRank" className={rankStyle} style={{ color: 'white' }}></label>
                             <div className="book-rank-number" style={{ zIndex: 1 }}>{rank}</div>
                         </div>
@@ -88,7 +88,7 @@ function FirstRankCard({ book }) {
             >
                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                     <div style={{ position: 'relative' }}>
-                        <img alt="bookCover" src={book.cover} style={{ width: '100%', border: '2px solid #eed895' }} />
+                        <img alt="bookCover" src={`data:image/jpeg;base64,${book.coverContent}`} style={{ width: '100%', border: '2px solid #eed895' }} />
                         <label htmlFor="bookCoverRank" className="book-rank-cover" style={{ color: 'white' }}></label>
                         <div className="book-rank-number" style={{ zIndex: 1 }}>1</div>
                     </div>
@@ -127,7 +127,7 @@ function FirstRankCard({ book }) {
 
 
 function RankList({ books }) {
-    
+
     const book = books[0];
     books = books.slice(1);
     return (
@@ -151,12 +151,12 @@ function RankList({ books }) {
 }
 
 export default function RankPage() {
-    
+
     const [books, setBooks] = useState(null);
     const getTop10Books = async () => {
 
         let response = await getTop10BestSellingBooks();
-        if(!response) return;
+        if (!response) return;
         let books = response.bookList;
         setBooks(books);
     };
@@ -167,7 +167,7 @@ export default function RankPage() {
 
     return (
         <PrivateLayout>
-            
+
             <Card style={{ margin: '10px', marginTop: '20px' }}>
                 <div style={{ marginLeft: '1%', marginRight: '1%' }}>
                     <RankHeader />

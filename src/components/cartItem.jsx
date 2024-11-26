@@ -17,7 +17,7 @@ export default function CartItemTable({ cartItems, onMutate }) {
         if (res.ok) {
             setSelectedItems(selectedItems.filter(item => item.id !== id));
         }
-    }
+    };
 
     useEffect(() => {
         setItems(cartItems);
@@ -25,17 +25,17 @@ export default function CartItemTable({ cartItems, onMutate }) {
 
     const handleOpenModal = () => {
         setShowModal(true);
-    }
+    };
 
     const handleCloseModal = () => {
         setShowModal(false);
-    }
+    };
 
     const computeTotalPrice = () => {
         const prices = selectedItems.map(item => item.book.price * item.number);
         return prices.length > 0 ?
             prices.reduce((prev, cur) => prev + cur) / 100 : 0;
-    }
+    };
 
     const handleNumberChange = async (id, number) => {
         let res = await changeCartItemNumber(id, number);
@@ -48,7 +48,7 @@ export default function CartItemTable({ cartItems, onMutate }) {
             }
             setItems([...items]);
         }
-    }
+    };
 
     const columns = [
         {
@@ -78,7 +78,7 @@ export default function CartItemTable({ cartItems, onMutate }) {
     const handleOrderSubmit = () => {
         setShowModal(false);
         onMutate();
-    }
+    };
 
     return <>
         {contextHolder}
@@ -94,7 +94,7 @@ export default function CartItemTable({ cartItems, onMutate }) {
                 expandedRowRender: (cartItem) => (
                     <Row justify={"space-between"} gutter={8}>
                         <Col span={4}>
-                            <Image src={cartItem.book.cover} height={200} />
+                            <Image src={`data:image/jpeg;base64,${cartItem.book.coverContent}`} height={200} />
                         </Col>
                         <Col span={20}>
                             <p>{cartItem.book.description}</p>
@@ -111,5 +111,5 @@ export default function CartItemTable({ cartItems, onMutate }) {
         <Button type="primary" disabled={selectedItems.length === 0}
             onClick={handleOpenModal}
         >立刻下单</Button>
-    </>
+    </>;
 }

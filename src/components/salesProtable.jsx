@@ -16,9 +16,16 @@ export function SalesProtable() {
         },
         {
             title: '封面',
-            dataIndex: 'cover',
+            dataIndex: 'coverContent',
             valueType: 'image',
             hideInSearch: true,
+            render: (_, record) => (
+                <img
+                    src={`data:image/jpeg;base64,${record.coverContent}`}
+                    alt={record.title}
+                    style={{ width: '50px', height: 'auto' }}
+                />
+            ),
         },
         {
             title: 'ISBN',
@@ -83,7 +90,7 @@ export function SalesProtable() {
                 request={async (params) => {
                     const { current, pageSize, startTime, endTime, ...rest } = params;
                     console.log('params', params);
-                    const data = await getBooksBySalesRank(current -1 , pageSize, startTime, endTime);
+                    const data = await getBooksBySalesRank(current - 1, pageSize, startTime, endTime);
                     console.log('data', data);
                     return {
                         data: data.bookList.map(book => ({
