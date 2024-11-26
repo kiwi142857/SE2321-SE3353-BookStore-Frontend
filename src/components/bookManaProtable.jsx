@@ -15,16 +15,17 @@ function BookEditModal({ isModalVisible, handleCancel, form, currentRow, actionR
     const [imageUrl, setImageUrl] = useState();
 
     useEffect(() => {
-        // 当表单的cover字段更新时，也更新imageUrl状态
-        setImageUrl(form.getFieldValue('cover'));
-    }, [form.getFieldValue('cover')]);
+        setImageUrl(`data:image/jpeg;base64,${form.getFieldValue('coverContent')}`);
+    }, [form.getFieldValue('coverContent')]);
 
     async function handleOk() {
         form.validateFields()
             .then(async (values) => {
                 // 两个参数一个id,一个book
                 console.log("in fun handleOk");
+                values.cover = values.title + '.jpg';
                 const res = await postBook(values.id, values);
+
                 handleBaseApiResponse(res, message, () => {
                     console.log('Book posted successfully');
                     actionRef.current.reload();
@@ -37,7 +38,6 @@ function BookEditModal({ isModalVisible, handleCancel, form, currentRow, actionR
             .catch((info) => {
                 console.log('Validate Failed:', info);
             });
-
     }
 
     /* const handleFileChange = async (event) => {
@@ -57,21 +57,15 @@ function BookEditModal({ isModalVisible, handleCancel, form, currentRow, actionR
     }; */
     const handleFileChange = async (event) => {
         console.log('handleFileChange');
-        console.log(event);
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
-
-            try {
-                const data = await uploadFile('/api/image/upload', file);
-                console.log(data);
-                form.setFieldsValue({ cover: data.imageUrl }); // 假设服务器响应包含了图片的 URL
-                // check if already set the cover
-                console.log('form.getFieldValue(cover)', form.getFieldValue('cover'));
-                console.log('currentRow.cover', currentRow.cover);
-                setImageUrl(data.imageUrl);
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64Image = reader.result.split(',')[1]; // 获取 Base64 编码的图片数据
+                form.setFieldsValue({ coverContent: base64Image }); // 将 Base64 编码的数据存储在表单字段中
+                setImageUrl(reader.result); // 显示图片
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -82,7 +76,10 @@ function BookEditModal({ isModalVisible, handleCancel, form, currentRow, actionR
                 <Row gutter={16}>
 
                     <Col span={6}>
-                        <Form.Item name="cover" label="封面" rules={[{ required: true }]}>
+                        <Form.Item name="coverContent" label="封面" rules={[{ required: true }]} hidden>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="封面">
                             <div style={{ position: 'relative', marginTop: '20%', width: '100px', height: '100px' }}>
                                 {imageUrl ? (
                                     <img src={imageUrl} alt="cover" style={{ width: '100%' }} />
@@ -241,6 +238,7 @@ export function BookManaProtable() {
         setCurrentRow(record);
         const book = await getBookById(record.id);
         form.setFieldsValue(book);
+        // setImageUrl(`data:image/jpeg;base64,${book.coverContent}`);
         setIsModalVisible(true);
     };
 
