@@ -15,18 +15,21 @@ const items = [
     getItem('理科', 'sub1', <BookTwoTone />, [
         getItem('数学', '1'),
         getItem('物理', '2'),
-        getItem('化学', '3'),
-        getItem('生物', '4'),
+        // getItem('化学', '3'),
+        // getItem('生物', '4'),
     ]),
     getItem('工科', 'sub2', <BookTwoTone />, [
         getItem('计算机', '5'),
-        getItem('电子', '6'),
-        getItem('机械', '7'),
-        getItem('土木', '8'),
+        // getItem('电子', '6'),
+        // getItem('机械', '7'),
+        // getItem('土木', '8'),
+        getItem("AI", '6'),
+        getItem("大数据", '7'),
+        getItem("人工智能", '8'),
     ]),
     getItem('社科', 'sub3', <BookTwoTone />, [
-        getItem('媒体与传播', '9'),
-        getItem('社会学', '10'),
+        getItem('儿童', '9'),
+        getItem('育儿', '10'),
         getItem('心理学', '11'),
         getItem('法学', '12'),
     ]),
@@ -48,7 +51,7 @@ const items = [
         getItem('护理学', '23'),
         getItem('公共卫生', '24'),
     ]),
-    getItem('艺术', 'sub7',<BookTwoTone />, [
+    getItem('艺术', 'sub7', <BookTwoTone />, [
         getItem('音乐', '25'),
         getItem('美术', '26'),
         getItem('舞蹈', '27'),

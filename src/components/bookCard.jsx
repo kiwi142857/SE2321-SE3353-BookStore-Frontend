@@ -34,7 +34,7 @@ export default function BookCard({ book }) {
                 ISBN: {book.isbn}<br />
             </Typography.Text>
             <Divider style={{ margin: '10px', marginTop: '0' }} />
-            <BookTags tags={book.tag} style={{ padding: '5px' }} />
+            <BookTags tags={book.tags} style={{ padding: '5px' }} />
         </Card>
     </Link>;
 }

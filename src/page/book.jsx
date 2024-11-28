@@ -124,7 +124,7 @@ function BookPageCard({ book, messageApi, setShowModal, item, setItem, handleAdd
                 <Card style={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)', marginTop: '30px' }}>
                     <Image style={{ width: '100%', height: 'auto' }} alt={book.title} src={`data:image/jpeg;base64,${book.coverContent}`} />                </Card>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-                    <BookTags tags={book.tag} style={{ padding: '5px' }} />
+                    <BookTags tags={book.tags} style={{ padding: '5px' }} />
                 </div>
             </Col>
             <Col span={10}>

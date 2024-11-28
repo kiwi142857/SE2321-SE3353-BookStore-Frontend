@@ -22,7 +22,9 @@ function BookEditModal({ isModalVisible, handleCancel, form, currentRow, actionR
         form.validateFields()
             .then(async (values) => {
                 // 两个参数一个id,一个book
+                values.tags = values.tag.split(' ');
                 console.log("in fun handleOk");
+
                 values.cover = values.title + '.jpg';
                 const res = await postBook(values.id, values);
 
@@ -237,12 +239,14 @@ export function BookManaProtable() {
     const handleEdit = async (record) => {
         setCurrentRow(record);
         const book = await getBookById(record.id);
-        form.setFieldsValue(book);
+        // 将 book.tags 数组转换为用空格拼接的字符串
+        const tagsString = book.tags.join(' ');
+        // 设置表单字段的初始值
+        form.setFieldsValue({ ...book, tag: tagsString });
+
         // setImageUrl(`data:image/jpeg;base64,${book.coverContent}`);
         setIsModalVisible(true);
     };
-
-
 
     const handleCancel = () => {
         setIsModalVisible(false);

@@ -70,7 +70,7 @@ function RankBookCard({ book, rank }) {
                         </Typography.Text>
                         <Typography.Text style={{ color: 'gray', fontSize: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block', width: '100%', marginTop: '5px' }}>作者：{book.author}<br /></Typography.Text>
                         <Divider style={{ margin: '10px', marginTop: '0' }} />
-                        <BookTags tags={book.tag} style={{ padding: '5px' }} />
+                        <BookTags tags={book.tags} style={{ padding: '5px' }} />
                     </Col>
                 </Row>
                 <Typography.Text>销量：{book.sales}</Typography.Text>
@@ -115,7 +115,7 @@ function FirstRankCard({ book }) {
                         作者：{book.author}<br />
                     </Typography.Text>
                     <Divider style={{ margin: '10px', marginTop: '0' }} />
-                    <BookTags tags={book.tag} style={{ padding: '5px' }} />
+                    <BookTags tags={book.tags} style={{ padding: '5px' }} />
 
                 </Row>
                 <Divider />

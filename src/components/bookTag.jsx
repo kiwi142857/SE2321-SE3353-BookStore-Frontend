@@ -1,8 +1,8 @@
 import { Tag } from 'antd';
 
 function BookTags({ tags }) {
-    tags=[tags];
-    if(!tags) tags = ["畅销"];
+
+    if (!tags || tags == []) tags = ["畅销"];
     return (
         <>
             {tags.map((tag, index) => (
