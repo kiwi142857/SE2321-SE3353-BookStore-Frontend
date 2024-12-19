@@ -1,18 +1,41 @@
 import { DUMMY_RESPONSE, PREFIX, getJson, post, del } from "./common";
+import { GET_BOOKS_BY_NAME } from './graphQLquries'; // 确保路径正确
+import client from './apolloClient'; // 确保路径正确
+
 
 export async function searchBooks(keyword, pageIndex, pageSize, searchType) {
-    const url = `${PREFIX}/books/search?keyWord=${keyword}&pageIndex=${pageIndex}&pageSize=${pageSize}&searchType=${searchType}`;
-    let books;
-    try {
-        books = await getJson(url);
-    } catch (e) {
-        console.log(e);
-        books = {
-            total: 0,
-            items: []
-        };
+    if (searchType === 'title') {
+        try {
+            const { data } = await client.query({
+                query: GET_BOOKS_BY_NAME,
+                variables: { name: keyword, pageIndex: pageIndex },
+            });
+
+            return {
+                total: data.getBookByName.total,
+                bookList: data.getBookByName.bookList,
+            };
+        } catch (e) {
+            console.log(e);
+            return {
+                total: 0,
+                bookList: [],
+            };
+        }
+    } else {
+        const url = `${PREFIX}/books/search?keyWord=${keyword}&pageIndex=${pageIndex}&pageSize=${pageSize}&searchType=${searchType}`;
+        let books;
+        try {
+            books = await getJson(url);
+        } catch (e) {
+            console.log(e);
+            books = {
+                total: 0,
+                items: [],
+            };
+        }
+        return books;
     }
-    return books;
 }
 
 export async function searchBooksAdmin(keyword, pageIndex, pageSize, searchType) {
@@ -105,7 +128,7 @@ export async function rateBook(bookId, rate) {
     return res;
 }
 
-export async function postBook(id,book) {
+export async function postBook(id, book) {
     const url = `${PREFIX}/books/${id}`;
     let res;
     try {

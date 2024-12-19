@@ -62,7 +62,7 @@ export default function HomePage() {
                     <Tabs className="home-table-font" centered style={{ marginLeft: '40px', marginRight: '15px' }} defaultActiveKey="Title"
                         onChange={(key) => {
                             setSearchType(key);
-                            
+
                         }} activeKey={searchType}>
                         <Tabs.TabPane key={'title'} tab={'书名'} />
                         <Tabs.TabPane key={'author'} tab={'作者'} />
