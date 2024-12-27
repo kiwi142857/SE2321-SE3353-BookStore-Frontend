@@ -19,12 +19,12 @@ const items = [
         // getItem('生物', '4'),
     ]),
     getItem('工科', 'sub2', <BookTwoTone />, [
-        getItem('计算机', '5'),
+        getItem('大数据', '5'),
         // getItem('电子', '6'),
         // getItem('机械', '7'),
         // getItem('土木', '8'),
         getItem("AI", '6'),
-        getItem("大数据", '7'),
+        getItem("数据结构", '7'),
         getItem("人工智能", '8'),
     ]),
     getItem('社科', 'sub3', <BookTwoTone />, [
@@ -34,9 +34,9 @@ const items = [
         getItem('法学', '12'),
     ]),
     getItem('文科', 'sub4', <BookTwoTone />, [
-        getItem('语言学', '13'),
-        getItem('文学', '14'),
-        getItem('历史', '15'),
+        getItem('悬疑', '13'),
+        getItem('推理', '14'),
+        getItem('犯罪', '15'),
         getItem('哲学', '16'),
     ]),
     getItem('商科', 'sub5', <BookTwoTone />, [
