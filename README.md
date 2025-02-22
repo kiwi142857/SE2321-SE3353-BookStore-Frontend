@@ -18,7 +18,6 @@
 
 1. 项目展示图
     ![LoginPage](./readmeSource/LoginPage.png)
-    ![CreateNewCount](./readmeSource/CreateNewCount.png)
     ![HomePage](readmeSource/HomePage.png)
     ![BookPage](readmeSource/bookPage.png)
     ![CartPage](readmeSource/cartPage.png)
